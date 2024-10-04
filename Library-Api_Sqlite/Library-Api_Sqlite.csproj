@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto%27s\user_Dtos\" />
-    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\bookimages\" />
+    <Folder Include="wwwroot\userimages\" />
   </ItemGroup>
 
 </Project>

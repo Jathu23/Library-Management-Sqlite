@@ -1,5 +1,6 @@
 ﻿using Library_Api_Sqlite.Dto_s;
 using Library_Api_Sqlite.EntityModals;
+using Library_Api_Sqlite.FileSaver;
 using Library_Api_Sqlite.Repository;
 using LMS.rest_api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,19 +10,18 @@ namespace Library_Api_Sqlite.Services
     public class BookService
     {
         private readonly BookRepo _bookRepo;
-        private readonly IWebHostEnvironment _environment; 
-       
-        public BookService(BookRepo bookRepo, IWebHostEnvironment environment)
+        private readonly SaveToRoot _saveToRoot;
+
+        public BookService(BookRepo bookRepo, SaveToRoot saveToRoot)
         {
             _bookRepo = bookRepo;
-            _environment = environment;
+            _saveToRoot = saveToRoot;
         }
 
-       
         public async Task<Book> AddBook(Book_Req_Dto Reqbook)
         {
             var images = Reqbook.Images;
-            var imagePaths = await SaveImages(images);
+            var imagePaths = await _saveToRoot.SaveImages(images, "bookimages");
 
             Book book = new Book
             {
@@ -110,47 +110,47 @@ namespace Library_Api_Sqlite.Services
 
 
 
-        public async Task<List<string>> SaveImages(List<IFormFile> imageFiles)
-        {
-            if (imageFiles == null || imageFiles.Count == 0)
-            {
-                throw new ArgumentException("No files uploaded.");
-            }
+        //public async Task<List<string>> SaveImages(List<IFormFile> imageFiles)
+        //{
+        //    if (imageFiles == null || imageFiles.Count == 0)
+        //    {
+        //        throw new ArgumentException("No files uploaded.");
+        //    }
 
            
-            var imagePaths = new List<string>();
+        //    var imagePaths = new List<string>();
 
-            var uploadsFolder = Path.Combine(_environment.WebRootPath, "images");
+        //    var uploadsFolder = Path.Combine(_environment.WebRootPath, "images");
 
            
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
+        //    if (!Directory.Exists(uploadsFolder))
+        //    {
+        //        Directory.CreateDirectory(uploadsFolder);
+        //    }
 
           
-            foreach (var imageFile in imageFiles)
-            {
-                if (imageFile.Length > 0)
-                {
+        //    foreach (var imageFile in imageFiles)
+        //    {
+        //        if (imageFile.Length > 0)
+        //        {
 
-                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetFileName(imageFile.FileName);
+        //            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetFileName(imageFile.FileName);
 
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        //            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await imageFile.CopyToAsync(fileStream);
-                    }
+        //            using (var fileStream = new FileStream(filePath, FileMode.Create))
+        //            {
+        //                await imageFile.CopyToAsync(fileStream);
+        //            }
 
-                    var imagePath = Path.Combine("images", uniqueFileName).Replace("\\", "/");
+        //            var imagePath = Path.Combine("images", uniqueFileName).Replace("\\", "/");
 
-                    imagePaths.Add(imagePath);
-                }
-            }
+        //            imagePaths.Add(imagePath);
+        //        }
+        //    }
 
-            return imagePaths;
-        }
+        //    return imagePaths;
+        //}
     }
 
 }
