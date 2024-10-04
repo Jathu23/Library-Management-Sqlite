@@ -12,7 +12,7 @@
         public DateTime joinDate { get; set; }
         public DateTime lastLoginDate { get; set; }
         public int rentCount { get; set; }
-        public IFormFile profileimg { get; set; }
+        public string profileimg { get; set; }
 
 
     }

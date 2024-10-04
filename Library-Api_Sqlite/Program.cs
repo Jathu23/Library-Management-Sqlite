@@ -32,9 +32,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<BookService>(); // Register your book service
 builder.Services.AddScoped<UserServices>();
-builder.Services.AddScoped<SaveToRoot>();
 builder.Services.AddScoped<BookRepo>(); // Register your book repository
 builder.Services.AddScoped<BookService>();
+builder.Services.AddScoped<SaveToRoot>();
+
 var app = builder.Build();
 
 // Initialize the database
