@@ -10,17 +10,17 @@ namespace Library_Api_Sqlite.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //private readonly UserServices _services;
+        private readonly UserServices _services;
 
-        //public UserController(UserServices services)
-        //{
-        //    _services = services;
-        //}
+        public UserController(UserServices services)
+        {
+            _services = services;
+        }
 
-        //[HttpPut("AddUser")]
-        //public async Task<User> Add(User_Req_Dto Requser)
-        //{
-        //    return await _services.Add(Requser);
-        //}
+        [HttpPut("AddUser")]
+        public async Task<User> Add(User_Req_Dto Requser)
+        {
+            return await _services.Add(Requser);
+        }
     }
 }

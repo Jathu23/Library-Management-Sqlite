@@ -51,6 +51,12 @@ namespace Library_Api_Sqlite.Services
             return await _bookRepo.GetBook(id);
         }
 
+        public async Task<IEnumerable<Book>> GetAllBooks()
+        {
+            return await _bookRepo.GetAllBooks();
+        }
+        
+
         public async Task<bool> DeleteById(int id)
         {
             return await _bookRepo.DeleteById(id);  
@@ -60,6 +66,20 @@ namespace Library_Api_Sqlite.Services
         {
             return await _bookRepo.CountTotalBooks();
         }
+
+        public async Task<List<int>> GetAllPublishYears()
+        {
+            return await _bookRepo.GetAllPublishYears();
+        }
+        public async Task<List<string>> GetAllGenres()
+        {
+            return await _bookRepo.GetAllGenres();
+        }
+        public async Task<List<string>> GetAllAuthors()
+        {
+            return await _bookRepo.GetAllAuthors();
+        }
+
 
         public async Task<List<Book>> GetBooksByPublishYear(int publishYear)
         {
@@ -76,25 +96,16 @@ namespace Library_Api_Sqlite.Services
             return await GetBooksOrderedByPublishYear(ascending);
         }
 
-        public async Task<List<string>> GetAllAuthors()
-        {
-            return await _bookRepo.GetAllAuthors();
-        }
+      
 
         public async Task<List<Book>> SearchBooksByTitle(string title)
         {
             return await _bookRepo.SearchBooksByTitle(title);   
         }
 
-        public async Task<List<string>> GetAllGenres()
-        {
-            return await _bookRepo.GetAllGenres();
-        }
+       
 
-        public async Task<List<int>> GetAllPublishYears()
-        {
-            return await _bookRepo.GetAllPublishYears();
-        }
+      
 
 
 
