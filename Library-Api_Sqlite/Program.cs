@@ -33,10 +33,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<BookService>(); 
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<LentService>();
+builder.Services.AddScoped<ReturnService>();
 
 builder.Services.AddScoped<BookRepo>(); 
 builder.Services.AddScoped<UserRepo>();
 builder.Services.AddScoped<LentRepo>();
+builder.Services.AddScoped<ReturnRepo>();
 
 
 

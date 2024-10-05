@@ -65,6 +65,26 @@ namespace Library_Api_Sqlite.Data
     ReturnDate TEXT NOT NULL
 );
 
+                CREATE TABLE IF NOT EXISTS ReturnRecords (
+    Id INTEGER PRIMARY KEY,
+    UserNIC INTEGER NOT NULL,
+    LentId INTEGER NOT NULL,
+    ISBN TEXT NOT NULL,
+    LentCopies INTEGER NOT NULL,
+    ReturnCopies INTEGER NOT NULL,
+    ReturnDate TEXT NOT NULL
+);
+                 CREATE TABLE IF NOT EXISTS ReturnHistory (
+    Id INTEGER PRIMARY KEY,
+    UserNIC INTEGER NOT NULL,
+    LentId INTEGER NOT NULL,
+    ISBN TEXT NOT NULL,
+    LentCopies INTEGER NOT NULL,
+    ReturnCopies INTEGER NOT NULL,
+    ReturnDate TEXT NOT NULL
+);
+
+
         -- Insert sample data for Books if the table is empty
         INSERT OR IGNORE INTO Books (Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount) VALUES
         (11134, '978-0-7432-7356-3', 'The Kite Runner', 'Khaled Hosseini', 'Fiction,Drama', 18, 12, 2003, '2024-09-27', 'kiterunner1.jpg,kiterunner2.jpg', 20),
