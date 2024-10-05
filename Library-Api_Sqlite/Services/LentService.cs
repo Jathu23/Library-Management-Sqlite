@@ -10,15 +10,19 @@ namespace Library_Api_Sqlite.Services
         private readonly BookRepo _bookRepo;
         private readonly UserRepo _userRepo;
 
-        public LentService(LentRepo lentRepo)
+        public LentService(LentRepo lentRepo, BookRepo bookRepo, UserRepo userRepo)
         {
             _lentRepo = lentRepo;
+            _bookRepo = bookRepo;
+            _userRepo = userRepo;
         }
 
         public async Task<LentRecode> Add(Lent_Req_Dto recode)
         {
             var book = await _bookRepo.GetBook(recode.isbn);
             var user = await _userRepo.Getuser(recode.usernic);
+            int avicopies = book.Copies-recode.copies;
+
             if (book != null)
             {
                 if (book.AviCopies > 1)
@@ -36,6 +40,7 @@ namespace Library_Api_Sqlite.Services
                         };
 
                         _lentRepo.AddlentHistory(lentrec);
+                        _bookRepo.updatecopies(avicopies, recode.isbn);
                         return await _lentRepo.Add(lentrec);
                     }
                     else

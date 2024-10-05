@@ -92,13 +92,11 @@ namespace Library_Api_Sqlite.Repository
 
                         return user;
                     }
-                    else
-                    {
-                        return null;
-                    }
+                    
                 }
             }
-          
+            return null;
+
         }
         public async Task<IEnumerable<User>> GetAll()
         {

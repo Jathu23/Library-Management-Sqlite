@@ -1,5 +1,5 @@
 ﻿using Library_Api_Sqlite.EntityModals;
-using LMS.rest_api.Models;
+
 using Microsoft.Data.Sqlite;
 
 namespace Library_Api_Sqlite.Repository
@@ -393,7 +393,18 @@ namespace Library_Api_Sqlite.Repository
 
        
 
-      
+      public async void updatecopies(int copies ,string isbn)
+        {
+            using(var connection = new SqliteConnection(_connectionString))
+            {
+                connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"UPDATE books SET AviCopies = @copies WHERE isbn = @isbn";
+                command.Parameters.AddWithValue("@copies", copies);
+                command.Parameters.AddWithValue("@isbn", isbn);
+                command.ExecuteNonQuery();
+            }
+        }
 
 
 
