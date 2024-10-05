@@ -41,15 +41,15 @@ namespace Library_Api_Sqlite.Repository
             return book;
         }
 
-        public async Task<Book> GetBook(int id)
+        public async Task<Book> GetBook(string isbn)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books WHERE Id = @id";
-                command.Parameters.AddWithValue("@id", id);
+                command.CommandText = "SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books WHERE isbn = @isbn";
+                command.Parameters.AddWithValue("@isbn", isbn);
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {

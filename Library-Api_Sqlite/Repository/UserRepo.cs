@@ -58,6 +58,48 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
+        public async Task<User> Getuser(int nic)
+        {
+            
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT NIC, firstName, lastName, fullName, email, password, phoneNumber, joinDate, lastLoginDate, rentCount, profileImg 
+            FROM Users WHERE nic = @nic";
+                command.Parameters.AddWithValue("@nic", nic);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        var user = new User
+                        {
+                            NIC = reader.GetInt32(0),
+                            firstName = reader.GetString(1),
+                            lastName = reader.GetString(2),
+                            fullName = reader.GetString(3),
+                            email = reader.GetString(4),
+                            password = reader.GetString(5),
+                            phoneNumber = reader.GetString(6),
+                            joinDate = DateTime.Parse(reader.GetString(7)),
+                            lastLoginDate = DateTime.Parse(reader.GetString(8)),
+                            rentCount = reader.GetInt32(9),
+                            profileimg = reader.GetString(10),
+                        };
+
+                        return user;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+          
+        }
         public async Task<IEnumerable<User>> GetAll()
         {
             var userList = new List<User>();

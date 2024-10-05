@@ -46,9 +46,18 @@ namespace Library_Api_Sqlite.Services
        
         }
 
-        public async Task<Book> GetBook(int id)
+        public async Task<Book> GetBook(string isbn)
         {
-            return await _bookRepo.GetBook(id);
+            var data = await _bookRepo.GetBook(isbn);
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                throw new Exception("no book!__");
+            }
+
         }
 
         public async Task<IEnumerable<Book>> GetAllBooks()
