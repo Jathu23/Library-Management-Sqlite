@@ -22,5 +22,16 @@ namespace Library_Api_Sqlite.Controllers
         {
             return await _services.Add(Requser);
         }
+        [HttpDelete("Remove")]
+        public async Task<bool> RemoveUser(int id)
+        {
+            return await _services.RemoveUser(id);
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _services.GetAll();
+        }
     }
 }

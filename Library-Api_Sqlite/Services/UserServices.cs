@@ -46,5 +46,13 @@ namespace Library_Api_Sqlite.Services
             return await _userRepo.AddUser(user);
 
         }
+        public async Task<bool> RemoveUser(int id)
+        {
+            return await _userRepo.RemoveUser(id);
+        }
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _userRepo.GetAll();
+        }
     }
 }

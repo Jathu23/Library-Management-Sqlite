@@ -40,5 +40,60 @@ namespace Library_Api_Sqlite.Repository
 
             return user;
         }
+
+        public async Task<bool> RemoveUser(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "" +
+                    "DELETE FROM Users WHERE NIC = @id ";
+                command.Parameters.AddWithValue("@id", id);
+
+                var result = await command.ExecuteNonQueryAsync();
+
+                return result > 0;
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            var userList = new List<User>();
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT NIC, firstName, lastName, fullName, email, password, phoneNumber, joinDate, lastLoginDate, rentCount, profileImg 
+            FROM Users";
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var user = new User
+                        {
+                            NIC = reader.GetInt32(0),
+                            firstName = reader.GetString(1),
+                            lastName = reader.GetString(2),
+                            fullName = reader.GetString(3),
+                            email = reader.GetString(4),
+                            password = reader.GetString(5),
+                            phoneNumber = reader.GetString(6),
+                            joinDate = DateTime.Parse(reader.GetString(7)),
+                            lastLoginDate = DateTime.Parse(reader.GetString(8)),
+                            rentCount = reader.GetInt32(9),
+                            profileimg = reader.GetString(10),
+                        };
+                        userList.Add(user);
+
+                    }
+                }
+            }
+            return userList;
+        }
     }
 }
