@@ -17,7 +17,7 @@ namespace Library_Api_Sqlite.Controllers
             _services = services;
         }
 
-        [HttpPut("AddUser")]
+        [HttpPost("AddUser")]
         public async Task<User> Add(User_Req_Dto Requser)
         {
             return await _services.Add(Requser);

@@ -30,11 +30,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<BookService>(); // Register your book service
+builder.Services.AddScoped<BookService>(); 
 builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<LentService>();
 
-builder.Services.AddScoped<BookRepo>(); // Register your book repository
+builder.Services.AddScoped<BookRepo>(); 
 builder.Services.AddScoped<UserRepo>();
+builder.Services.AddScoped<LentRepo>();
 
 
 
