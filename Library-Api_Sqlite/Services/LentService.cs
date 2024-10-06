@@ -1,6 +1,7 @@
 ﻿using Library_Api_Sqlite.Dto_s.Lent_Rec_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library_Api_Sqlite.Services
 {
@@ -19,47 +20,48 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<LentRecode> Add(Lent_Req_Dto recode)
         {
-            var book = await _bookRepo.GetBook(recode.isbn);
-            var user = await _userRepo.Getuser(recode.usernic);
-            int avicopies = book.Copies-recode.copies;
-
-            if (book != null)
+            try
             {
-                if (book.AviCopies > 1)
-                {
-                    if (user != null)
-                    {
-                        var lentrec = new LentRecode
-                        {
-                            isbn = recode.isbn,
-                            id = recode.id,
-                            usernic = recode.usernic,
-                            copies = recode.copies,
-                            ReturnDate = DateTime.Now,
-                            lentDate = DateTime.Now
-                        };
+                var book = await _bookRepo.GetBook(recode.isbn);
+                var user = await _userRepo.Getuser(recode.usernic);
 
-                        _lentRepo.AddlentHistory(lentrec);
-                        _bookRepo.updatecopies(avicopies, recode.isbn);
-                        return await _lentRepo.Add(lentrec);
-                    }
-                    else
-                    {
-                        throw new Exception("invalid user NIC number");
-                    }
-
-                }
-                else
+                if (book == null)
                 {
-                    throw new Exception("only one book aviable");
+                    throw new Exception("Book not found.");
                 }
 
+                if (user == null)
+                {
+                    throw new Exception("User not found.");
+                }
+
+               
+                if (book.AviCopies < recode.copies)
+                {
+                    throw new Exception("Not enough copies available.");
+                }
+
+                var lentrec = new LentRecode
+                {
+                    isbn = recode.isbn,
+                    id = recode.id,
+                    usernic = recode.usernic,
+                    copies = recode.copies,
+                    ReturnDate = DateTime.Now.AddDays(14), 
+                    lentDate = DateTime.Now
+                };
+
+                _lentRepo.AddlentHistory(lentrec);
+                _bookRepo.updatecopies(book.Copies - recode.copies, recode.isbn);
+
+                return await _lentRepo.Add(lentrec);
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("no book!");
+               
+                throw new Exception("An error occurred while lending the book: " + ex.Message);
             }
-           
         }
+
     }
 }
