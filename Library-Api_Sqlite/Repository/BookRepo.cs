@@ -61,17 +61,11 @@ namespace Library_Api_Sqlite.Repository
                             ISBN = reader.GetString(1),
                             Title = reader.GetString(2),
                             Author = reader.GetString(3),
-
-                            // Split the comma-separated Genre string into a List<string>
                             Genre = reader.IsDBNull(4) ? new List<string>() : reader.GetString(4).Split(',').ToList(),
-
                             Copies = reader.GetInt32(5),
                             AviCopies = reader.GetInt32(6),
                             PublishYear = reader.GetInt32(7),
-
-                            // Parse the AddDateTime from a string to DateTime
                             AddDateTime = DateTime.Parse(reader.GetString(8)),
-
                             // Split the comma-separated Images string into a List<string>
                             Images = reader.IsDBNull(9) ? new List<string>() : reader.GetString(9).Split(',').ToList(),
 
@@ -393,7 +387,7 @@ namespace Library_Api_Sqlite.Repository
 
        
 
-      public async void updatecopies(int copies ,string isbn)
+      public async Task updatecopies(int copies ,string isbn)
         {
             using(var connection = new SqliteConnection(_connectionString))
             {

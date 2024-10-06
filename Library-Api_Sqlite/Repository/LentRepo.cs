@@ -55,6 +55,55 @@ namespace Library_Api_Sqlite.Repository
 
             }
         }
+
+        public async Task<LentRecode> GetRecode(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT Id, ISBN, UserNIC, Copies, LentDate, ReturnDate 
+                                FROM LentRecords WHERE Id = @id";
+                command.Parameters.AddWithValue("@id", id);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        var lentRecode = new LentRecode
+                        {
+                            id = reader.GetInt32(0),           
+                            isbn = reader.GetString(1),         
+                            usernic = reader.GetInt32(2),      
+                            copies = reader.GetInt32(3),        
+                            lentDate = reader.GetDateTime(4), 
+                            ReturnDate = reader.GetDateTime(5)  
+                        };
+
+                        return lentRecode;
+                    }
+                    
+                }
+            }
+            return null;
+
+        }
+
+        public async Task DeleteRecode(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = @"DELETE FROM LentRecords WHERE ID = @id";
+                command.Parameters.AddWithValue("@id", id);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
     }
 
 }

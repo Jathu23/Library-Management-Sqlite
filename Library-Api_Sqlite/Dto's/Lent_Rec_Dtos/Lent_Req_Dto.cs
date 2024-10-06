@@ -5,7 +5,7 @@
         public string isbn { get; set; }
         public int id { get; set; }
         public int usernic { get; set; }
-        public int copies { get; set; }
+        public int lentcopies { get; set; }
        
     }
 }

@@ -36,7 +36,7 @@ namespace Library_Api_Sqlite.Repository
             }
             return recode;
         }
-        public async void AddReturnHistory(Return_Recode recode)
+        public async Task AddReturnHistory(Return_Recode recode)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
@@ -60,6 +60,9 @@ namespace Library_Api_Sqlite.Repository
             }
           
         }
+
+      
+
 
     }
 }

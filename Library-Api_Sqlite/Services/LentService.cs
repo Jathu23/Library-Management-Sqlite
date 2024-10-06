@@ -36,7 +36,7 @@ namespace Library_Api_Sqlite.Services
                 }
 
                
-                if (book.AviCopies < recode.copies)
+                if (book.AviCopies < recode.lentcopies)
                 {
                     throw new Exception("Not enough copies available.");
                 }
@@ -46,13 +46,14 @@ namespace Library_Api_Sqlite.Services
                     isbn = recode.isbn,
                     id = recode.id,
                     usernic = recode.usernic,
-                    copies = recode.copies,
+                    copies = recode.lentcopies,
                     ReturnDate = DateTime.Now.AddDays(14), 
                     lentDate = DateTime.Now
                 };
 
+                await _bookRepo.updatecopies(book.Copies - recode.lentcopies, recode.isbn);
                 _lentRepo.AddlentHistory(lentrec);
-                _bookRepo.updatecopies(book.Copies - recode.copies, recode.isbn);
+              
 
                 return await _lentRepo.Add(lentrec);
             }
