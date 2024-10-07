@@ -24,27 +24,14 @@
           <button class="Addbutton" id="add-bookInventory">New</button>
         </div>
       </div>
-     <div id="table" style="display: block;">
-      <table >
-        <thead>
-          <tr>
-            <td>ISBN</td>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Publish Year</td>
-            <td>Add Date</td>
-            <td>Copies</td>
-            <td>Genre</td>
-            <td>Available Copies</td>
-            <td>Edit</td>
-            <td>Delete</td>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Dynamically populated rows will go here -->
-        </tbody>
+   
+      <table id="bookinv_table" >
+       
+    
+          <!-- Dynamically populated  -->
+
       </table>
-     </div>
+  
       <!-- Add New Book Form -->
   <div class="addbook-container" id="add-newbook-field" style="display: none;">
     <h2>Add New Book</h2>
@@ -105,11 +92,11 @@
   </div>
 
  
-
+<script src="../ScriptFiles/showbooks.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <script>
+  <!-- <script>
     document.addEventListener("DOMContentLoaded", (event) => {
       event.preventDefault()
       const tableBody = document.querySelector("tbody");
@@ -121,7 +108,7 @@
       // Fetch books and genres from the server
       async function fetchData() {
         try {
-          const booksResponse = await fetch('http://localhost:3000/books');
+          const booksResponse = await fetch('https://localhost:7182/api/Book/GetAllbook');
           const genresResponse = await fetch('http://localhost:3000/book_genre');
 
           if (!booksResponse.ok || !genresResponse.ok) {
@@ -261,7 +248,7 @@ document.getElementById("newbookadd-btn").addEventListener("click", async (event
       // Initial fetch of books and genres
       fetchData();
     });
-  </script>
+  </script> -->
 
 </body>
 </html>

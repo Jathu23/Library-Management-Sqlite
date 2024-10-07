@@ -263,7 +263,7 @@ iframe {
   }
 
   /* table */
-.details table {
+/* .details table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
@@ -297,7 +297,7 @@ iframe {
   }
   .details .recentorders table tr td:last-child(3){
     text-align: center;
-  }
+  } */
 
   /* ================================ working available green color================================= */
 .status.available{
