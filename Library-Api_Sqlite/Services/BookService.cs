@@ -90,7 +90,7 @@ namespace Library_Api_Sqlite.Services
         }
 
 
-        public async Task<List<Book>> GetBooksByPublishYear(int publishYear)
+        public async Task<List<Book>> GetBooksByPublishYear(string publishYear)
         {
             return await GetBooksByPublishYear(publishYear);
         }

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Inventory</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Book Inventory Table -->
+  <div class="details" id="book-inventory-field" style="display: block;">
+    <div class="recentorders">
+      <div class="cardHeader">
+        <h2>Book Inventory</h2>
+      </div>
+      <div class="mainbar">
+        <div class="search">
+          <label>
+            <input type="text" placeholder=" 🔍 Search" />
+          </label>
+        </div>
+        <div class="Addbutton-box">
+          <button class="Addbutton" id="add-bookInventory">New</button>
+        </div>
+      </div>
+     <div id="table" style="display: block;">
+      <table >
+        <thead>
+          <tr>
+            <td>ISBN</td>
+            <td>Title</td>
+            <td>Author</td>
+            <td>Publish Year</td>
+            <td>Add Date</td>
+            <td>Copies</td>
+            <td>Genre</td>
+            <td>Available Copies</td>
+            <td>Edit</td>
+            <td>Delete</td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamically populated rows will go here -->
+        </tbody>
+      </table>
+     </div>
+      <!-- Add New Book Form -->
+  <div class="addbook-container" id="add-newbook-field" style="display: none;">
+    <h2>Add New Book</h2>
+    <div class="single-detail">
+      <label>ISBN</label><br>
+      <input id="isbn" type="text">
+    </div>
+    <div class="single-detail">
+      <label>Title</label><br>
+      <input id="title" type="text">
+    </div>
+    <div class="single-detail">
+      <label>Author</label><br>
+      <input id="author" type="text">
+    </div>
+    <div class="single-detail">
+      <label>Publish Year</label><br>
+      <input id="publishYear" type="number">
+    </div>
+    <div class="single-detail">
+      <label>Add Date</label><br>
+      <input id="addDate" type="date">
+    </div>
+    <div class="single-detail">
+      <label>Copies</label><br>
+      <input id="copies" type="number">
+    </div>
+    <div class="single-detail">
+      <label>Available Copies</label><br>
+      <input id="availableCopies" type="number">
+    </div>
+    <div>
+      <label for="mimage">main image</label><br>
+      <input type="text"  id="mimage" >
+    </div>
+    <div>
+      <label for="fimage">front image</label><br>
+      <input type="text"  id="fimage" >
+    </div>
+    <div>
+      <label for="simage">side image</label><br>
+      <input type="text"  id="simage" >
+    </div>
+    <div>
+      <label for="bimage">back image</label><br>
+      <input type="text"  id="bimage" >
+    </div>
+    <div class="single-detail">
+      <label>Genre</label><br>
+      <select id="genre">
+        <!-- Dynamically populate genre options from JSON server -->
+      </select>
+    </div>
+    <button class="savebtn" id="newbookadd-btn">Add Book</button>
+    <button class="savebtn" id="newbookcancel-btn">Cancel</button>
+  </div>
+    </div>
+  </div>
+
+ 
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      event.preventDefault()
+      const tableBody = document.querySelector("tbody");
+      const addBookForm = document.getElementById("add-newbook-field");
+      const newBookButton = document.getElementById("add-bookInventory");
+      const cancelBookButton = document.getElementById("newbookcancel-btn");
+      const genreSelect = document.getElementById("genre");
+    const table=  document.getElementById('table');
+      // Fetch books and genres from the server
+      async function fetchData() {
+        try {
+          const booksResponse = await fetch('http://localhost:3000/books');
+          const genresResponse = await fetch('http://localhost:3000/book_genre');
+
+          if (!booksResponse.ok || !genresResponse.ok) {
+            throw new Error("Failed to fetch data from the server");
+          }
+
+          const books = await booksResponse.json();
+          const genres = await genresResponse.json();
+
+          // Populate genre dropdown
+          genres.forEach(genre => {
+            const option = document.createElement("option");
+            option.value = genre.GenreID; // Set GenreID as value
+            option.textContent = genre.Genre; // Display genre name
+            genreSelect.appendChild(option);
+          });
+
+          // Display the books in the table
+          displayBooks(books, genres);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+
+
+      // Display books in the table
+      function displayBooks(books, genres) {
+        tableBody.innerHTML = '';
+        const genreMap = new Map();
+        genres.forEach(genre => {
+          genreMap.set(genre.GenreID, genre.Genre);
+        });
+
+        books.forEach(book => {
+          const genreName = genreMap.get(book.GenreID) || 'Unknown';
+          const row = `
+            <tr>
+              <td>${book.ISBN}</td>
+              <td>${book.Title}</td>
+              <td>${book.AuthorName}</td>
+              <td>${new Date(book.PublishYear).getFullYear()}</td>
+              <td>${new Date(book.AddDateTime).toLocaleDateString()}</td>
+              <td>${book.Copies}</td>
+              <td>${genreName}</td>
+              <td><span class="${book.AvailableCopies > 0 ? 'status available' : 'status notavailable'}">${book.AvailableCopies}</span></td>
+              <td><ion-icon name="create-outline"></ion-icon></td>
+              <td><ion-icon name="trash-outline"></ion-icon></td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      }
+
+      // Add new book
+   // Add new book
+document.getElementById("newbookadd-btn").addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    // Fetch the current images to determine the next ImageID
+    const imgResponse = await fetch('http://localhost:3000/add_images');
+    const imgRes = await imgResponse.json();
+
+    // Create the images object
+    const images = {
+        ImageID: imgRes.length + 1, // Set ImageID based on current length
+        Image1: document.getElementById('mimage').value,
+        Image2: document.getElementById('fimage').value,
+        Image3: document.getElementById('simage').value,
+        Image4: document.getElementById('bimage').value,
+    };
+
+    // Send the images object to the JSON server
+    const imagePostResponse = await fetch('http://localhost:3000/add_images', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(images)
+    });
+
+    if (!imagePostResponse.ok) {
+        alert("Error adding images");
+        return;
+    }
+
+    // Fetch the current books to determine the next BookID
+    const bookResponse = await fetch('http://localhost:3000/books');
+    const bookData = await bookResponse.json();
+
+    // Create the new book object
+    const newBook = {
+        BookID: bookData.length + 1, // Set BookID based on current length
+        ISBN: document.getElementById("isbn").value,
+        Title: document.getElementById("title").value,
+        AuthorName: document.getElementById("author").value,
+        PublishYear: document.getElementById("publishYear").value,
+        AddDateTime: document.getElementById("addDate").value,
+        Copies: document.getElementById("copies").value,
+        AvailableCopies: document.getElementById("availableCopies").value,
+        GenreID: Number(document.getElementById("genre").value), // Capture the selected GenreID
+        ImageID: images.ImageID // Assign the new ImageID to the book
+    };
+
+    // Send the new book object to the JSON server
+    const bookPostResponse = await fetch('http://localhost:3000/books', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newBook)
+    });
+
+    if (bookPostResponse.ok) {
+        alert("Book added successfully!");
+        fetchData(); // Refresh the table with new data
+        addBookForm.style.display = 'none'; // Hide the form after successful submission
+    } else {
+        alert("Error adding book");
+    }
+});
+
+
+      // Show form on clicking "New"
+      newBookButton.addEventListener("click", (event) => {
+        event.preventDefault()
+       
+        addBookForm.style.display = 'block';
+        table.style.display='none'
+      });
+
+      // Hide form on clicking "Cancel"
+      cancelBookButton.addEventListener("click", () => {
+        addBookForm.style.display = 'none';
+        table.style.display='block';
+      });
+
+      // Initial fetch of books and genres
+      fetchData();
+    });
+  </script>
+
+</body>
+</html>

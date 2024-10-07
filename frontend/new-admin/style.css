@@ -1,0 +1,603 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 1.5px;
+    
+    box-sizing: border-box;
+  }
+
+  :root {
+    --blue: #2a2185;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --black: #222;
+    --black1: #999;
+  }
+
+
+/* ==============================navication styles=================== */
+.navication {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--blue);
+    border-left: 10px solid var(--blue);
+    transition: 0.5s;
+    overflow: hidden;
+  }
+
+  .navication.active {
+    width: 80px;
+  }
+
+
+  .navication ul li p {
+
+color: var(--white);
+font-size: 22px;
+
+
+  }
+  .navication ul li p .icon{
+    font-size: 2.5rem;
+
+  }
+
+
+
+  .navication ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .navication ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    
+   
+  }
+  
+  .navication ul li.hovered {
+    background-color: var(--white);
+  }
+  .navication ul li:nth-child(1) {
+    margin-bottom: 0px;
+    pointer-events: none;
+  }
+
+  .navication ul li a  {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 16px;
+    
+  }
+  .navication ul li:hover a,
+.navication ul li.hovered a {
+  color: var(--blue);
+}
+.navication ul li a .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 30px;
+  line-height: 75px;
+  text-align: center;
+}
+.navication ul li a .icon ion-icon {
+  font-size: 1.5rem;
+}
+.navication ul li a .title {
+  position: relative;
+  display: block;
+  /* padding: 0 10px; */
+  height: 50px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.navication ul li a{
+    background-color: rgba(100, 174, 224, 0.414);
+  /* background: var(--blue); */
+  border: none;
+  border-top-left-radius: 45px;
+    border-bottom-left-radius: 45px;
+    border-top-right-radius: 35px;
+    
+margin-top: 5px;
+}
+.navication ul li a:hover{
+  background-color: var(--white);
+}
+
+/* to make profile gap */
+.navication ul li .navBtn{
+  margin-top: 15px;
+}
+
+.content {
+    /* to make body content move left side */
+    margin-left: 310px;
+    padding: 20px;
+    height: 95vh;
+    overflow-y: auto;
+}
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+/* navication bar style ends  */
+
+  .main {
+  position: absolute;
+
+  /* width: calc(100%-300px); */
+  /* left: 300px; */
+  min-height: 95vh;
+  background: var(--white);
+  
+  transition: 0.5s;
+}
+.topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .search {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+    margin-top: 10px;
+  }
+  .search label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 18px;
+    outline: none;
+    border: 1px solid var(--black1);
+  }
+  /* ======================================Card======================= */
+.cardBox {
+  
+    position: relative;
+    width: 100%;
+    padding: 2px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+  }
+  
+  .cardBox .card {
+    position: relative;
+    width: 300px;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    display:inline-block;
+    margin: 20px;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  .cardBox .card .number {
+    position: relative;
+    font-weight: 500;
+    font-size: 2.5rem;
+    color: var(--blue);
+  }
+  
+  .cardBox .card .cardName {
+    color: var(--black1);
+    font-size: 1.1rem;
+    margin-top: 5px;
+  }
+  
+  .cardBox .card .iconBx {
+    font-size: 3.5rem;
+    color: black;
+  }
+  
+  .cardBox .card:hover {
+    background: var(--blue);
+  }
+  
+  .cardBox .card:hover .number,
+  .cardBox .card:hover .cardName,
+  .cardBox .card:hover .iconBx {
+    color: var(--white);
+  }
+  /* ========================book inventarory  styles=========================== */
+.details {
+    position: relative;
+    /* width: 100%; */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 30px;
+    margin-top: 10px;
+  }
+  /* ========================book inventarory box styles=========================== */
+.details .recentorders {
+    /* to male body width */
+    /* width: 1090px; */
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+  }
+  .details .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .cardHeader h2 {
+    font-weight: 600;
+    color: var(--blue);
+  }
+  
+.cardHeader .btn {
+    position: relative;
+    padding: 5px 10px;
+    background: var(--white);
+    text-decoration: none;
+    color: var(--blue);
+    border-radius: 6px;
+  }
+
+  /* table */
+.details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .details table thead td {
+    font-weight: 600;
+  }
+  .details .recentorders table tr {
+    color: var(--black);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .details .recentorders table tr:last-child {
+    border-bottom: none;
+  }
+  .details .recentorders table tbody tr:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
+  .details .recentorders table tr td {
+    padding: 10px;
+    
+  }
+
+  .details .recentorders table tr td:last-child{
+    text-align: end;
+  }
+  
+  .details .recentorders table tr td:last-child(2){
+    text-align: end;
+  }
+  .details .recentorders table tr td:last-child(3){
+    text-align: center;
+  }
+
+  /* ================================ working available green color================================= */
+.status.available{
+    padding: 2px 4px;
+    background: #8de02c;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .status.notavailable{
+    padding: 2px 4px;
+    background: #e10303;
+    color: var(--white);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+/* ============================book inventory =========== maindiv ===tomake dropdown to center================== */
+.mainbar{
+    /* to make new button left */
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ================button new===================================== */
+.Addbutton{
+    padding: 10px 25px 10px 25px;
+    font-weight: 100;
+    font-size: 20px;
+    border-radius: 20px;
+    border: navy;
+    background-color: rgba(251, 251, 251, 0.738);
+    color: var(--blue);
+    
+  }
+  
+  .Addbutton:hover{
+    background-color: var(--white);
+    color: var(--blue);
+  }
+  
+  /* ================================Book add in book inventory============== */
+.addbook-cintainer{
+  width: 450px;
+  text-align: center;
+  justify-content: center;
+  background-color: var(--white);
+  padding: 50px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin: 40px;
+  margin-left: 300px;
+  margin-top: 0px;
+color: var(--blue);
+z-index: 4;
+}
+.addbook-cintainer:hover{
+  background-color: var(--blue);
+  color: var(--white);
+  
+}
+.addbook-cintainer p{
+  font-size: xx-large;
+  font-weight: bolder;
+}
+.addbook-cintainer label{
+  font-size: large;
+  font-weight: bold;
+}
+/* ================savebutton in book invebtory========= */
+.savebtn{
+  padding: 10px 15px 10px 15px;
+  border-radius: 20px;
+  margin-top: 10px;
+  background-color: var(--blue);
+  color: var(--white);
+border-color: var(--gray);
+  margin-left: 15px;
+  font-weight: bold;
+}
+.savebtn:hover{
+  background-color: var(--white);
+  color: var(--blue);
+  border-color: var(--white);
+}
+
+.addbook-details input {
+  width: 300px;
+  height: 35px;
+  border-radius: 20px;
+  margin-top: 10px;
+  
+}
+.select-box{
+  width: 300px;
+  height: 35px;
+  border-radius: 20px;
+  margin-top: 10px;
+  color: var(--black);
+ font-size: 16px;
+  text-align: center;
+}
+.select-box option{
+background-color: #8eacd572;
+font-size: 16px;
+
+}
+
+
+
+
+
+.addbook-details {
+
+  text-align: center;
+ 
+ 
+}
+.single-detail{
+  margin-top: 15px;
+}
+
+.single-detail input{
+font-size: 16px;
+text-align: center;
+font-weight: bold;
+}
+
+
+/* /profile showning container */
+
+
+.admin-details-container{
+  justify-content: center;
+  text-align: center;
+}
+.personal-details{  
+  margin-top: 5%;
+  margin-left: 10%;
+  background-color: #ffffff4b;
+  border-radius: 10%;
+
+}
+
+.admin-details-container input{
+  background-color: #2a2185;;
+padding-left:  20px;
+color: #f5f5f5;
+
+
+border: none;
+font-size: 20px;
+}
+
+button{
+  background-color: #0306b4bd;
+  padding: 20%;
+  color: #f5f5f5;
+  border-radius: 25%;
+  border: none;
+  font-weight: bolder;
+}
+
+
+
+.personal-details tr td{
+  background-color: #2a2185;;
+  padding: 25px 185px 25px 45px;
+  border-radius: 20px;
+  color: var(--white);
+  
+}
+#saveButton{
+  padding: 10px 20px 10px 20px;
+}
+
+
+
+/* profile edit logo */
+#editlogo{
+  margin-right: 1000px;
+  font-size: 4.5rem;
+}
+
+
+
+
+
+.imageparent{
+  border-radius: 20px;
+  /* width: 250px; */
+  box-shadow: 8px 8px 8px 2px rgba(127, 131, 185, 0.452);
+}
+
+.book-grid img{
+  width: 230px;
+  height: 250px;
+}
+.book-grid h2,h3{
+  color: #2a2185;
+}
+
+.book-grid span{
+
+  color: #fff;
+background-color: #3fd43a;
+
+padding-left: 10px;
+padding-right: 10px;
+border-radius: 10px;
+}
+
+
+.book-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+.image-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 10px;
+}
+
+.book-item:hover {
+  transform: scale(1.05);
+}
+
+.book-item img {
+  width: 90%;
+  height: 70%;
+  border-radius: 10px;
+}
+
+.book-item h2 {
+  font-size: 1.2em;
+  color: #2a2185;
+}
+
+.book-item h3 {
+  font-size: 1em;
+  color: #555;
+}
+
+.book-item span {
+  background-color: #3fd43a;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}

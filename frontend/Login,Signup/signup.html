@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USER CREATION</title>
+    <link rel="stylesheet" href="./lonin.css">
+  </head>
+  <body>
+    <div id="user-creation-page" class="user-creation-container">
+      <div class="login-container">
+        <h1>SignUp Form</h1>
+        <form id="creation-form">
+          <input type="text" id="firstname" placeholder="First Name" required><br>
+          <input type="text" id="lastname" placeholder="Last Name" required><br>
+          <input type="text" id="image" placeholder="enter image relative path"><br>
+          <input type="text" id="nicnumber" placeholder="NIC Number" required><br>
+          <input type="date" id="dob" value="2000-01-01" required><br>
+          <!-- Example default value for Date of Birth -->
+          <input type="text" id="address" placeholder="Address" required><br>
+          <input type="email" id="email" placeholder="E-mail" required><br>
+          <input type="text" id="phonenumber" placeholder="Phone Number" required><br>
+          <input type="password" id="createPassword"
+            placeholder="Create Password" required><br>
+          <input type="password" id="confirmpassword"
+            placeholder="Confirm Password" required><br>
+          <select id="userRole" name="userRole" required>
+            <option value="member">Member</option>
+            <!-- <option value="admin">Admin</option> -->
+          </select><br>
+          <button type="submit" class="btn">Create User</button>
+          <h3 id="createMessage"></h3> <!-- Corrected ID for message -->
+        </form>
+        <a href="./login.html" class="link"> Have an account</a>
+      </div>
+
+    </div>
+    <script type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="./user-creation.js"></script>
+    <script>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lend member</title>
+  <link rel="stylesheet" href="../new-admin/style.css">
+</head>
+
+<body>
+
+  <div class="details" id="book-inventory-field" style="display: block;">
+    <div class="recentorders">
+      <div class="cardHeader">
+        <h2>Inventory reports</h2>
+      </div>
+      <div class="mainbar">
+
+        <div class="search">
+          <label>
+            <input type="text" id="searchInput" placeholder=" 🔍 Search" onkeyup="searchBooks()" />
+          </label>
+        </div>
+        
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <td>Book Id</td>
+            <td>Book Name</td>
+            <td>Author</td>
+            <td>Published Date</td>
+            <td>Category</td>
+            <td>Status</td>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be dynamically populated here -->
+        </tbody>
+      </table>
+    </div>
+    <!-- book inventory end here-->
+  </div>
+
+    
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        // Sample book array (this would be fetched from local storage in a real scenario)
+        const bookArray = JSON.parse(localStorage.getItem('books')) || [];
+       
+        let memberDetails = {}; // To store member details
+
+        // Function to dynamically create table rows
+        function populateTable() {
+            const tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            bookArray.forEach(book => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${book.bookId}</td>
+                    <td>${book.bookname}</td>
+                    <td>${book.author}</td>
+                    <td>${book.publicationDate}</td>
+                    <td>${book.category}</td>
+                    <td>${book.totalCopies > 0 ? 'Available' : 'Not Available'}</td>
+                    
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call the function to populate the table initially
+        populateTable();
+
+        // Function to search and filter books in the table
+        function searchBooks() {
+            const searchInput = document.getElementById('searchInput');
+            const filter = searchInput.value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const bookDetails = `${cells[0].innerText} ${cells[1].innerText} ${cells[2].innerText} ${cells[3].innerText} ${cells[4].innerText}`.toLowerCase();
+
+                if (bookDetails.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        
+
+        
+    </script>
+</body>
+
+</html>

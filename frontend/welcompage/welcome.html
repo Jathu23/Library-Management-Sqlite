@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./stulesheet.css">
+    <link rel="stylesheet" href="../Login,Signup/lonin.css">
+</head>
+
+<body>
+    <div class="sidebox">
+        <div class="heading">
+            <h1>WELCOME </h1>
+            <H2>BLUE SKY LIBRARY</H2>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="book-outline"></ion-icon>
+          </div>
+    </div>
+    <div class="main-container"></div>
+        <div id="login-page" class="login-container">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <select id="userRole" name="userRole" required>
+                    <option value="member">Member</option>
+                    <option value="admin">Admin</option>
+                </select><br>
+                <input type="text" id="nicnumber" required placeholder="NIC Number"><br>
+                <input type="password" id="loginPassword" required placeholder="Password"><br>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p id="loginMessage" class="display-message"></p>
+            <a href="../Login,Signup/signup.html" class="link">Already have an account</a>
+        </div>
+    </div>
+<script src="../Login,Signup/login.js"></script>
+</body>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</html>

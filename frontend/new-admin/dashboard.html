@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  
+  
+  
+  <div class="overlay" style="display: none;" id="overlay"></div>
+  <!-- =============================== body div box starts here =========================================-->
+  <div class="main">
+
+    <div class="topbar" style="display: block;" id="topbar">
+      
+    </div>
+    <!-- =down==========topbar ends here===================== -->
+    <div class="cardBox" style="display: block;" id="cardBox">
+      <div class="card">
+        <div>
+          <div class="number" id="totalMembers">15</div>
+          <div class="cardName" >Total Members</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="number" id="totalBooks">80</div>
+          <div class="cardName">Total Books</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="book-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="number" id="lendings">54</div>
+          <div class="cardName"> Lending Requests</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="book-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="number" id="returns">74</div>
+          <div class="cardName"> Return requests</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="alert-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="number" id="totaladmins">4</div>
+          <div class="cardName">Total Admins</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+      </div>
+      <div class="card">
+        <div>
+          <div class="number" id="totreturns">42</div>
+          <div class="cardName">Total Book Returns</div>
+        </div>
+        <div class="iconBx">
+          <ion-icon name="book-outline"></ion-icon>
+        </div>
+      </div>
+      <!-- =down===============cardbox ends========================= -->
+
+    </div>
+  
+</body>
+<!-- =================================== ionicon =============================== -->
+
+<script >
+
+let books = JSON.parse(localStorage.getItem('books')) || [];
+console.log(books)
+
+let totalBook = document.getElementById("totalBooks");
+totalBook.textContent=books.length;
+console.log(totalBook)
+
+
+
+let members = JSON.parse(localStorage.getItem('members')) || [];
+console.log(books)
+
+let totalmembers = document.getElementById("totalMembers");
+totalmembers.textContent=members.length;
+console.log(totalmembers)
+
+let admins = JSON.parse(localStorage.getItem('admins')) || [];
+console.log(books)
+
+let totaladmins = document.getElementById("totaladmins");
+totaladmins.textContent=admins.length;
+console.log(totaladmins)
+
+
+let lendings = JSON.parse(localStorage.getItem('lendRequest')) || [];
+console.log(lendings)
+
+let totalLendings= document.getElementById("lendings");
+totalLendings.textContent=lendings.length;
+
+let returnsrequests = JSON.parse(localStorage.getItem('returnRequests')) || [];
+console.log(returns)
+
+
+let totalreturn =document.getElementById("returns");
+totalreturn.textContent=returnsrequests.length;
+
+
+let totalreturns = JSON.parse(localStorage.getItem('confirmedRequests')) || [];
+
+let totreturns = document.getElementById("totreturns");
+totreturns.textContent=totalreturns.length;
+
+</script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</html>

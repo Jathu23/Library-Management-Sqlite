@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lend Requested Lists</title>
+    <link rel="stylesheet" href="../new-admin/style.css">
+    <style>
+        /* Basic styles for better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .details {
+            margin: 20px 0;
+        }
+
+        .cardHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search input {
+            padding: 5px;
+            width: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="details" id="book-inventory-field" style="display: block;">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Lend Requested Lists</h2>
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" oninput="filterTable()" />
+                    </label>
+                </div>
+            </div>
+            <div class="mainbar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>RequestId</th>
+                            <th>Member Name</th>
+                            <th>Member Id</th>
+                            <th>Book Id</th>
+                            <th>Book Name</th>
+                            <th>Author</th>
+                            <th>Confirm</th>
+                            <th>Cancel</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                        <!-- Table rows will be added here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:3000';
+
+        // Fetch pending requests
+        async function fetchPendingRequests() {
+            try {
+                const requestsResponse = await fetch(`${apiUrl}/requests?status=pending`);
+                const requests = await requestsResponse.json();
+                const usersResponse = await fetch(`${apiUrl}/users`);
+                const users = await usersResponse.json();
+                const booksResponse = await fetch(`${apiUrl}/books`);
+                const books = await booksResponse.json();
+
+                populateTable(requests, users, books);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Populate the table with data
+        function populateTable(requests, users, books) {
+            const tableBody = document.getElementById('bookTableBody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            requests.forEach(request => {
+                const user = users.find(u => u.NICNumber === request.NICNumber);
+                const book = books.find(b => b.BookID === request.BookID);
+
+                if (user && book) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${request.requestId}</td>
+                        <td>${user.FirstName} ${user.LastName}</td>
+                        <td>${user.UserID}</td>
+                        <td>${book.BookID}</td>
+                        <td>${book.Title}</td>
+                        <td>${book.AuthorName}</td>
+                        <td><button onclick="confirmRequest('${request.id}', '${request.requestId}')">Confirm</button></td>
+                        <td><button onclick="cancelRequest('${request.id}')">Cancel</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        }
+
+        // Confirm a request
+        async function confirmRequest(requestId, originalRequestId) {
+            const approvedDate = new Date().toISOString();
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 7); // Set due date to 7 days later
+
+            const lendData = {
+                requestId: Number(originalRequestId),
+                lendStatus: 'pending',
+                dueDate: dueDate.toISOString().split('T')[0],
+                approvedDate: approvedDate.split('T')[0],
+                returnedDate: null // Default to false
+            };
+
+            // Update request status
+            await fetch(`${apiUrl}/requests/${requestId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'approved' })
+            });
+
+            // Add to lends
+            await fetch(`${apiUrl}/lends`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(lendData)
+            });
+
+            fetchPendingRequests(); // Refresh the table
+        }
+
+        // Cancel a request
+        async function cancelRequest(requestId) {
+            // Update request status to 'rejected'
+            await fetch(`${apiUrl}/requests/${requestId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: 'rejected' })
+            });
+
+            fetchPendingRequests(); // Refresh the table
+        }
+
+        // Filter function for search input
+        function filterTable() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#bookTableBody tr');
+
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? '' : 'none';
+            });
+        }
+
+        // Initial fetch
+        document.addEventListener('DOMContentLoaded', fetchPendingRequests);
+    </script>
+</body>
+
+</html>

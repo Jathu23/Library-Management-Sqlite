@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Return History</title>
+    <link rel="stylesheet" href="../new-admin/style.css" />
+</head>
+<body>
+    <div class="details">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Book History</h2>
+                <div class="search">
+                    <label>
+                        <!-- Search input field -->
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" />
+                    </label>
+                </div>
+            </div>
+            <div class="mainbar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Member Name</th>
+                            <th>Member Id</th>
+                            <th>Book Id</th>
+                            <th>Book Name</th>
+                            <th>Lend Date</th>
+                            <th>Return Date</th>
+                            <th>Returned Date</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Table rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            // This function runs when the web page has finished loading
+            document.addEventListener('DOMContentLoaded', () => {
+                // Get the table body element where we will add the history rows
+                const historyTableBody = document.getElementById('historyTableBody');
+
+                // Get the search input field
+                const searchInput = document.getElementById('searchInput');
+
+                // Get the history data from local storage or use an empty array if none exists
+                let returnHistory = JSON.parse(localStorage.getItem('returnHistory')) || [];
+
+                // Function to display the history data in the table
+                function displayHistory() {
+                    // Clear the table body
+                    historyTableBody.innerHTML = '';
+
+                    // Check if there are no records
+                    if (returnHistory.length === 0) {
+                        historyTableBody.innerHTML = '<tr><td colspan="8">No return history found</td></tr>';
+                        return;
+                    }
+
+                    // Loop through each record and add a row to the table
+                    returnHistory.forEach((record, index) => {
+                        // Create a new row with data and a delete button
+                        const row = `
+                            <tr>
+                                <td>${record.memberName}</td>
+                                <td>${record.memberId}</td>
+                                <td>${record.bookId}</td>
+                                <td>${record.bookName}</td>
+                                <td>${record.lendDate}</td>
+                                <td>${record.returnDate}</td>
+                                <td>${record.returnedDate}</td>
+                                <td><button class="delete-btn" data-index="${index}">Delete</button></td>
+                            </tr>
+                        `;
+                        // Add the new row to the table
+                        historyTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+
+                // Function to search and filter history records
+                function searchHistory() {
+                    // Get the search term and convert it to lower case
+                    const filter = searchInput.value.toLowerCase();
+
+                    // Get all table rows
+                    const rows = historyTableBody.querySelectorAll('tr');
+
+                    // Loop through each row
+                    rows.forEach(row => {
+                        // Get all cells in the current row
+                        const cells = row.querySelectorAll('td');
+                        let rowText = '';
+
+                        // Combine all cell texts into one string
+                        cells.forEach(cell => {
+                            rowText += cell.innerText.toLowerCase() + ' ';
+                        });
+
+                        // Show or hide the row based on whether it matches the search term
+                        if (rowText.includes(filter)) {
+                            row.style.display = ''; // Show row
+                        } else {
+                            row.style.display = 'none'; // Hide row
+                        }
+                    });
+                }
+
+                // Function to delete a record from the table and local storage
+                function deleteHistoryRecord(index) {
+                    // Remove the record from the array
+                    returnHistory.splice(index, 1);
+                    // Update the local storage with the new array
+                    localStorage.setItem('returnHistory', JSON.stringify(returnHistory));
+                    // Refresh the table to show updated data
+                    displayHistory();
+                }
+
+                // Event listener for delete buttons
+                historyTableBody.addEventListener('click', (e) => {
+                    // Check if the clicked element is a delete button
+                    if (e.target.classList.contains('delete-btn')) {
+                        // Get the index of the record to delete
+                        const index = e.target.getAttribute('data-index');
+                        // Call the delete function
+                        deleteHistoryRecord(index);
+                    }
+                });
+
+                // Event listener for search input
+                searchInput.addEventListener('input', searchHistory);
+
+                // Initial call to display the history when the page loads
+                displayHistory();
+            });
+        </script>
+    </div>
+</body>
+</html>

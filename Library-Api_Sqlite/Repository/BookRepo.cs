@@ -230,25 +230,60 @@ namespace Library_Api_Sqlite.Repository
         }
 
 
-        public async Task<List<Book>> GetBooksByPublishYear(int publishYear)
+        //public async Task<List<Book>> GetBooksByPublishYear(int publishYear)
+        //{
+        //    Console.WriteLine(publishYear);
+        //    using (var connection = new SqliteConnection(_connectionString))
+        //    {
+        //        await connection.OpenAsync();
+
+        //        var command = connection.CreateCommand();
+        //        command.CommandText = "SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books WHERE PublishYear = @publishYear";
+        //        command.Parameters.AddWithValue("@publishYear", publishYear);
+
+
+        //        var books = new List<Book>();
+
+        //        using (var reader = await command.ExecuteReaderAsync())
+        //        {
+        //            while (await reader.ReadAsync())
+        //            {
+        //                var book = new Book
+        //                {
+        //                    Id = reader.GetInt32(0),
+        //                    ISBN = reader.GetString(1),
+        //                    Title = reader.GetString(2),
+        //                    Author = reader.GetString(3),
+        //                    Genre = reader.IsDBNull(4) ? new List<string>() : reader.GetString(4).Split(',').ToList(),
+        //                    Copies = reader.GetInt32(5),
+        //                    AviCopies = reader.GetInt32(6),
+        //                    PublishYear = reader.GetInt32(7),
+        //                    AddDateTime = DateTime.Parse(reader.GetString(8)),
+        //                    Images = reader.IsDBNull(9) ? new List<string>() : reader.GetString(9).Split(',').ToList(),
+        //                    RentCount = reader.GetInt32(10)
+        //                };
+
+        //                books.Add(book);
+        //            }
+        //        }
+        //        return books;
+        //    }
+        //}
+        public async Task<Book> GetBooksByPublishYear(string year)
         {
-            Console.WriteLine(publishYear);
             using (var connection = new SqliteConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 var command = connection.CreateCommand();
-                command.CommandText = "SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books WHERE PublishYear = @publishYear";
-                command.Parameters.AddWithValue("@publishYear", publishYear);
-
-
-                var books = new List<Book>();
+                command.CommandText = "SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books WHERE isbn = @year";
+                command.Parameters.AddWithValue("@year", year);
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
-                    while (await reader.ReadAsync())
+                    if (await reader.ReadAsync())
                     {
-                        var book = new Book
+                        return new Book
                         {
                             Id = reader.GetInt32(0),
                             ISBN = reader.GetString(1),
@@ -259,15 +294,15 @@ namespace Library_Api_Sqlite.Repository
                             AviCopies = reader.GetInt32(6),
                             PublishYear = reader.GetInt32(7),
                             AddDateTime = DateTime.Parse(reader.GetString(8)),
+                            // Split the comma-separated Images string into a List<string>
                             Images = reader.IsDBNull(9) ? new List<string>() : reader.GetString(9).Split(',').ToList(),
+
                             RentCount = reader.GetInt32(10)
                         };
-
-                        books.Add(book);
                     }
                 }
-                return books;
             }
+            return null;
         }
 
         public async Task<List<Book>> GetBooksByGenre(string genre)

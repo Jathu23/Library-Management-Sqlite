@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="./lonin.css">
+</head>
+<body>
+    <div class="main-container">
+        <div id="login-page" class="login-container">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <select id="userRole" name="userRole" required>
+                    <option value="member">Member</option>
+                    <option value="admin">Admin</option>
+                </select><br>
+                <input type="text" id="nicnumber" required placeholder="NIC Number"><br>
+                <input type="password" id="loginPassword" required placeholder="Password"><br>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p id="loginMessage" class="display-message"></p>
+            <a href="./signup.html" class="link">SignUp</a>
+        </div>
+    </div>
+       <a href="../new-admin/dashboard-Admin.html"></a>
+    <script type="module"src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
+   
+    
+        
+  
+    <script src="login.js"></script>
+</body>
+</html>

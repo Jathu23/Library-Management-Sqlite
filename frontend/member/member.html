@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard</title>
+    <link rel="stylesheet" href="../new-admin/style.css">
+</head>
+<body>
+    <div class="navication">
+        <ul>
+            <li>
+                <p>
+                    <img src="../member/img.jpg" id="profileImage" style="border-radius: 50%; width: 150px;">
+                   <br> <span class="title" id="member">Member</span>
+                </p>
+            </li>
+            <li>
+                <a href="./library.html" target="contentFrame">
+                    <span class="icon"><ion-icon name="book-outline"></ion-icon></span>
+                    <span class="title">Lend books</span>   
+                </a>
+            </li>
+            <li>
+                <a href="./requestedList.html" target="contentFrame">
+                    <span class="icon"><ion-icon name="stopwatch-outline"></ion-icon></span>
+                    <span class="title">Lending Requests</span>
+                </a>
+            </li>
+            <li>
+                <a href="./lendedBooks.html" target="contentFrame">
+                    <span class="icon"><ion-icon name="arrow-undo-outline"></ion-icon></span>
+                    <span class="title">Lended Books</span>
+                </a>
+            </li>
+            <li>
+                <a href="./history.html" target="contentFrame">
+                    <span class="icon"><ion-icon name="arrow-redo-outline"></ion-icon></span>
+                    <span class="title">Returned History</span> 
+                </a>
+            </li>
+            <li>
+                <a href="reports.html" target="contentFrame">
+                    <span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
+                    <span class="title">Reports</span>
+                </a>
+            </li>
+            <li>
+                <a href="profile.html" target="contentFrame" class="navBtn">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <span class="title">Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="../welcompage/welcome.html">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                    <span class="title">Sign out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <iframe name="contentFrame" src="./library.html"></iframe>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve the logged-in user from local storage
+            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+            if (loggedUser) {
+                // Set the profile image
+                const profileImage = document.getElementById('profileImage');
+                profileImage.src = `../member/${loggedUser.ProfileImage}` || '../member/default-image.jpg'; // Default image if none is set
+
+                // Set the member's name
+                const memberName = document.getElementById('member');
+                memberName.textContent = `${loggedUser.FirstName} ${loggedUser.LastName}` || 'Member';
+            } else {
+                console.error('No user is logged in');
+            }
+
+             // Logout functionality
+        document.getElementById('logoutLink').addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent the default anchor behavior
+            localStorage.removeItem('loggedInUser'); // Remove user data from local storage
+            window.location.href = '../login.html'; // Redirect to the login page
+        });
+        });
+
+    </script>
+</body>
+</html>

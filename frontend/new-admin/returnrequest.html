@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Return Requested Lists</title>
+    <link rel="stylesheet" href="../new-admin/style.css" />
+</head>
+
+<body>
+    <div class="details" id="book-inventory-field" style="display: block">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Return Requested Lists</h2>
+                <div class="search">
+                    <!-- Search input field -->
+                    <label>
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" />
+                    </label>
+                </div>
+            </div>
+            <div class="mainbar">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Member Name</td>
+                            <td>Member Id</td>
+                            <td>Book Id</td>
+                            <td>Book Name</td>
+                            <td>Lend Date</td>
+                            <td>Return Date</td>
+                            <td>Confirm</td>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                        <!-- Rows will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Retrieve the returnRequests and returnHistory arrays from local storage
+                let returnRequests = JSON.parse(localStorage.getItem('returnRequests')) || [];
+                const returnHistory = JSON.parse(localStorage.getItem('returnHistory')) || [];
+
+                // Function to populate the table with returnRequests data
+                function populateTable(data) {
+                    const tableBody = document.getElementById('bookTableBody');
+
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+
+                    // Check if there are any returnRequests
+                    if (data.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="7">No return requests found</td></tr>';
+                        return;
+                    }
+
+                    // Iterate over the data array and create table rows
+                    data.forEach((item, index) => {
+                        const row = document.createElement('tr');
+
+                        // Create table cells for each property including a confirm button
+                        row.innerHTML = `
+                            <td>${item.memberName}</td>
+                            <td>${item.memberId}</td>
+                            <td>${item.bookId}</td>
+                            <td>${item.bookName}</td>
+                            <td>${item.lendDate}</td>
+                            <td>${item.returnDate}</td>
+                            <td><button data-index="${index}" class="confirm-btn">Confirm</button></td>
+                        `;
+
+                        // Append the row to the table body
+                        tableBody.appendChild(row);
+                    });
+                }
+
+                // Function to handle the Confirm button click
+                function handleConfirmButtonClick(event) {
+                    if (event.target.classList.contains('confirm-btn')) {
+                        const index = event.target.getAttribute('data-index');
+                        const requestToConfirm = returnRequests[index];
+
+                        // Set the returned date as the current date
+                        const returnedDate = new Date().toLocaleDateString();
+
+                        // Save the confirmed return request to returnHistory
+                        returnHistory.push({
+                            ...requestToConfirm,
+                            returnedDate: returnedDate // Add the returned date
+                        });
+
+                        // Remove the request from returnRequests
+                        returnRequests.splice(index, 1);
+
+                        // Save updated arrays to local storage
+                        localStorage.setItem('returnRequests', JSON.stringify(returnRequests));
+                        localStorage.setItem('returnHistory', JSON.stringify(returnHistory));
+
+                        // Re-populate the table with the updated returnRequests
+                        populateTable(returnRequests);
+
+                        alert('Return confirmed and saved to history.');
+                    }
+                }
+
+                // Function to filter requests based on the search input
+                function searchRequests() {
+                    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+                    // Filter the returnRequests based on the search term
+                    const filteredRequests = returnRequests.filter(item => {
+                        return (
+                            item.memberName.toLowerCase().includes(searchTerm) ||
+                            item.memberId.toLowerCase().includes(searchTerm) ||
+                            item.bookId.toLowerCase().includes(searchTerm) ||
+                            item.bookName.toLowerCase().includes(searchTerm) ||
+                            item.lendDate.toLowerCase().includes(searchTerm) ||
+                            item.returnDate.toLowerCase().includes(searchTerm)
+                        );
+                    });
+
+                    // Populate the table with filtered requests
+                    populateTable(filteredRequests);
+                }
+
+                // Add event listener for the Confirm button click
+                document.querySelector('.mainbar').addEventListener('click', handleConfirmButtonClick);
+
+                // Add event listener for search input changes
+                document.getElementById('searchInput').addEventListener('input', searchRequests);
+
+                // Initially populate the table with all requests
+                populateTable(returnRequests);
+            });
+        </script>
+    </div>
+</body>
+
+</html>

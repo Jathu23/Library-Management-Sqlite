@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requested Lists</title>
+  <link rel="stylesheet" href="../new-admin/style.css">
+  <style>
+    /* Add some basic styling for the grid view */
+    /* .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    } */
+
+    /* .book-item {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    } */
+
+    /* .book-item:hover {
+      transform: scale(1.05);
+    } */
+
+    /* .book-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    } */
+
+    /* .available {
+      color: green;
+    } */
+
+    /* .not-available {
+      color: red;
+    } */
+    /* .book-grid img{
+width: 250px;
+height: 300px;
+    } */
+  </style>
+</head>
+
+<body>
+
+  <div class="details" id="book-inventory-field" style="display: block;">
+    <div class="recentorders">
+      <div class="cardHeader">
+        <h2>Requested Books</h2>
+      </div>
+      <div class="mainbar">
+        <div class="search">
+          <label>
+            <input type="text" id="searchInput" placeholder=" 🔍 Search" onkeyup="searchBooks()" />
+          </label>
+        </div>
+      </div>
+      <div class="imageparent">
+        <div id="book-grid" class="book-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  
+    <script>
+  async function loadBooks() {
+    try {
+      const response = await fetch('http://localhost:3000/books');
+      const books = await response.json();
+
+      const imageResponse = await fetch('http://localhost:3000/add_images');
+      const images = await imageResponse.json();
+
+      const requestsResponse = await fetch('http://localhost:3000/requests');
+      const requests = await requestsResponse.json();
+        console.log(requests)
+      let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      const userNIC = loggedInUser.NICNumber;
+
+      const bookGrid = document.getElementById('book-grid');
+      bookGrid.innerHTML = '';
+
+      const imageMap = {};
+      images.forEach(image => {
+        imageMap[image.ImageID] = [image.Image1, image.Image2, image.Image3, image.Image4];
+      });
+
+      // Filter requests to get only those for the logged-in user
+      const userRequests = requests.filter(request => request.NICNumber === userNIC);
+
+      // Create a set of requested book IDs for quick lookup
+      const requestedBookIds = new Set(userRequests.map(request => request.BookID));
+
+      // Display all books that have been requested by the user
+      books.forEach(book => {
+        if (requestedBookIds.has(book.BookID)) {
+          const bookElement = document.createElement('div');
+          bookElement.classList.add('book-item');
+          bookElement.innerHTML = `
+            <img src="${imageMap[book.ImageID]?.[0] || './OIP.jpg'}" alt="${book.Title}">
+            <h2>${book.Title}</h2>
+            <p>BookID: ${book.BookID}</p>
+            <h3>${book.AuthorName}</h3>
+            <p>Publish Year: ${book.PublishYear}</p>
+            <span class="${book.AvailableCopies > 0 ? 'available' : 'not-available'}">
+              ${book.AvailableCopies > 0 ? 'Available' : 'Not Available'}
+            </span>
+            <p>Rent Count: ${book.RentCount}</p>
+            <p>ISBN: ${book.ISBN}</p>
+          `;
+
+          bookElement.onclick = () => {
+            // Define what happens when the book is clicked
+            console.log(`Selected Book: ${book.Title}`);
+          };
+
+          bookGrid.appendChild(bookElement);
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  // Call the loadBooks function when the document is loaded
+  document.addEventListener('DOMContentLoaded', loadBooks);
+</script>
+
+ 
+</body>
+
+</html>

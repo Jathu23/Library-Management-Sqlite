@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="../new-admin/style.css">
+    <style>
+        /* Add grid styles for the profile details */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .profile-grid img {
+            grid-column: span 2; /* Make the image span two columns */
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+        .profile-grid label {
+            font-weight: bold;
+        }
+        .profile-grid input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #saveButton {
+            grid-column: span 2; /* Make button span two columns */
+            padding: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #saveButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-details-container">
+        <h2>Member Profile</h2>
+        <div class="personal-details profile-grid">
+            <img src="./img3.jpg" id="profileImage" alt="Profile Image" style="width: 190px;">
+
+            <label for="nicNumber">NIC Number</label>
+            <p id="nicNumber">Loading...</p>
+
+            <label for="firstNameInput">First Name</label>
+            <input type="text" id="firstNameInput">
+
+            <label for="lastNameInput">Last Name</label>
+            <input type="text" id="lastNameInput">
+
+            <label for="phoneNumberInput">Phone Number</label>
+            <input type="text" id="phoneNumberInput" placeholder="Phone Number">
+
+            <label for="emailInput">Email</label>
+            <input type="email" id="emailInput" placeholder="Email">
+
+            <label for="dateofjoin">Date of Join</label>
+            <input type="text" id="dateofjoin" placeholder="Date of Join" readonly>
+
+            <label for="userRole">User Role</label>
+            <input type="text" id="userRole" placeholder="User Role" readonly>
+
+            <button id="saveButton">Save Changes</button>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve the logged-in user from local storage
+            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+            // Check if a user is logged in
+            if (loggedUser) {
+                // Update profile image
+                document.getElementById('profileImage').src = loggedUser.ProfileImage || './default-image.jpg';
+
+                // Populate input fields with current user details
+                document.getElementById('nicNumber').textContent = loggedUser.NICNumber || 'N/A';
+                document.getElementById('firstNameInput').value = loggedUser.FirstName || '';
+                document.getElementById('lastNameInput').value = loggedUser.LastName || '';
+                document.getElementById('phoneNumberInput').value = loggedUser.PhoneNumber || '';
+                document.getElementById('emailInput').value = loggedUser.Email || '';
+                document.getElementById('dateofjoin').value = loggedUser.JoinDate || '';
+                document.getElementById('userRole').value = loggedUser.UserRole || '';
+            } else {
+                document.getElementById('nicNumber').textContent = 'No user logged in';
+            }
+        });
+    </script>
+</body>
+</html>

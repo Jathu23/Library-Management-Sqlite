@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Return History</title>
+    <link rel="stylesheet" href="../new-admin/style.css" />
+</head>
+
+<body>
+    <div class="details" style="display: block">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Return History</h2>
+            </div>
+            <div class="mainbar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Member Name</th>
+                            <th>Member Id</th>
+                            <th>Book Id</th>
+                            <th>Book Name</th>
+                            <th>Lend Date</th>
+                            <th>Return Date</th>
+                            <th>Returned Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- History data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const historyTableBody = document.getElementById('historyTableBody');
+
+                // Retrieve the logged-in user's NIC number
+                const loggedUser = JSON.parse(sessionStorage.getItem('loggedinUser'));
+                if (!loggedUser || !loggedUser.nicnumber) {
+                    historyTableBody.innerHTML = '<tr><td colspan="7">No user logged in or NIC number missing</td></tr>';
+                    return;
+                }
+                const loggedUserNIC = loggedUser.nicnumber;
+
+                // Retrieve returnHistory from local storage
+                const returnHistory = JSON.parse(localStorage.getItem('returnHistory')) || [];
+
+                // Filter history to show only the logged-in user's records
+                const userHistory = returnHistory.filter(record => record.memberId === loggedUserNIC);
+
+                // Populate the table with filtered history data
+                function displayHistory() {
+                    // Clear the table first
+                    historyTableBody.innerHTML = '';
+
+                    if (userHistory.length === 0) {
+                        historyTableBody.innerHTML = '<tr><td colspan="7">No return history found for the logged-in user</td></tr>';
+                        return;
+                    }
+
+                    // Add rows for each history record
+                    userHistory.forEach(record => {
+                        const row = `
+                            <tr>
+                                <td>${record.memberName}</td>
+                                <td>${record.memberId}</td>
+                                <td>${record.bookId}</td>
+                                <td>${record.bookName}</td>
+                                <td>${record.lendDate}</td>
+                                <td>${record.returnDate}</td>
+                                <td>${record.returnedDate}</td>
+                            </tr>
+                        `;
+                        historyTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+
+                // Initial display of history
+                displayHistory();
+            });
+        </script>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="../new-admin/style.css">
+</head>
+<body>
+    <div class="admin-details-container">
+        <h2>Admin Profile</h2>
+        <div class="personal-details">
+            <span id="editlogo"><ion-icon name="person-circle-outline"></ion-icon></span>
+           
+            <table>
+                <tr>
+                    <td>NIC Number</td>
+                    <td id="nicNumber">Loading...</td>
+                </tr>
+                <tr>
+                    <td>Full Name</td>
+                    <td><input type="text" id="fullNameInput" placeholder="Full Name"></td>
+                </tr>
+                <tr>
+                    <td>Phone Number</td>
+                    <td><input type="text" id="phoneNumberInput" placeholder="Phone Number"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="email" id="emailInput" placeholder="Email"></td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td><input type="text" id="addressInput" placeholder="Address"></td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td><input type="date" id="dobInput" placeholder="Date of Birth"></td>
+                </tr>
+            </table>
+            <button id="saveButton">Save Changes</button>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve the NIC number from session storage
+            const loggedUserNIC = JSON.parse(sessionStorage.getItem('loggedinUser'));
+            console.log('Logged User NIC:', loggedUserNIC);
+
+            // Retrieve the members array from local storage
+            const users = JSON.parse(localStorage.getItem("admins")) || [];
+            console.log('Users:', users);
+
+            // Find the user based on NIC number
+            const member = users.find(user => user.nicnumber === loggedUserNIC.nicnumber);
+            console.log('Found admin:', member);
+
+            // Populate input fields with current user details
+            if (member) {
+                document.getElementById('nicNumber').textContent = member.nicnumber || 'N/A';
+                document.getElementById('fullNameInput').value = member.fullname || '';
+                document.getElementById('phoneNumberInput').value = member.phonenumber || '';
+                document.getElementById('emailInput').value = member.email || '';
+                document.getElementById('addressInput').value = member.address || '';
+                document.getElementById('dobInput').value = member.dob || '';
+            } else {
+                document.getElementById('nicNumber').textContent = 'Not logged in';
+            }
+
+            // Save changes functionality
+            document.getElementById('saveButton').addEventListener('click', () => {
+                if (member) {
+                    member.fullname = document.getElementById('fullNameInput').value;
+                    member.phonenumber = document.getElementById('phoneNumberInput').value;
+                    member.email = document.getElementById('emailInput').value;
+                    member.address = document.getElementById('addressInput').value;
+                    member.dob = document.getElementById('dobInput').value;
+
+                    // Update the users array in local storage
+                    localStorage.setItem('admins', JSON.stringify(users));
+
+                    // Refresh the displayed profile details
+                    document.getElementById('nicNumber').textContent = member.nicnumber;
+                    document.getElementById('fullNameInput').value = member.fullname;
+                    document.getElementById('phoneNumberInput').value = member.phonenumber;
+                    document.getElementById('emailInput').value = member.email;
+                    document.getElementById('addressInput').value = member.address;
+                    document.getElementById('dobInput').value = member.dob;
+
+                    alert('Profile updated successfully!');
+                } else {
+                    alert('User not found.');
+                }
+
+                
+            });
+        });
+    </script>
+</body>
+</html>
