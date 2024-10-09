@@ -1,6 +1,6 @@
 async function fetchbooks() {
     try {
-        let response = await fetch('https://localhost:7182/api/Book/GetAllbook');
+        let response = await fetch('https://localhost:7182/api/Book/GetAllBooks');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -35,15 +35,15 @@ async function showbooks_onAdminpage() {
         </thead>`;
         books.forEach(book => {
             table.innerHTML += `    <tbody>
-      <tr>${book.isbn}</tr>
-      <tr>${book.title}</tr>
-      <tr>${book.author}</tr>
-      <tr>${book.publishYear}</tr>
-      <tr>${book.addDateTime}</tr>
-      <tr>${book.copies}</tr>
-      <tr>${book.genre}</tr>
-      <tr>${book.aviCopies}</tr>
-      <tr><button>Edit</button> <button>Delete</button></tr>
+      <td>${book.isbn}</td>
+      <td>${book.title}</td>
+      <td>${book.author}</td>
+      <td>${book.publishYear}</td>
+      <td>${book.addDateTime}</td>
+      <td>${book.copies}</td>
+      <td>${book.genre}</td>
+      <td>${book.aviCopies}</td>
+      <td><button>Edit</button> <button>Delete</button></td>
     </tbody>`;
           
 

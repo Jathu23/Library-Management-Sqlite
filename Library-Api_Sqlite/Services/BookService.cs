@@ -90,29 +90,27 @@ namespace Library_Api_Sqlite.Services
         }
 
 
-        public async Task<List<Book>> GetBooksByPublishYear(string publishYear)
+
+
+        public async Task<List<Book>> GetBooksByGenre(string genre)
         {
-            return await GetBooksByPublishYear(publishYear);
+            return await _bookRepo.GetBooksByGenre(genre);
         }
 
-        public async Task<List<string>> GetBooksByGenre(string genre)
+        public async Task<List<Book>> GetBooksByPublishYear(int publishYear)
         {
-            return await GetBooksByGenre(genre);
+            return await _bookRepo.GetBooksByPublishYear(publishYear);
         }
 
         public async Task<List<Book>> GetBooksOrderedByPublishYear(bool ascending)
         {
-            return await GetBooksOrderedByPublishYear(ascending);
+            return await _bookRepo.GetBooksOrderedByPublishYear(ascending);
         }
-
-      
 
         public async Task<List<Book>> SearchBooksByTitle(string title)
         {
-            return await _bookRepo.SearchBooksByTitle(title);   
+            return await _bookRepo.SearchBooksByTitle(title);
         }
-
-       
 
       
 
@@ -130,47 +128,8 @@ namespace Library_Api_Sqlite.Services
 
 
 
-        //public async Task<List<string>> SaveImages(List<IFormFile> imageFiles)
-        //{
-        //    if (imageFiles == null || imageFiles.Count == 0)
-        //    {
-        //        throw new ArgumentException("No files uploaded.");
-        //    }
 
-           
-        //    var imagePaths = new List<string>();
 
-        //    var uploadsFolder = Path.Combine(_environment.WebRootPath, "images");
-
-           
-        //    if (!Directory.Exists(uploadsFolder))
-        //    {
-        //        Directory.CreateDirectory(uploadsFolder);
-        //    }
-
-          
-        //    foreach (var imageFile in imageFiles)
-        //    {
-        //        if (imageFile.Length > 0)
-        //        {
-
-        //            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetFileName(imageFile.FileName);
-
-        //            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-        //            using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //            {
-        //                await imageFile.CopyToAsync(fileStream);
-        //            }
-
-        //            var imagePath = Path.Combine("images", uniqueFileName).Replace("\\", "/");
-
-        //            imagePaths.Add(imagePath);
-        //        }
-        //    }
-
-        //    return imagePaths;
-        //}
     }
 
 }
