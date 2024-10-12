@@ -39,7 +39,7 @@ namespace Library_Api_Sqlite.Services
                 joinDate = DateTime.Now,
                 lastLoginDate = DateTime.Now,
                 rentCount = 0,
-                profileimg = " imagePath[0]"
+                profileimg = imagePath[0]
 
             };
 
@@ -54,5 +54,10 @@ namespace Library_Api_Sqlite.Services
         {
             return await _userRepo.GetAll();
         }
+
+        //public async Task<Dictionary<string, string>> Browusers()
+        //{
+
+        //}
     }
 }

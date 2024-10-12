@@ -135,5 +135,44 @@ namespace Library_Api_Sqlite.Repository
             }
             return userList;
         }
+
+        public async Task<Dictionary<string, string>> Browusers()
+        {
+            var usersDictionary = new Dictionary<string, string>();
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync(); 
+
+                using (var command = connection.CreateCommand())
+                {
+                   
+                    command.CommandText = @"SELECT DISTINCT Users.nic, Users.fullname 
+                                    FROM Users 
+                                    INNER JOIN lentrecords ON lentrecords.UserNIC = Users.nic";
+
+                   
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync()) 
+                        {
+                            var nic = reader.GetString(0);     
+                            var fullname = reader.GetString(1); 
+
+                           
+                            if (!usersDictionary.ContainsKey(nic)) 
+                            {
+                                usersDictionary.Add(nic, fullname);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return usersDictionary; 
+        }
+
+
+
     }
 }
