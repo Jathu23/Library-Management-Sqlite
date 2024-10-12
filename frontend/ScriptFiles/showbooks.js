@@ -1,19 +1,18 @@
-async function fetchbooks() {
+async function fetchbooks(ordervalue) {
     try {
-        let response = await fetch('https://localhost:7182/api/Book/GetAllBooks');
+        let url = 'https://localhost:7182/api/Book/GetOrderedByPublishYear?ascending=' + encodeURIComponent(ordervalue);
+        let response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
         console.log(data);
         return data;
-       
-        
 
     } catch (error) {
-        console.error('Error fetching books:', error);
-        throw error; 
+        console.error("Error fetching books:", error.message);
     }
+ 
 }
 
 async function fetchSearchBook(input) {
@@ -37,16 +36,18 @@ let inputbar = document.getElementById('booksearchinput');
 inputbar.addEventListener('input', () => {
     let input = inputbar.value;
     if (!input) {
-        showbooks_onAdminpage();
+        showbooks_onAdminpage("true");
+    }else{
+        showsearchbooks(inputbar.value);
     }
-    showsearchbooks(inputbar.value); // Call showsearchbooks with the current value
+   
 });
 
 
 
-async function showbooks_onAdminpage() {
+async function showbooks_onAdminpage(value) {
     try {
-        const books = await  fetchbooks();
+        const books = await  fetchbooks(value);
         let table = document.getElementById('bookinv_table');
         table.innerHTML = ` <thead>
           <tr>
@@ -129,4 +130,4 @@ async function showsearchbooks(input) {
     }
 }
 
-showbooks_onAdminpage();
+showbooks_onAdminpage("true");
