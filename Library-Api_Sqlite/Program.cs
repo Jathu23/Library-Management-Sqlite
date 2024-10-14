@@ -49,8 +49,8 @@ var app = builder.Build();
 // Initialize the database
 //var dbInitializer = app.Services.GetRequiredService<DatabaseInitializer>();
 //dbInitializer.Initialize();
-var dbInitializer = new DatabaseInitializer(connectionString);
-dbInitializer.Initialize();
+//var dbInitializer = new DatabaseInitializer(connectionString);
+//dbInitializer.Initialize();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
