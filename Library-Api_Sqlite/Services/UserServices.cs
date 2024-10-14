@@ -20,12 +20,22 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<User> Add(User_Req_Dto Requser)
         {
-            var image = new List<IFormFile>
-            {
-                Requser.profileimg
-            };
+            List<string> imagePath;
 
-            var imagePath = await _saveToRoot.SaveImages(image, "userimages");
+            if (Requser.profileimg == null)
+            {
+                imagePath = new List<string> { "defaultimg.jpg"};
+            }
+            else
+            {
+                var image = new List<IFormFile> { Requser.profileimg };
+
+                imagePath = await _saveToRoot.SaveImages(image, "userimages");
+            }
+
+           
+
+            
 
             User user = new User
             {

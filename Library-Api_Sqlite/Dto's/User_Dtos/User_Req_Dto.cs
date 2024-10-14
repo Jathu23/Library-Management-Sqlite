@@ -8,6 +8,6 @@
         public string email { get; set; }
         public string password { get; set; }
         public string phoneNumber { get; set; }
-        public IFormFile profileimg { get; set; }
+        public IFormFile? profileimg { get; set; }
     }
 }
