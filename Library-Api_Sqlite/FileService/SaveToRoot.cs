@@ -50,5 +50,35 @@
 
             return imagePaths;
         }
+
+        public void DeleteImages(List<string> imagePaths, string folderName)
+        {
+            if (imagePaths == null || imagePaths.Count == 0)
+            {
+                throw new ArgumentException("No image paths provided.");
+            }
+
+         
+            var uploadsFolder = _environment.WebRootPath;
+
+            foreach (var imagePath in imagePaths)
+            {
+              
+                string fullPath = Path.Combine(uploadsFolder, imagePath);
+
+               
+                if (File.Exists(fullPath))
+                {
+                    File.Delete(fullPath);
+                }
+                else
+                {
+                   
+                    Console.WriteLine($"File not found: {fullPath}");
+                }
+            }
+        }
+
+
     }
 }
