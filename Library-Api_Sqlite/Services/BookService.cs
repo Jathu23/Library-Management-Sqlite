@@ -112,7 +112,10 @@ namespace Library_Api_Sqlite.Services
             return await _bookRepo.SearchBooksByTitle(title);
         }
 
-      
+        public async Task<List<Book>> GetByAuthor(string author)
+        {
+            return await _bookRepo.GetByAuthor(author);
+        }
 
 
 
