@@ -42,7 +42,7 @@ builder.Services.AddScoped<ReturnRepo>();
 
 
 
-builder.Services.AddScoped<SaveToRoot>();
+builder.Services.AddScoped<RootOprations>();
 
 var app = builder.Build();
 

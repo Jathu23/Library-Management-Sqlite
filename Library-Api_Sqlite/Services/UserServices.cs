@@ -8,15 +8,13 @@ namespace Library_Api_Sqlite.Services
     public class UserServices
     {
         private readonly UserRepo _userRepo;
-        private readonly SaveToRoot _saveToRoot;
+        private readonly RootOprations _RootOprations;
 
-        public UserServices(UserRepo userRepo, SaveToRoot saveToRoot)
+        public UserServices(UserRepo userRepo, RootOprations rootOprations)
         {
             _userRepo = userRepo;
-            _saveToRoot = saveToRoot;
+            _RootOprations = rootOprations;
         }
-
-
 
         public async Task<User> Add(User_Req_Dto Requser)
         {
@@ -30,12 +28,9 @@ namespace Library_Api_Sqlite.Services
             {
                 var image = new List<IFormFile> { Requser.profileimg };
 
-                imagePath = await _saveToRoot.SaveImages(image, "userimages");
+                imagePath = await _RootOprations.SaveImages(image, "userimages");
             }
 
-           
-
-            
 
             User user = new User
             {
@@ -58,6 +53,14 @@ namespace Library_Api_Sqlite.Services
         }
         public async Task<bool> RemoveUser(int id)
         {
+            User user = new User();
+
+            if (user.profileimg != "default.jpg" && user.profileimg != null)
+            {
+                _RootOprations.DeleteImages(new List<string> {user.profileimg}, "userimages");
+            }
+
+
             return await _userRepo.RemoveUser(id);
         }
         public async Task<IEnumerable<User>> GetAll()

@@ -10,18 +10,18 @@ namespace Library_Api_Sqlite.Services
     public class BookService
     {
         private readonly BookRepo _bookRepo;
-        private readonly SaveToRoot _saveToRoot;
+        private readonly RootOprations _Rootoprations;
 
-        public BookService(BookRepo bookRepo, SaveToRoot saveToRoot)
+        public BookService(BookRepo bookRepo, RootOprations rootoprations)
         {
             _bookRepo = bookRepo;
-            _saveToRoot = saveToRoot;
+            _Rootoprations = rootoprations;
         }
 
         public async Task<Book> AddBook(Book_Req_Dto Reqbook)
         {
             var images = Reqbook.Images;
-            var imagePaths = await _saveToRoot.SaveImages(images, "bookimages");
+            var imagePaths = await _Rootoprations.SaveImages(images, "bookimages");
 
             Book book = new Book
             {
@@ -73,8 +73,8 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<int> CountTotalBooks()
         {
-            var imagePaths = new List<string> { "bookimages/d2d61232-d040-4ac0-9a85-46f5fc3c5f8cPoinsettias1.jpeg" };
-            _saveToRoot.DeleteImages(imagePaths, "bookimages");
+            //var imagePaths = new List<string> { "bookimages/d2d61232-d040-4ac0-9a85-46f5fc3c5f8cPoinsettias1.jpeg" };
+            //_Rootoprations.DeleteImages(imagePaths, "bookimages");
 
             return await _bookRepo.CountTotalBooks();
         }
