@@ -1,4 +1,5 @@
-﻿using Library_Api_Sqlite.Dto_s.User_Dtos;
+﻿using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.Dto_s.User_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Services;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,21 @@ namespace Library_Api_Sqlite.Controllers
         {
         return await _services.Getuser(nic);
         }
+
+        [HttpPut("Updateuser")]
+        public async Task<IActionResult> UpdateUser(int nic, User_Update_Dto reqUser)
+        {
+            try
+            {
+                var result = await _services.UpdateUser(nic, reqUser);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
 
     }
 }

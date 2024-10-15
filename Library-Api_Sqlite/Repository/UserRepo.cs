@@ -1,4 +1,5 @@
-﻿using Library_Api_Sqlite.EntityModals;
+﻿using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.EntityModals;
 using Microsoft.Data.Sqlite;
 
 namespace Library_Api_Sqlite.Repository
@@ -40,6 +41,39 @@ namespace Library_Api_Sqlite.Repository
 
             return user;
         }
+
+        public async Task<bool> UpdateUser(UserUpdate user , int nic)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = @"
+        UPDATE Users
+        SET 
+            firstName = @firstName, 
+            lastName = @lastName, 
+            fullName = @fullName, 
+            password = @Password, 
+            phoneNumber = @PhoneNumber,  
+            profileImg = @ProfileImg
+        WHERE nic = @nic"; 
+
+                command.Parameters.AddWithValue("@nic", nic);
+                command.Parameters.AddWithValue("@firstName", user.FirstName);
+                command.Parameters.AddWithValue("@lastName", user.LastName);
+                command.Parameters.AddWithValue("@fullName", user.FullName);
+                command.Parameters.AddWithValue("@Password", user.Password);
+                command.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
+                command.Parameters.AddWithValue("@ProfileImg", user.ProfileImage);
+
+                var result = await command.ExecuteNonQueryAsync();
+
+                return result > 0;
+            }
+        }
+
 
         public async Task<User> Getuser(int nic)
         {
