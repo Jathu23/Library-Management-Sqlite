@@ -601,3 +601,22 @@ border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
   padding-top: 60px;
 }
+.detaildiv{
+  
+  display: flex;
+  gap: 20px;
+}
+.issue-info-div{
+  width: 250px;
+  padding: 20px;
+  border-radius: 20px;
+background-color: #9590d825;
+}
+input{
+  width: 72%;
+  padding: 15px;
+  margin: 10px ;
+  border: 1px solid;
+  border-radius: 10px;
+  margin-left: 20px;
+}

@@ -65,134 +65,156 @@
                 </div>
             </div>
             <div class="mainbar">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>RequestId</th>
-                            <th>Member Name</th>
-                            <th>Member Id</th>
-                            <th>Book Id</th>
-                            <th>Book Name</th>
-                            <th>Author</th>
-                            <th>Confirm</th>
-                            <th>Cancel</th>
-                        </tr>
-                    </thead>
-                    <tbody id="bookTableBody">
-                        <!-- Table rows will be added here by JavaScript -->
-                    </tbody>
-                </table>
+                <div class="issue-book display-none" id="issue-book-div">
+                    <div class="issue-div">
+                        <form id="issue-bookform" onsubmit="return false;">
+                            <div class="issue-book-inputs-div">
+                                <h3>Issue Book</h3>
+                                <div class="full-width">
+                                    <input class="form-input" type="text" placeholder="Book-Id" id="issue_bookid"
+                                        oninput="fetchBookDetails()" />
+                                </div>
+                                <div class="full-width">
+                                    <input class="form-input" type="text" placeholder="User-NIC" id="issue_userid"
+                                        oninput="fetchUserDetails()" />
+                                </div>
+                                <div class="full-width">
+                                    <input class="form-input" type="text" placeholder="Copies" id="issue_bookcount" />
+                                </div>
+                                <div class="full-width">
+                                    <input class="form-input" type="date" id="issue_date" />
+                                </div>
+                                <button class="form-btn" id="issue-book-btn">Issue</button>
+                            </div>
+                        </form>
+                        <div class="detaildiv">
+                            <div class="issue-info-div" id="issue-info">
+                                <div class="info">
+                                    <h4>Book Title</h4>
+                                    <p id="book-title">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Author</h4>
+                                    <p id="book-author">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>ISBN</h4>
+                                    <p id="isbn">-----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Publish Year</h4>
+                                    <p id="book-publish-date">----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Number of Availabe Copies</h4>
+                                    <p id="book-count">----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Return Date</h4>
+                                    <p id="book-return-date">-----------</p>
+                                </div>
+                            </div>
+                            <div class="issue-info-div" id="issue-user">
+                                <div class="info">
+                                    <h4>User Name</h4>
+                                    <p id="user-name">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Phone Number</h4>
+                                    <p id="user-phone">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Email</h4>
+                                    <p id="user-email">-----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Join Date</h4>
+                                    <p id="user-join-date">----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Pending Books</h4>
+                                    <p id="user-pending-books">----------</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const apiUrl = 'http://localhost:3000';
+        async function fetchBookDetails() {
+            const bookID = document.getElementById('issue_bookid').value;
+            if (bookID) {
+                const response = await fetch(`http://localhost:3000/books?BookID=${bookID}`);
+                console.log(response)
+                if (response.ok) {
+                    const bookData = await response.json();
+                    console.log(bookData)
+                    if (bookData.length > 0) {
+                        const book = bookData[0];
+                        document.getElementById('book-title').textContent = book.Title || 'Not Found';
+                        document.getElementById('book-author').textContent = book.AuthorName || 'Not Found';
+                        document.getElementById('isbn').textContent = book.ISBN ; // Adjust as necessary
+                        document.getElementById('book-publish-date').textContent = book.PublishYear || 'Not Found';
+                        document.getElementById('book-count').textContent = book.Copies || 'Not Found';
+                        document.getElementById('book-available-count').textContent = book.AvailableCopies || 'Not Found';
+                    }
 
-        // Fetch pending requests
-        async function fetchPendingRequests() {
-            try {
-                const requestsResponse = await fetch(`${apiUrl}/requests?status=pending`);
-                const requests = await requestsResponse.json();
-                const usersResponse = await fetch(`${apiUrl}/users`);
-                const users = await usersResponse.json();
-                const booksResponse = await fetch(`${apiUrl}/books`);
-                const books = await booksResponse.json();
 
-                populateTable(requests, users, books);
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                } else {
+                    clearBookDetails();
+                }
+            } else {
+                clearBookDetails();
             }
         }
 
-        // Populate the table with data
-        function populateTable(requests, users, books) {
-            const tableBody = document.getElementById('bookTableBody');
-            tableBody.innerHTML = ''; // Clear existing rows
+        async function fetchUserDetails() {
+            const userNic = document.getElementById('issue_userid').value;
+            if (userNic) {
+                const response = await fetch(`http://localhost:3000/users?NICNumber=${userNic}`);
+                if (response.ok) {
+                    const userData = await response.json();
+                    clearUserDetails(); // Clear previous details
 
-            requests.forEach(request => {
-                const user = users.find(u => u.NICNumber === request.NICNumber);
-                const book = books.find(b => b.BookID === request.BookID);
-
-                if (user && book) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${request.requestId}</td>
-                        <td>${user.FirstName} ${user.LastName}</td>
-                        <td>${user.UserID}</td>
-                        <td>${book.BookID}</td>
-                        <td>${book.Title}</td>
-                        <td>${book.AuthorName}</td>
-                        <td><button onclick="confirmRequest('${request.id}', '${request.requestId}')">Confirm</button></td>
-                        <td><button onclick="cancelRequest('${request.id}')">Cancel</button></td>
-                    `;
-                    tableBody.appendChild(row);
+                    if (userData.length > 0) {
+                        const user = userData[0]; // Assuming NIC is unique
+                        document.getElementById('user-name').textContent = user.FirstName || 'Not Found';
+                        document.getElementById('user-phone').textContent = user.PhoneNumber || 'Not Found';
+                        document.getElementById('user-email').textContent = user.Email || 'Not Found';
+                        document.getElementById('user-join-date').textContent = user.JoinDate || 'Not Found';
+                        document.getElementById('user-pending-books').textContent = user.RentCount || 'Not Found';
+                    } else {
+                        clearUserDetails();
+                    }
+                } else {
+                    clearUserDetails();
                 }
-            });
+            } else {
+                clearUserDetails();
+            }
         }
 
-        // Confirm a request
-        async function confirmRequest(requestId, originalRequestId) {
-            const approvedDate = new Date().toISOString();
-            const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 7); // Set due date to 7 days later
 
-            const lendData = {
-                requestId: Number(originalRequestId),
-                lendStatus: 'pending',
-                dueDate: dueDate.toISOString().split('T')[0],
-                approvedDate: approvedDate.split('T')[0],
-                returnedDate: null // Default to false
-            };
 
-            // Update request status
-            await fetch(`${apiUrl}/requests/${requestId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ status: 'approved' })
-            });
-
-            // Add to lends
-            await fetch(`${apiUrl}/lends`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(lendData)
-            });
-
-            fetchPendingRequests(); // Refresh the table
+        function clearBookDetails() {
+            document.getElementById('book-title').textContent = '--------';
+            document.getElementById('book-author').textContent = '--------';
+            document.getElementById('book-publisher').textContent = '-----------';
+            document.getElementById('book-publish-date').textContent = '----------';
+            document.getElementById('book-count').textContent = '----------';
+            document.getElementById('book-return-date').textContent = '-----------';
         }
 
-        // Cancel a request
-        async function cancelRequest(requestId) {
-            // Update request status to 'rejected'
-            await fetch(`${apiUrl}/requests/${requestId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ status: 'rejected' })
-            });
-
-            fetchPendingRequests(); // Refresh the table
+        function clearUserDetails() {
+            document.getElementById('user-name').textContent = '--------';
+            document.getElementById('user-phone').textContent = '--------';
+            document.getElementById('user-email').textContent = '-----------';
+            document.getElementById('user-join-date').textContent = '----------';
+            document.getElementById('user-pending-books').textContent = '----------';
         }
-
-        // Filter function for search input
-        function filterTable() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#bookTableBody tr');
-
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(input) ? '' : 'none';
-            });
-        }
-
-        // Initial fetch
-        document.addEventListener('DOMContentLoaded', fetchPendingRequests);
     </script>
 </body>
 
