@@ -41,26 +41,9 @@ namespace Library_Api_Sqlite.Repository
             return user;
         }
 
-        public async Task<bool> RemoveUser(int id)
-        {
-            using (var connection = new SqliteConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-
-                var command = connection.CreateCommand();
-                command.CommandText = "" +
-                    "DELETE FROM Users WHERE NIC = @id ";
-                command.Parameters.AddWithValue("@id", id);
-
-                var result = await command.ExecuteNonQueryAsync();
-
-                return result > 0;
-            }
-        }
-
         public async Task<User> Getuser(int nic)
         {
-            
+
 
             using (var connection = new SqliteConnection(_connectionString))
             {
@@ -92,12 +75,33 @@ namespace Library_Api_Sqlite.Repository
 
                         return user;
                     }
-                    
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
-            return null;
 
         }
+
+        public async Task<bool> RemoveUser(int id)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "" +
+                    "DELETE FROM Users WHERE NIC = @id ";
+                command.Parameters.AddWithValue("@id", id);
+
+                var result = await command.ExecuteNonQueryAsync();
+
+                return result > 0;
+            }
+        }
+
+  
         public async Task<IEnumerable<User>> GetAll()
         {
             var userList = new List<User>();

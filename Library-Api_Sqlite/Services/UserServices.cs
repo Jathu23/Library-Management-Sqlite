@@ -68,6 +68,11 @@ namespace Library_Api_Sqlite.Services
             return await _userRepo.GetAll();
         }
 
+        public async Task<User> Getuser(int nic)
+        {
+            return await _userRepo.Getuser(nic);
+        }
+
         //public async Task<Dictionary<string, string>> Browusers()
         //{
 

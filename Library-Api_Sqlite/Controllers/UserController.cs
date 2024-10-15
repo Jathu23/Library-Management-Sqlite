@@ -33,5 +33,12 @@ namespace Library_Api_Sqlite.Controllers
         {
             return await _services.GetAll();
         }
+
+        [HttpGet("GetByUser")]
+        public async Task<User> Getuser(int nic)
+        {
+        return await _services.Getuser(nic);
+        }
+
     }
 }
