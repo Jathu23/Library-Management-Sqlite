@@ -1,4 +1,5 @@
-﻿using Library_Api_Sqlite.Dto_s.User_Dtos;
+﻿using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.Dto_s.User_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.FileService;
 using Library_Api_Sqlite.Repository;
@@ -51,6 +52,36 @@ namespace Library_Api_Sqlite.Services
             return await _userRepo.AddUser(user);
 
         }
+
+        public async Task<bool> UpdateUser(int nic, User_Update_Dto reqUser)
+        {
+            var oldUser = await _userRepo.Getuser(nic);
+
+            string imgpath;
+            if (reqUser.ProfileImage == null)
+            {
+                imgpath = oldUser.profileimg;
+            }
+            else
+            {
+                var ProfileImagepath = await _RootOprations.SaveImages(new List<IFormFile> { reqUser.ProfileImage }, "userimages");
+                imgpath = ProfileImagepath[0];
+                _RootOprations.DeleteImages(new List<string> { oldUser.profileimg }, "userimages");
+            }
+            var updatedUser = new UserUpdate
+            {
+                FirstName = reqUser.FirstName,
+                LastName = reqUser.LastName ,
+                FullName = reqUser.FirstName + " " + reqUser.LastName,
+                Password = reqUser.Password ,
+                PhoneNumber = reqUser.PhoneNumber ,
+                ProfileImage = imgpath
+            };
+
+            return await _userRepo.UpdateUser(updatedUser, nic);
+        }
+
+
         public async Task<bool> RemoveUser(int id)
         {
             User user = new User();
@@ -72,6 +103,9 @@ namespace Library_Api_Sqlite.Services
         {
             return await _userRepo.Getuser(nic);
         }
+
+
+
 
         //public async Task<Dictionary<string, string>> Browusers()
         //{
