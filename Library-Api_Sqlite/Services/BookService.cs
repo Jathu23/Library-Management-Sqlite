@@ -157,7 +157,10 @@ namespace Library_Api_Sqlite.Services
             return await _bookRepo.GetByAuthor(author);
         }
 
-
+        public async Task<IEnumerable<Book>> Categorization(string? genre, string? author, int? publishYear)
+        {
+            return await _bookRepo.Categorization(genre, author, publishYear);
+        }
 
 
 

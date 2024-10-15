@@ -171,7 +171,7 @@ document.getElementById('issue-book-btn').addEventListener('click', async () => 
 async function AddlendBook(isbn, NicNumber, lentCopies) {
     try {
         // Construct the URL for the API endpoint
-        const url = 'http://localhost:5102/api/Lent/Add';
+        const url = 'http://localhost:7182/api/Lent/Add';
         
         // Create the data object to send
         const data = {

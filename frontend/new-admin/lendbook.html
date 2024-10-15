@@ -67,27 +67,30 @@
             <div class="mainbar">
                 <div class="issue-book display-none" id="issue-book-div">
                     <div class="issue-div">
-                        <form id="issue-bookform" onsubmit="return false;">
-                            <div class="issue-book-inputs-div">
-                                <h3>Issue Book</h3>
-                                <div class="full-width">
-                                    <input class="form-input" type="text" placeholder="Book-ISBN" id="issue_bookid"
-                                        oninput="fetchBookDetails()" />
-                                </div>
-                                <div class="full-width">
-                                    <input class="form-input" type="text" placeholder="User-NIC" id="issue_userid"
-                                        oninput="fetchUserDetails()" />
-                                </div>
-                                <div class="full-width">
-                                    <input class="form-input" type="text" placeholder="Copies" id="issue_bookcount" />
-                                </div>
-                                <div class="full-width">
-                                    <input class="form-input" type="date" id="issue_date" />
-                                </div>
-                                <button class="form-btn" id="issue-book-btn" >Issue</button>
-                            </div>
-                        </form>
+                        
                         <div class="detaildiv">
+                            <div class="form">
+                                <form id="issue-bookform" onsubmit="return false;">
+                                    <div class="issue-book-inputs-div">
+                                        <h3>Issue Book</h3>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="Book-ISBN" id="issue_bookid"
+                                                oninput="fetchBookDetails()" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="User-NIC" id="issue_userid"
+                                                oninput="fetchUserDetails()" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="Copies" id="issue_bookcount" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="date" id="issue_date" />
+                                        </div>
+                                        <button class="form-btn" id="issue-book-btn" >Issue</button>
+                                    </div>
+                                </form>
+                            </div>
                             <div class="issue-info-div" id="issue-info">
 
                                 <div class="info">
@@ -148,7 +151,19 @@
                         </div>
                     </div>
                 </div>
+               
             </div>
+            <table>
+                <tr>
+                    <th>
+                        Issue Id
+                    </th>
+                    <th>Book-ISBN</th>
+                    <th>User-NIC number</th>
+                    <th>Lend Date</th>
+                    <th>Return Date</th>
+                </tr>
+            </table>
         </div>
     </div>
 

@@ -141,5 +141,12 @@ namespace Library_Api_Sqlite.Controllers
         {
             return await _bookservics.GetByAuthor(author);
         }
+
+        [HttpGet("Categorization")]
+        public async Task<ActionResult<IEnumerable<Book>>> Categorization(string? genre, string? author, int? publishYear)
+        {
+            var books = await _bookservics.Categorization(genre, author, publishYear);
+            return  Ok(books);
+        }
     }
 }

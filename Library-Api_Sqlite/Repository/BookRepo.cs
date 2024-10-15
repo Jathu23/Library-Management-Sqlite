@@ -1,6 +1,5 @@
 ﻿using Library_Api_Sqlite.Dto_s.Book_Dtos;
 using Library_Api_Sqlite.EntityModals;
-
 using Microsoft.Data.Sqlite;
 
 namespace Library_Api_Sqlite.Repository
@@ -475,7 +474,69 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
+        public async Task<IEnumerable<Book>> Categorization(string? genre, string? author, int? publishYear)
+        {
+            List<Book> books = new List<Book>();
+            string sqlQuery = "SELECT * FROM Books WHERE 1=1";
+            if (!string.IsNullOrEmpty(genre))
+            {
+                sqlQuery += " AND Genre LIKE @genre";
+            }
+            if (!string.IsNullOrEmpty(author))
+            {
+                sqlQuery += " AND Author LIKE @author";
+            }
+            if (publishYear.HasValue)
+            {
+                sqlQuery += " AND PublishYear = @publishYear";
+            }
 
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new SqliteCommand(sqlQuery, connection))
+                {
+                    if (!string.IsNullOrEmpty(genre))
+                    {
+                        command.Parameters.AddWithValue("@genre", $"%{genre}%");
+                    }
+                    if (!string.IsNullOrEmpty(author))
+                    {
+                        command.Parameters.AddWithValue("@author", $"%{author}%");
+                    }
+                    if (publishYear.HasValue)
+                    {
+                        command.Parameters.AddWithValue("@publishYear", publishYear.Value);
+                    }
+
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var book = new Book
+                            {
+                                Id = reader.GetInt32(0),
+                                ISBN = reader.GetString(1),
+                                Title = reader.GetString(2),
+                                Author = reader.GetString(3),
+                                Genre = reader.IsDBNull(4) ? new List<string>() : reader.GetString(4).Split(',').ToList(),
+                                Copies = reader.GetInt32(5),
+                                AviCopies = reader.GetInt32(6),
+                                PublishYear = reader.GetInt32(7),
+                                AddDateTime = DateTime.Parse(reader.GetString(8)),
+                                Images = reader.IsDBNull(9) ? new List<string>() : reader.GetString(9).Split(',').ToList(),
+                                RentCount = reader.GetInt32(10)
+                            };
+                            books.Add(book);
+                        }
+                    }
+                }
+            }
+
+            return books;
+        }
 
 
 
