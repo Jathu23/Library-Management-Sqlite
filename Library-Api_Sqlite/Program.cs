@@ -45,6 +45,7 @@ builder.Services.AddScoped<ReturnRepo>();
 builder.Services.AddScoped<RootOprations>();
 
 var app = builder.Build();
+app.UseStaticFiles();
 
 // Initialize the database
 //var dbInitializer = app.Services.GetRequiredService<DatabaseInitializer>();
