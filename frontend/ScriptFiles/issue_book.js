@@ -90,20 +90,20 @@ async function showUserDetails() {
         if (NicNumber) {
             const UserData = await GetSingleUser(NicNumber);
             console.log(UserData);
-            console.log(UserData.title);
-            console.log(UserData.author);
-            console.log(UserData.id);
-            console.log(UserData.publishYear);
+            console.log(UserData.fullName);
+            console.log(UserData.phoneNumber);
+            console.log(UserData.joinDate);
+            console.log(UserData.email);
             
         
 
-            let displaydiv = document.getElementById('issue-info');
+            let displaydiv = document.getElementById('issue-user');
 
-            displaydiv.children[0].children[1].innerHTML = bookData.title
-            displaydiv.children[1].children[1].innerHTML = bookData.author
-            displaydiv.children[2].children[1].innerHTML = bookData.id
-            displaydiv.children[3].children[1].innerHTML = bookData.publishYear
-            displaydiv.children[4].children[1].innerHTML = bookData.copies
+            displaydiv.children[0].children[1].innerHTML = UserData.fullName
+            displaydiv.children[1].children[1].innerHTML = UserData.phoneNumber
+            displaydiv.children[2].children[1].innerHTML = UserData.email
+            displaydiv.children[3].children[1].innerHTML = UserData.joinDate
+            displaydiv.children[4].children[1].innerHTML = UserData.copies
             displaydiv.children[5].children[1].innerHTML = `${futureDate}`
 
 
