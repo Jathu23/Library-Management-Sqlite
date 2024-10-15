@@ -1,9 +1,11 @@
 ﻿using Library_Api_Sqlite.Dto_s;
+using Library_Api_Sqlite.Dto_s.Book_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.FileSaver;
 using Library_Api_Sqlite.Repository;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
 
 namespace Library_Api_Sqlite.Services
 {
@@ -44,6 +46,44 @@ namespace Library_Api_Sqlite.Services
          return data;
 
        
+        }
+
+        public async Task<bool> UpdateBook(string isbn, Book_Update_Dto Reqbook )
+        {
+            List<string> imgpaths = new List<string>();
+
+          
+            var oldbook = await _bookRepo.GetBook(isbn);
+
+            int newavicopies = oldbook.AviCopies+(oldbook.Copies - Reqbook.Copies);
+
+            if (Reqbook.Images == null)
+            {
+                imgpaths = oldbook.Images;
+            }
+            else
+            {
+                imgpaths = await _Rootoprations.SaveImages(Reqbook.Images, "bookimages");
+
+                 _Rootoprations.DeleteImages(oldbook.Images, "bookimages");
+            }
+
+
+            var uBook = new UpdateBook
+            {
+                Title = Reqbook.Title,
+                Author = Reqbook.Author,
+                Genre= Reqbook.Genre,
+                Copies= Reqbook.Copies,
+                AviCopies= newavicopies,
+                PublishYear = Reqbook.PublishYear,
+                Images = imgpaths
+            };
+
+
+
+
+           return await _bookRepo.UpdateBook(uBook, isbn);
         }
 
         public async Task<Book> GetBook(string isbn)

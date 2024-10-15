@@ -1,4 +1,5 @@
-﻿using Library_Api_Sqlite.EntityModals;
+﻿using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.EntityModals;
 
 using Microsoft.Data.Sqlite;
 
@@ -40,6 +41,56 @@ namespace Library_Api_Sqlite.Repository
 
             return book;
         }
+
+
+
+        public async Task<bool> UpdateBook(UpdateBook book ,string ISBN)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+
+                command.CommandText = @"
+        UPDATE Books
+        SET 
+            Title = @title,
+            Author = @author,
+            Genre = @genre,
+            Copies = @copies,
+            AviCopies = @aviCopies,
+            PublishYear = @publishYear,
+            Images = @images
+        WHERE ISBN = @ISBN";
+
+                command.Parameters.AddWithValue("@title", book.Title);
+                command.Parameters.AddWithValue("@author", book.Author);
+                command.Parameters.AddWithValue("@genre", string.Join(",", book.Genre)); 
+                command.Parameters.AddWithValue("@copies", book.Copies);
+                command.Parameters.AddWithValue("@aviCopies", book.AviCopies);
+                command.Parameters.AddWithValue("@publishYear", book.PublishYear);
+                command.Parameters.AddWithValue("@images", string.Join(",", book.Images));
+                command.Parameters.AddWithValue("@ISBN", ISBN);
+              
+
+                var result = await command.ExecuteNonQueryAsync();
+                return result > 0;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public async Task<Book> GetBook(string isbn)
         {

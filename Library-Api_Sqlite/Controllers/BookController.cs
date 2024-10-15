@@ -1,4 +1,5 @@
 ﻿using Library_Api_Sqlite.Dto_s;
+using Library_Api_Sqlite.Dto_s.Book_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
 using Library_Api_Sqlite.Services;
@@ -27,6 +28,19 @@ namespace Library_Api_Sqlite.Controllers
             {
                 var mainBook = await _bookservics.AddBook(book);
                 return CreatedAtAction(nameof(GetBooK), new { isbn = mainBook.ISBN }, mainBook);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+        [HttpPut ("Update")]
+        public async Task<IActionResult> UpdateBook(string isbn, Book_Update_Dto Reqbook)
+        {
+            try
+            {
+                var result = await _bookservics.UpdateBook(isbn, Reqbook);
+               return Ok(result);
             }
             catch (Exception ex)
             {
