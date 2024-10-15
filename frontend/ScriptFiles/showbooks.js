@@ -43,8 +43,23 @@ async function fetchpublishyears() {
         console.error("An error occurred:", error.message);
     }
 }
+async function fetchGenres() {
+    try {
+        let response = await fetch('https://localhost:7182/api/Book/GetAllGenres');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 
 fetchpublishyears();
+fetchGenres();
+
 let inputbar = document.getElementById('booksearchinput');
 
 inputbar.addEventListener('input', () => {
