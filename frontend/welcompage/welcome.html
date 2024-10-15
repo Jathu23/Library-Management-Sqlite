@@ -5,21 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./stulesheet.css">
+    <link rel="stylesheet" href="../welcompage/stulesheet.css"> <!-- Fixed stylesheet link -->
     <link rel="stylesheet" href="../Login,Signup/lonin.css">
+    <!-- Fixed typo in path -->
 </head>
 
 <body>
     <div class="sidebox">
         <div class="heading">
-            <h1>WELCOME </h1>
-            <H2>BLUE SKY LIBRARY</H2>
+            <h1>WELCOME</h1>
+            <h2>BLUE SKY LIBRARY</h2>
         </div>
         <div class="iconBx">
             <ion-icon name="book-outline"></ion-icon>
-          </div>
+        </div>
     </div>
-    <div class="main-container"></div>
+
+    <div class="main-container" id="logincontainer" style="display: block;">
         <div id="login-page" class="login-container">
             <h1>Login</h1>
             <form id="loginForm">
@@ -32,12 +34,37 @@
                 <button type="submit" class="btn">Login</button>
             </form>
             <p id="loginMessage" class="display-message"></p>
-            <a href="../Login,Signup/signup.html" class="link">Already have an account</a>
+            <a href="#" class="link" id="login">Create an account</a>
         </div>
     </div>
-<script src="../Login,Signup/login.js"></script>
+
+    <div id="user-creation-page" class="user-creation-container" style="display: none;">
+        <div class="login-container">
+            <h1>Sign Up Form</h1>
+            <form id="creation-form">
+                <input type="text" id="firstname" placeholder="First Name" required><br>
+                <input type="text" id="lastname" placeholder="Last Name" required><br>
+                <input type="text" id="image" placeholder="Enter image relative path"><br>
+                <input type="text" id="nicnumber" placeholder="NIC Number" required><br>
+                <input type="date" id="dob" value="2000-01-01" required><br>
+                <input type="text" id="address" placeholder="Address" required><br>
+                <input type="email" id="email" placeholder="E-mail" required><br>
+                <input type="text" id="phonenumber" placeholder="Phone Number" required><br>
+                <input type="password" id="createPassword" placeholder="Create Password" required><br>
+                <input type="password" id="confirmpassword" placeholder="Confirm Password" required><br>
+                <select id="userRole" name="userRole" required>
+                    <option value="member">Member</option>
+                </select><br>
+                <button type="submit" class="btn">Create User</button>
+                <h3 id="createMessage"></h3>
+            </form>
+            <a href="#" class="link" id="signup">Have an account</a>
+        </div>
+    </div>
+
+    <script src="../Login,Signup/login.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </html>
