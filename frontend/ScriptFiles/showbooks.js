@@ -23,7 +23,6 @@ async function fetchSearchBook(input) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
         return data;
 
     } catch (error) {
@@ -31,6 +30,21 @@ async function fetchSearchBook(input) {
     }
 }
 
+async function fetchpublishyears() {
+    try {
+        let response = await fetch('https://localhost:7182/api/Book/GetAllPublishYears');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
+
+fetchpublishyears();
 let inputbar = document.getElementById('booksearchinput');
 
 inputbar.addEventListener('input', () => {

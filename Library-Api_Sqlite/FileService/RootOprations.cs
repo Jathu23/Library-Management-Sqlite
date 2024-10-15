@@ -1,10 +1,10 @@
 ﻿namespace Library_Api_Sqlite.FileSaver
 {
-    public class SaveToRoot
+    public class RootOprations
     {
         private readonly IWebHostEnvironment _environment;
 
-        public SaveToRoot(IWebHostEnvironment environment)
+        public RootOprations(IWebHostEnvironment environment)
         {
             _environment = environment;
         }
