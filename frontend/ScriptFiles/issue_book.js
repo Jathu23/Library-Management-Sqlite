@@ -24,7 +24,7 @@ async function showBookDetails() {
             let today = new Date();
 
             // Add 7 days to the current date
-            today.setDate(today.getDate() + 7);
+            today.setDate(today.getDate() + 14);
 
             // Format the new date to a readable string (optional)
             let futureDate = today.toLocaleDateString();
@@ -43,7 +43,7 @@ async function showBookDetails() {
 
 
 
-            
+
         }
 
     } catch (error) {
@@ -94,8 +94,8 @@ async function showUserDetails() {
             console.log(UserData.phoneNumber);
             console.log(UserData.joinDate);
             console.log(UserData.email);
-            
-        
+
+
 
             let displaydiv = document.getElementById('issue-user');
 
@@ -108,7 +108,7 @@ async function showUserDetails() {
 
 
 
-            
+
         }
 
     } catch (error) {
@@ -117,12 +117,6 @@ async function showUserDetails() {
     }
 
 }
-
-
-
-
-
-
 
 async function GetSingleUser(NicNumber) {
     try {
@@ -139,3 +133,88 @@ async function GetSingleUser(NicNumber) {
     }
 }
 GetSingleUser(NicNumber)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById('issue-book-btn').addEventListener('click', async () => {
+    // Get the latest values when the button is clicked
+    const lentCopies = document.getElementById("issue_bookcount").value;
+    const NicNumber = document.getElementById('issue_userid').value;
+    const isbn = document.getElementById('issue_bookid').value;
+
+    // Optional: Basic validation to check if fields are filled
+    if (!isbn || !NicNumber || !lentCopies) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Call the function to add the lent book
+    alert("Attempting to lend the book...");
+    console.log("Lending book with details:", { isbn, NicNumber, lentCopies });
+    await AddlendBook(isbn, NicNumber, lentCopies);
+});
+
+async function AddlendBook(isbn, NicNumber, lentCopies) {
+    try {
+        // Construct the URL for the API endpoint
+        const url = 'http://localhost:5102/api/Lent/Add';
+        
+        // Create the data object to send
+        const data = {
+            isbn: isbn,
+            usernic: NicNumber,
+            copies: lentCopies
+        };
+
+        // Send a POST request
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Specify that we're sending JSON
+            },
+            body: JSON.stringify(data) // Convert the data object to a JSON string
+        });
+
+        // Check if the response is OK
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse the response JSON
+        const result = await response.json();
+        console.log("Book lent successfully:", result);
+        return result; // Return the result if needed
+
+    } catch (error) {
+        console.error("An error occurred while lending the book:", error.message);
+    }
+}
+
+
