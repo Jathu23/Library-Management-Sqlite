@@ -1,3 +1,10 @@
+
+const genreFilter = document.getElementById('genreFilter');
+const authorFilter = document.getElementById('authorFilter');
+const yearFilter = document.getElementById('yearFilter');
+const bookTableBody = document.getElementById('bookTableBody');
+let inputbar = document.getElementById('booksearchinput');
+
 async function fetchbooks(ordervalue) {
     try {
         let url = 'https://localhost:7182/api/Book/GetOrderedByPublishYear?ascending=' + encodeURIComponent(ordervalue);
@@ -6,7 +13,7 @@ async function fetchbooks(ordervalue) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+      
         return data;
 
     } catch (error) {
@@ -37,7 +44,7 @@ async function fetchpublishyears() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error("An error occurred:", error.message);
@@ -50,7 +57,7 @@ async function fetchGenres() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error("An error occurred:", error.message);
@@ -63,28 +70,56 @@ async function fetchAuthors() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error("An error occurred:", error.message);
     }
 }
+async function fetchCategorizebooks(genre, author, publishYear) {
 
-fetchpublishyears();
-fetchGenres();
-fetchAuthors();
+    let url = 'https://localhost:7182/api/Book/Categorization?';
 
-let inputbar = document.getElementById('booksearchinput');
 
-inputbar.addEventListener('input', () => {
-    let input = inputbar.value;
-    if (!input) {
-        showbooks_onAdminpage("true");
-    }else{
-        showsearchbooks(inputbar.value);
+    
+    if (genre) {
+        url += `genre=${encodeURIComponent(genre)}&`;
+        console.log(genre);
+        
     }
-   
-});
+    if (author) {
+        url += `author=${encodeURIComponent(author)}&`;
+        console.log(author);
+        
+    }
+    if (publishYear) {
+        url += `publishYear=${encodeURIComponent(publishYear)}&`;
+        console.log(publishYear);
+        
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const books = await response.json();
+
+        console.log(books);
+
+        return books;
+
+    } catch (error) {
+        console.error('Error fetching books:', error);
+    }
+}
 
 
 
@@ -173,4 +208,43 @@ async function showsearchbooks(input) {
     }
 }
 
+async function Add_dropdown_options() {
+try {
+    const genres = await fetchGenres();
+    const authors = await fetchAuthors();
+    const years = await fetchpublishyears();
+  
+    createDropdown(genreFilter, genres);
+    createDropdown(authorFilter, authors);
+    createDropdown(yearFilter, years);
+} catch (error) {
+    
+}
+
+}
+
+
+function createDropdown(dropdown, options) {
+  options.forEach(option => {
+    const opt = document.createElement('option');
+    opt.value = option;
+    opt.textContent = option;
+    dropdown.appendChild(opt);
+  });
+}
+
+
+
+inputbar.addEventListener('input', () => {
+    let input = inputbar.value;
+    if (!input) {
+        showbooks_onAdminpage("true");
+    }else{
+        showsearchbooks(inputbar.value);
+    }
+   
+});
+
 showbooks_onAdminpage("true");
+Add_dropdown_options();
+fetchCategorizebooks("Romance","","");

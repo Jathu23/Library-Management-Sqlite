@@ -16,6 +16,22 @@
       <div class="cardHeader">
         <h2>Book Inventory</h2>
       </div>
+      <div class="filter-container">
+        <label for="genreFilter">Filter by Genre:</label>
+        <select id="genreFilter" onchange="filterBooks()">
+          <option value="">All Genres</option>
+        </select>
+    
+        <label for="authorFilter">Filter by Author:</label>
+        <select id="authorFilter" onchange="filterBooks()">
+          <option value="">All Authors</option>
+        </select>
+    
+        <label for="yearFilter">Filter by Year:</label>
+        <select id="yearFilter" onchange="filterBooks()">
+          <option value="">All Years</option>
+        </select>
+      </div>
       <div class="mainbar">
         <div class="search">
           <label>
@@ -98,7 +114,6 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-  <!-- <script>
     document.addEventListener("DOMContentLoaded", (event) => {
       event.preventDefault()
       const tableBody = document.querySelector("tbody");
