@@ -1,356 +1,376 @@
-
+{
+  "users": [
     {
-        "users": [
-          {
-            "UserID": 1,
-            "FirstName": "John",
-            "LastName": "Doe",
-            "FullName": "FirstName+LastName",
-            "NICNumber": "NIC123456",
-            "PhoneNumber": "1234567890",
-            "Email": "john.doe@example.com",
-            "JoinDate": "2023-01-01",
-            "UserRole": "member",
-            "Password": "fdg",
-            "RentCount": 2,
-            "ProfileImage": "./img1.jpg"
-          },
-          {
-            "id": "60a9",
-            "UserID": "MBR02",
-            "FirstName": "saruja",
-            "LastName": "thooy",
-            "NICNumber": "8121558v",
-            "PhoneNumber": "10421",
-            "Email": "jhg@gmail.com",
-            "JoinDate": "2024-09-30",
-            "Password": "saru",
-            "UserRole": "member",
-            "RentCount": 0,
-            "ProfileImage": "./img2.jpg"
-          },
-          {
-            "id": "3b4c",
-            "UserID": "ADM03",
-            "FirstName": "saruja",
-            "LastName": "thooyamani",
-            "NICNumber": "998121558v",
-            "PhoneNumber": "10421",
-            "Email": "jhgdfhg@gmail.com",
-            "JoinDate": "2024-09-30",
-            "Password": "saru",
-            "UserRole": "admin",
-            "RentCount": 0,
-            "ProfileImage": "./img3.jpg"
-          }
-        ],
-        "books": [
-          {
-            "BookID": 1,
-            "ISBN": "9781234567890",
-            "Title": "Sample1 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 10,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 1
-          },
-          {
-            "BookID": 2,
-            "ISBN": "9791234567890",
-            "Title": "Sample2 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 0,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 2
-          },
-          {
-            "BookID": 3,
-            "ISBN": "9791234567890",
-            "Title": "Sample2 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 3
-          },
-          {
-            "BookID": 4,
-            "ISBN": "9791234567890",
-            "Title": "Sample Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 4
-          },
-          {
-            "BookID": 5,
-            "ISBN": "9791234567890",
-            "Title": "Sample Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 5
-          },
-          {
-            "BookID": 6,
-            "ISBN": "9791234567890",
-            "Title": "Sample Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 6
-          },
-          {
-            "BookID": 7,
-            "ISBN": "9781234567890",
-            "Title": "Sample1 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 10,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 7
-          },
-          {
-            "BookID": 8,
-            "ISBN": "9791234567890",
-            "Title": "Sample2 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 0,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 8
-          },
-          {
-            "BookID": 9,
-            "ISBN": "9791234567890",
-            "Title": "Sample2 Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 9
-          },
-          {
-            "BookID": 10,
-            "ISBN": "9791234567890",
-            "Title": "Sample Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 10
-          },
-          {
-            "BookID": 11,
-            "ISBN": "9791234567890",
-            "Title": "Sample Book",
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z",
-            "Copies": 10,
-            "AvailableCopies": 5,
-            "RentCount": 3,
-            "AuthorName": "Jane Smith",
-            "ImageID": 5
-          }
-        ],
-        "book_genre": [
-          {
-            "GenreID": 1,
-            "BookID": 1,
-            "Genre": "Fiction"
-          }
-        ],
-        "issue_books": [
-          {
-            "IssueID": 1,
-            "ISBN": "9781234567890",
-            "UserNIC": "NIC123456",
-            "IssuedCopies": 1,
-            "IssueDate": "2023-01-15",
-            "ReturnDate": null,
-            "OldReturnDate": null
-          }
-        ],
-        "receive_books": [
-          {
-            "ReceiveID": 1,
-            "IssueID": 1,
-            "ISBN": "9781234567890",
-            "ReceivedCopies": 1,
-            "ReceiveDate": "2023-01-22",
-            "UserNIC": "NIC123456"
-          }
-        ],
-        "add_history": [
-          {
-            "AddID": 1,
-            "BookID": 1,
-            "ISBN": "9781234567890",
-            "Title": "Sample Book",
-            "AuthorID": 1,
-            "Copies": 10,
-            "PublishYear": 2020,
-            "AddDateTime": "2023-01-01T12:00:00Z"
-          }
-        ],
-        "add_images": [
-          {
-            "ImageID": 1,
-            "AddID": 1,
-            "Image1": "./OIP1.jpg",
-            "Image2": "./OIP2.jpg",
-            "Image3": "./OIP3.jpg",
-            "Image4": "./OIP4.jpg"
-          },
-          {
-            "ImageID": 2,
-            "AddID": 1,
-            "Image1": "./OIP3.jpg",
-            "Image2": "./OIP2.jpg",
-            "Image3": "./OIP3.jpg",
-            "Image4": "./OIP4.jpg"
-          },
-          {
-            "ImageID": 3,
-            "AddID": 1,
-            "Image1": "./OIP5.jpg",
-            "Image2": "./OIP2.jpg",
-            "Image3": "./OIP3.jpg",
-            "Image4": "./OIP4.jpg"
-          },
-          {
-            "ImageID": 4,
-            "AddID": 1,
-            "Image1": "./OIP4.jpg",
-            "Image2": "./OIP2.jpg",
-            "Image3": "./OIP3.jpg",
-            "Image4": "./OIP4.jpg"
-          },
-          {
-            "ImageID": 5,
-            "AddID": 1,
-            "Image1": "./OIP9.jpg",
-            "Image2": "./OIP10.jpg",
-            "Image3": "./OIP11.jpg",
-            "Image4": "./OIP12.jpg"
-          },
-          {
-            "ImageID": 6,
-            "AddID": 1,
-            "Image1": "./OIP5.jpg",
-            "Image2": "./OIP6.jpg",
-            "Image3": "./OIP7.jpg",
-            "Image4": "./OIP8.jpg"
-          }
-        ],
-        "issue_history": [
-          {
-            "IssueID": 1,
-            "ISBN": "9781234567890",
-            "UserNIC": "NIC123456",
-            "IssuedCopies": 1,
-            "IssueDate": "2023-01-15",
-            "ReturnDate": null,
-            "OldReturnDate": null
-          }
-        ],
-        "receive_history": [
-          {
-            "ReceiveID": 1,
-            "IssueID": 1,
-            "ISBN": "9781234567890",
-            "ReceivedCopies": 1,
-            "ReceiveDate": "2023-01-22",
-            "UserNIC": "NIC123456"
-          }
-        ],
-        "requests": [
-          {
-            "BookID": 1,
-            "requestId": 1,
-            "NICNumber": "998121558v",
-            "requestedDate": "01/10/1999",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "bf9a",
-            "BookID": 2,
-            "requestId": 1727764666025,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "1823",
-            "BookID": 5,
-            "requestId": 1727764680889,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "1823",
-            "BookID": 7,
-            "requestId": 1727764680859,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "14eb",
-            "BookID": 4,
-            "requestId": 1727766274994,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "df87",
-            "BookID": 11,
-            "requestId": 1727766288450,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          },
-          {
-            "id": "4a9a",
-            "BookID": 3,
-            "requestId": 1727766298140,
-            "NICNumber": "8121558v",
-            "requestedDate": "10/1/2024",
-            "requestType": "lend",
-            "status": "pending"
-          }
-        ]
-      }
+      "UserID": 1,
+      "FirstName": "John",
+      "LastName": "Doe",
+      "FullName": "FirstName+LastName",
+      "NICNumber": "NIC123456",
+      "PhoneNumber": "1234567890",
+      "Email": "john.doe@example.com",
+      "JoinDate": "2023-01-01",
+      "UserRole": "member",
+      "Password": "fdg",
+      "RentCount": 2,
+      "ProfileImage": "./img1.jpg"
+    },
+    {
+      "id": "60a9",
+      "UserID": "MBR02",
+      "FirstName": "saruja",
+      "LastName": "thooy",
+      "NICNumber": "8121558v",
+      "PhoneNumber": "10421",
+      "Email": "jhg@gmail.com",
+      "JoinDate": "2024-09-30",
+      "Password": "saru",
+      "UserRole": "member",
+      "RentCount": 0,
+      "ProfileImage": "./img2.jpg"
+    },
+    {
+      "id": "3b4c",
+      "UserID": "ADM03",
+      "FirstName": "saruja",
+      "LastName": "thooyamani",
+      "NICNumber": "998121558v",
+      "PhoneNumber": "10421",
+      "Email": "jhgdfhg@gmail.com",
+      "JoinDate": "2024-09-30",
+      "Password": "saru",
+      "UserRole": "admin",
+      "RentCount": 0,
+      "ProfileImage": "./img3.jpg"
+    }
+  ],
+  "books": [
+    {
+      "BookID": 1,
+      "ISBN": "9781234567890",
+      "Title": "Sample1 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 10,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 1
+    },
+    {
+      "BookID": 2,
+      "ISBN": "9791234567890",
+      "Title": "Sample2 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 0,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 2
+    },
+    {
+      "BookID": 3,
+      "ISBN": "9791234567890",
+      "Title": "Sample2 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 3
+    },
+    {
+      "BookID": 4,
+      "ISBN": "9791234567890",
+      "Title": "Sample Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 4
+    },
+    {
+      "BookID": 5,
+      "ISBN": "9791234567890",
+      "Title": "Sample Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 5
+    },
+    {
+      "BookID": 6,
+      "ISBN": "9791234567890",
+      "Title": "Sample Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 6
+    },
+    {
+      "BookID": 7,
+      "ISBN": "9781234567890",
+      "Title": "Sample1 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 10,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 7
+    },
+    {
+      "BookID": 8,
+      "ISBN": "9791234567890",
+      "Title": "Sample2 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 0,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 8
+    },
+    {
+      "BookID": 9,
+      "ISBN": "9791234567890",
+      "Title": "Sample2 Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 9
+    },
+    {
+      "BookID": 10,
+      "ISBN": "9791234567890",
+      "Title": "Sample Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 10
+    },
+    {
+      "BookID": 11,
+      "ISBN": "9791234567890",
+      "Title": "Sample Book",
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z",
+      "Copies": 10,
+      "AvailableCopies": 5,
+      "RentCount": 3,
+      "AuthorName": "Jane Smith",
+      "ImageID": 5
+    }
+  ],
+  "book_genre": [
+    {
+      "GenreID": 1,
+      "BookID": 1,
+      "Genre": "Fiction"
+    }
+  ],
+  "receive_books": [
+    {
+      "IssueID": 1,
+      "ISBN": "9781234567890",
+      "UserNIC": "NIC123456",
+      "IssuedCopies": 1,
+      "IssueDate": "2023-01-15",
+      "ReturnDate": null,
+      "OldReturnDate": null
+    }
+  ],
+  "issue_books": [
+    {
+      "IssueID": 1,
+      "BookID": 1,
+      "NICNumber": "8121558v",
+      "ISBN": "9781234567890",
+      "issue-Copies": 1,
+      "issue-Date": "2023-01-22",
+      "DueDate": "12023/11/21"
+    },
+    {
+      "id": "2409",
+      "IssueID": 1728976023740,
+      "BookID": 2,
+      "NICNumber": "998121558v",
+      "ISBN": "9791234567890",
+      "issueCopies": 1,
+      "issueDate": "2024-10-16",
+      "DueDate": "2024-10-23"
+    },
+    {
+      "id": "899a",
+      "IssueID": 1728976126119,
+      "BookID": 2,
+      "NICNumber": "998121558v",
+      "ISBN": "9791234567890",
+      "issueCopies": 1,
+      "issueDate": "2024-10-16",
+      "DueDate": "2024-10-23"
+    }
+  ],
+  "add_history": [
+    {
+      "AddID": 1,
+      "BookID": 1,
+      "ISBN": "9781234567890",
+      "Title": "Sample Book",
+      "AuthorID": 1,
+      "Copies": 10,
+      "PublishYear": 2020,
+      "AddDateTime": "2023-01-01T12:00:00Z"
+    }
+  ],
+  "add_images": [
+    {
+      "ImageID": 1,
+      "AddID": 1,
+      "Image1": "./OIP1.jpg",
+      "Image2": "./OIP2.jpg",
+      "Image3": "./OIP3.jpg",
+      "Image4": "./OIP4.jpg"
+    },
+    {
+      "ImageID": 2,
+      "AddID": 1,
+      "Image1": "./OIP3.jpg",
+      "Image2": "./OIP2.jpg",
+      "Image3": "./OIP3.jpg",
+      "Image4": "./OIP4.jpg"
+    },
+    {
+      "ImageID": 3,
+      "AddID": 1,
+      "Image1": "./OIP5.jpg",
+      "Image2": "./OIP2.jpg",
+      "Image3": "./OIP3.jpg",
+      "Image4": "./OIP4.jpg"
+    },
+    {
+      "ImageID": 4,
+      "AddID": 1,
+      "Image1": "./OIP4.jpg",
+      "Image2": "./OIP2.jpg",
+      "Image3": "./OIP3.jpg",
+      "Image4": "./OIP4.jpg"
+    },
+    {
+      "ImageID": 5,
+      "AddID": 1,
+      "Image1": "./OIP9.jpg",
+      "Image2": "./OIP10.jpg",
+      "Image3": "./OIP11.jpg",
+      "Image4": "./OIP12.jpg"
+    },
+    {
+      "ImageID": 6,
+      "AddID": 1,
+      "Image1": "./OIP5.jpg",
+      "Image2": "./OIP6.jpg",
+      "Image3": "./OIP7.jpg",
+      "Image4": "./OIP8.jpg"
+    }
+  ],
+  "issue_history": [
+    {
+      "IssueID": 1,
+      "ISBN": "9781234567890",
+      "UserNIC": "NIC123456",
+      "IssuedCopies": 1,
+      "IssueDate": "2023-01-15",
+      "ReturnDate": null,
+      "OldReturnDate": null
+    }
+  ],
+  "receive_history": [
+    {
+      "ReceiveID": 1,
+      "IssueID": 1,
+      "ISBN": "9781234567890",
+      "ReceivedCopies": 1,
+      "ReceiveDate": "2023-01-22",
+      "UserNIC": "NIC123456"
+    }
+  ],
+  "requests": [
+    {
+      "BookID": 1,
+      "requestId": 1,
+      "NICNumber": "998121558v",
+      "requestedDate": "01/10/1999",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "bf9a",
+      "BookID": 2,
+      "requestId": 1727764666025,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "1823",
+      "BookID": 5,
+      "requestId": 1727764680889,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "1823",
+      "BookID": 7,
+      "requestId": 1727764680859,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "14eb",
+      "BookID": 4,
+      "requestId": 1727766274994,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "df87",
+      "BookID": 11,
+      "requestId": 1727766288450,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    },
+    {
+      "id": "4a9a",
+      "BookID": 3,
+      "requestId": 1727766298140,
+      "NICNumber": "8121558v",
+      "requestedDate": "10/1/2024",
+      "requestType": "lend",
+      "status": "pending"
+    }
+  ]
+}

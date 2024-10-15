@@ -84,7 +84,7 @@
                                 <div class="full-width">
                                     <input class="form-input" type="date" id="issue_date" />
                                 </div>
-                                <button class="form-btn" id="issue-book-btn">Issue</button>
+                                <button class="form-btn" id="issue-book-btn" onclick="issueBook()">Issue</button>
                             </div>
                         </form>
                         <div class="detaildiv">
@@ -196,6 +196,55 @@
                 clearUserDetails();
             }
         }
+        async function issueBook() {
+    const bookID = document.getElementById('issue_bookid').value;
+    const userNic = document.getElementById('issue_userid').value;
+    const issueCopies = parseInt(document.getElementById('issue_bookcount').value, 10);
+    const issueDate = document.getElementById('issue_date').value;
+
+    // Validate inputs
+    if (!bookID || !userNic || !issueCopies || !issueDate) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Calculate return date (7 days after issue date)
+    const returnDate = new Date(issueDate);
+    returnDate.setDate(returnDate.getDate() + 7);
+    
+    // Format return date to YYYY-MM-DD
+    const formattedReturnDate = returnDate.toISOString().split('T')[0];
+
+    // Create the issue book object
+    const issueDetails = {
+        IssueID: Date.now(), // Use a timestamp as a unique ID
+        BookID: Number(bookID),
+        NICNumber: userNic,
+        ISBN: document.getElementById('isbn').textContent,
+        issueCopies: issueCopies,
+        issueDate: issueDate,
+        DueDate: formattedReturnDate
+    };
+
+    // Save the issue details to the server
+    
+        const response = await fetch('http://localhost:3000/issue_books', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(issueDetails)
+        });
+
+        if (response.ok) {
+            alert("Book issued successfully!");
+            // Optionally, clear the fields or reset the form here
+            clearBookDetails();
+            clearUserDetails();
+        } else {
+            alert("Failed to issue book. Please try again.");
+        }
+    } 
 
 
 
