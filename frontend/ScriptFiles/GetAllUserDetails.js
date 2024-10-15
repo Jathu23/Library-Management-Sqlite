@@ -1,6 +1,6 @@
-async function getUserDetails() {
+async function fetchUserDetails() {
     try {
-        let response = await fetch('http://localhost:5102/api/User/GetAll');
+        let response = await fetch('https://localhost:7182/api/User/GetAll');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -16,7 +16,7 @@ async function getUserDetails() {
 
 async function showUserdatails() {
     try {
-        const users = await getUserDetails();
+        const users = await fetchUserDetails();
         let userTable = document.getElementById('bookTableBody');
         userTable.innerHTML = '';
 

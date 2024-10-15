@@ -1,22 +1,49 @@
 document.getElementById('issue_bookid').addEventListener('input', () => {
-    console.log("jkdafgha");
     showBookDetails();
-    let prea = document.getElementById('book-title').innerHTML;
-    console.log(prea);
 })
 
+
+document.getElementById('issue_userid').addEventListener('input', () => {
+    showUserDetails();
+})
+
+async function fetchSingleBook(isbn) {
+    try {
+        let url = 'https://localhost:7182/api/Book/GetBook?isbn=' + encodeURIComponent(isbn);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
+async function fetchSingleUser(NicNumber) {
+    try {
+        let url = 'https://localhost:7182/api/User/GetByUser?nic=' + encodeURIComponent(NicNumber);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 
 
 async function showBookDetails() {
     try {
         const isbn = document.getElementById('issue_bookid').value;
 
-        if (isbn) {
-            const bookData = await GetSingleBook(isbn);
-            console.log(bookData.title);
-            console.log(bookData.author);
-            console.log(bookData.id);
-            console.log(bookData.publishYear);
+        if (true) {
+            const bookData = await fetchSingleBook(isbn);
+       
             let date = new Date().toLocaleDateString()
             console.log(date);
 
@@ -47,56 +74,23 @@ async function showBookDetails() {
         }
 
     } catch (error) {
-        console.log("lkdjhfjkdsgfsg");
+        console.log("error ");
         console.log(error.message);
     }
 
 }
-
-
-
-async function GetSingleBook(isbn) {
-    try {
-        let url = 'http://localhost:5102/api/Book/GetBook?isbn=' + encodeURIComponent(isbn);
-        let response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        let data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("An error occurred:", error.message);
-    }
-}
-
-
-
-// GetSingleBook("978-0-7432-7356-3");
-
-
-document.getElementById('issue_userid').addEventListener('input', () => {
-    console.log("jkdafgha");
-    showUserDetails();
-    let prea = document.getElementById('book-title').innerHTML;
-    console.log(prea);
-})
-
 
 async function showUserDetails() {
     try {
         const NicNumber = document.getElementById('issue_userid').value;
 
         if (NicNumber) {
-            const UserData = await GetSingleUser(NicNumber);
+            const UserData = await fetchSingleUser(NicNumber);
             console.log(UserData);
             console.log(UserData.fullName);
             console.log(UserData.phoneNumber);
             console.log(UserData.joinDate);
             console.log(UserData.email);
-
-
-
             let displaydiv = document.getElementById('issue-user');
 
             displaydiv.children[0].children[1].innerHTML = UserData.fullName
@@ -105,10 +99,6 @@ async function showUserDetails() {
             displaydiv.children[3].children[1].innerHTML = UserData.joinDate
             displaydiv.children[4].children[1].innerHTML = UserData.copies
             displaydiv.children[5].children[1].innerHTML = `${futureDate}`
-
-
-
-
         }
 
     } catch (error) {
@@ -118,21 +108,18 @@ async function showUserDetails() {
 
 }
 
-async function GetSingleUser(NicNumber) {
-    try {
-        let url = 'http://localhost:5102/api/User/GetByUser?nic=' + encodeURIComponent(NicNumber);
-        let response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        let data = await response.json();
-        return data;
 
-    } catch (error) {
-        console.error("An error occurred:", error.message);
-    }
-}
-GetSingleUser(NicNumber)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
