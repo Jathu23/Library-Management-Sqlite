@@ -71,7 +71,7 @@
                             <div class="issue-book-inputs-div">
                                 <h3>Issue Book</h3>
                                 <div class="full-width">
-                                    <input class="form-input" type="text" placeholder="Book-Id" id="issue_bookid"
+                                    <input class="form-input" type="text" placeholder="Book-ISBN" id="issue_bookid"
                                         oninput="fetchBookDetails()" />
                                 </div>
                                 <div class="full-width">
@@ -89,22 +89,27 @@
                         </form>
                         <div class="detaildiv">
                             <div class="issue-info-div" id="issue-info">
+
                                 <div class="info">
                                     <h4>Book Title</h4>
                                     <p id="book-title">--------</p>
                                 </div>
+
                                 <div class="info">
                                     <h4>Author</h4>
                                     <p id="book-author">--------</p>
                                 </div>
+
                                 <div class="info">
-                                    <h4>ISBN</h4>
-                                    <p id="isbn">-----------</p>
+                                    <h4>BookID</h4>
+                                    <p id="bookid">-----------</p>
                                 </div>
+
                                 <div class="info">
                                     <h4>Publish Year</h4>
                                     <p id="book-publish-date">----------</p>
                                 </div>
+
                                 <div class="info">
                                     <h4>Number of Availabe Copies</h4>
                                     <p id="book-count">----------</p>
@@ -114,6 +119,8 @@
                                     <p id="book-return-date">-----------</p>
                                 </div>
                             </div>
+
+                            
                             <div class="issue-info-div" id="issue-user">
                                 <div class="info">
                                     <h4>User Name</h4>
@@ -143,127 +150,8 @@
         </div>
     </div>
 
-    <script>
-        async function fetchBookDetails() {
-            const bookID = document.getElementById('issue_bookid').value;
-            if (bookID) {
-                const response = await fetch(`http://localhost:3000/books?BookID=${bookID}`);
-                console.log(response)
-                if (response.ok) {
-                    const bookData = await response.json();
-                    console.log(bookData)
-                    if (bookData.length > 0) {
-                        const book = bookData[0];
-                        document.getElementById('book-title').textContent = book.Title || 'Not Found';
-                        document.getElementById('book-author').textContent = book.AuthorName || 'Not Found';
-                        document.getElementById('isbn').textContent = book.ISBN ; // Adjust as necessary
-                        document.getElementById('book-publish-date').textContent = book.PublishYear || 'Not Found';
-                        document.getElementById('book-count').textContent = book.Copies || 'Not Found';
-                        document.getElementById('book-available-count').textContent = book.AvailableCopies || 'Not Found';
-                    }
+    <script src="../ScriptFiles/issue_book.js">
 
-
-                } else {
-                    clearBookDetails();
-                }
-            } else {
-                clearBookDetails();
-            }
-        }
-
-        async function fetchUserDetails() {
-            const userNic = document.getElementById('issue_userid').value;
-            if (userNic) {
-                const response = await fetch(`http://localhost:3000/users?NICNumber=${userNic}`);
-                if (response.ok) {
-                    const userData = await response.json();
-                    clearUserDetails(); // Clear previous details
-
-                    if (userData.length > 0) {
-                        const user = userData[0]; // Assuming NIC is unique
-                        document.getElementById('user-name').textContent = user.FirstName || 'Not Found';
-                        document.getElementById('user-phone').textContent = user.PhoneNumber || 'Not Found';
-                        document.getElementById('user-email').textContent = user.Email || 'Not Found';
-                        document.getElementById('user-join-date').textContent = user.JoinDate || 'Not Found';
-                        document.getElementById('user-pending-books').textContent = user.RentCount || 'Not Found';
-                    } else {
-                        clearUserDetails();
-                    }
-                } else {
-                    clearUserDetails();
-                }
-            } else {
-                clearUserDetails();
-            }
-        }
-        async function issueBook() {
-    const bookID = document.getElementById('issue_bookid').value;
-    const userNic = document.getElementById('issue_userid').value;
-    const issueCopies = parseInt(document.getElementById('issue_bookcount').value, 10);
-    const issueDate = document.getElementById('issue_date').value;
-
-    // Validate inputs
-    if (!bookID || !userNic || !issueCopies || !issueDate) {
-        alert("Please fill in all fields.");
-        return;
-    }
-
-    // Calculate return date (7 days after issue date)
-    const returnDate = new Date(issueDate);
-    returnDate.setDate(returnDate.getDate() + 7);
-    
-    // Format return date to YYYY-MM-DD
-    const formattedReturnDate = returnDate.toISOString().split('T')[0];
-
-    // Create the issue book object
-    const issueDetails = {
-        IssueID: Date.now(), // Use a timestamp as a unique ID
-        BookID: Number(bookID),
-        NICNumber: userNic,
-        ISBN: document.getElementById('isbn').textContent,
-        issueCopies: issueCopies,
-        issueDate: issueDate,
-        DueDate: formattedReturnDate
-    };
-
-    // Save the issue details to the server
-    
-        const response = await fetch('http://localhost:3000/issue_books', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(issueDetails)
-        });
-
-        if (response.ok) {
-            alert("Book issued successfully!");
-            // Optionally, clear the fields or reset the form here
-            clearBookDetails();
-            clearUserDetails();
-        } else {
-            alert("Failed to issue book. Please try again.");
-        }
-    } 
-
-
-
-        function clearBookDetails() {
-            document.getElementById('book-title').textContent = '--------';
-            document.getElementById('book-author').textContent = '--------';
-            document.getElementById('book-publisher').textContent = '-----------';
-            document.getElementById('book-publish-date').textContent = '----------';
-            document.getElementById('book-count').textContent = '----------';
-            document.getElementById('book-return-date').textContent = '-----------';
-        }
-
-        function clearUserDetails() {
-            document.getElementById('user-name').textContent = '--------';
-            document.getElementById('user-phone').textContent = '--------';
-            document.getElementById('user-email').textContent = '-----------';
-            document.getElementById('user-join-date').textContent = '----------';
-            document.getElementById('user-pending-books').textContent = '----------';
-        }
     </script>
 </body>
 
