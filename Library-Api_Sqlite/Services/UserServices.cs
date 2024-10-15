@@ -53,6 +53,31 @@ namespace Library_Api_Sqlite.Services
 
         }
 
+        public async Task<bool> ValidDateUser(User_Req_Dto user, int nic)
+        {
+            try
+            {
+                var getuser = await _userRepo.Getuser(nic);
+                if (getuser == null)
+                {
+                    return false;
+                }
+                if (getuser.password != user.password)
+                {
+                    Console.WriteLine("Password mismatch.");
+                    return false;
+                }
+                return await _userRepo.ValidDateUser(getuser.password, nic);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return false;
+            }
+        }
+
+
+
         public async Task<bool> UpdateUser(int nic, User_Update_Dto reqUser)
         {
             var oldUser = await _userRepo.Getuser(nic);

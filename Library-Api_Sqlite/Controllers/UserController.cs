@@ -56,5 +56,34 @@ namespace Library_Api_Sqlite.Controllers
         }
 
 
+        [HttpGet("ValidateUser")]
+        public async Task<IActionResult> ValidateUser( [FromQuery] int nic , [FromQuery] string password)
+        {
+            try
+            {
+                User_Req_Dto user = new User_Req_Dto
+                {
+                    password = password
+                };
+
+                bool isValid = await _services.ValidDateUser(user, nic);
+
+                if (isValid)
+                {
+                    return Ok(new { message = "User is valid." });
+                }
+                else
+                {
+                    return Unauthorized(new { message = "Invalid NIC or password." });
+                }
+            }
+            catch (Exception ex)
+            { 
+                return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
+            }
+        }
+    
+
+
     }
 }

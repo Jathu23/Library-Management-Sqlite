@@ -42,7 +42,7 @@ namespace Library_Api_Sqlite.Repository
             return user;
         }
 
-        public async Task<bool> UpdateUser(UserUpdate user , int nic)
+        public async Task<bool> UpdateUser(UserUpdate user, int nic)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
@@ -58,7 +58,7 @@ namespace Library_Api_Sqlite.Repository
             password = @Password, 
             phoneNumber = @PhoneNumber,  
             profileImg = @ProfileImg
-        WHERE nic = @nic"; 
+        WHERE nic = @nic";
 
                 command.Parameters.AddWithValue("@nic", nic);
                 command.Parameters.AddWithValue("@firstName", user.FirstName);
@@ -135,7 +135,7 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
-  
+
         public async Task<IEnumerable<User>> GetAll()
         {
             var userList = new List<User>();
@@ -180,25 +180,25 @@ namespace Library_Api_Sqlite.Repository
 
             using (var connection = new SqliteConnection(_connectionString))
             {
-                await connection.OpenAsync(); 
+                await connection.OpenAsync();
 
                 using (var command = connection.CreateCommand())
                 {
-                   
+
                     command.CommandText = @"SELECT DISTINCT Users.nic, Users.fullname 
-                                    FROM Users 
+                                    FROM Users  
                                     INNER JOIN lentrecords ON lentrecords.UserNIC = Users.nic";
 
-                   
+
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        while (await reader.ReadAsync()) 
+                        while (await reader.ReadAsync())
                         {
-                            var nic = reader.GetString(0);     
-                            var fullname = reader.GetString(1); 
+                            var nic = reader.GetString(0);
+                            var fullname = reader.GetString(1);
 
-                           
-                            if (!usersDictionary.ContainsKey(nic)) 
+
+                            if (!usersDictionary.ContainsKey(nic))
                             {
                                 usersDictionary.Add(nic, fullname);
                             }
@@ -207,9 +207,23 @@ namespace Library_Api_Sqlite.Repository
                 }
             }
 
-            return usersDictionary; 
+            return usersDictionary;
         }
 
+        public async Task<bool> ValidDateUser(string password, int nic)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync(); 
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT COUNT(1) FROM Users WHERE NIC = @nic AND PASSWORD = @password";
+                command.Parameters.AddWithValue("@nic", nic);
+                command.Parameters.AddWithValue("@password", password);
+
+                var result = (long)await command.ExecuteScalarAsync(); 
+                return result > 0;
+            }
+        }
 
 
     }
