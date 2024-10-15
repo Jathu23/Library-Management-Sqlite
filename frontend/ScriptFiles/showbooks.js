@@ -56,9 +56,23 @@ async function fetchGenres() {
         console.error("An error occurred:", error.message);
     }
 }
+async function fetchAuthors() {
+    try {
+        let response = await fetch('https://localhost:7182/api/Book/GetAllAuthors');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 
 fetchpublishyears();
 fetchGenres();
+fetchAuthors();
 
 let inputbar = document.getElementById('booksearchinput');
 

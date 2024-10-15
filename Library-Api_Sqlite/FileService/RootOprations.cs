@@ -1,4 +1,4 @@
-﻿namespace Library_Api_Sqlite.FileSaver
+﻿namespace Library_Api_Sqlite.FileService
 {
     public class RootOprations
     {
