@@ -224,6 +224,26 @@
       "issueCopies": 1,
       "issueDate": "2024-10-16",
       "DueDate": "2024-10-23"
+    },
+    {
+      "id": "b829",
+      "IssueID": 1728977707054,
+      "BookID": 3,
+      "NICNumber": "8121558v",
+      "ISBN": "9791234567890",
+      "issueCopies": 1,
+      "issueDate": "2024-10-01",
+      "DueDate": "2024-10-08"
+    },
+    {
+      "id": "7215",
+      "IssueID": 1728977760303,
+      "BookID": 3,
+      "NICNumber": "8121558v",
+      "ISBN": "9791234567890",
+      "issueCopies": 1,
+      "issueDate": "2024-10-18",
+      "DueDate": "2024-10-25"
     }
   ],
   "add_history": [
