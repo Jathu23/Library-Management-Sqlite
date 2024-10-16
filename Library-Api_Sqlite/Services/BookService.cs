@@ -103,7 +103,7 @@ namespace Library_Api_Sqlite.Services
         }
         
 
-        public async Task<bool> DeleteById(int id)
+        public async Task<bool> DeleteById(string id)
         {
             return await _bookRepo.DeleteById(id);  
         }

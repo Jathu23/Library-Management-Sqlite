@@ -135,27 +135,28 @@ async function showbooks_onAdminpage(value) {
 
 
 
-// async function deleteBook(bookId) {
-//     try {
-//         let response = await fetch(`https://localhost:7182/api/Book/DeleteBook/${bookId}`, {
-//             method: 'DELETE',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
+async function deleteBook(isbn) {
+    try {
+        let response = await fetch(`https://localhost:7182/api/Book/DeleteBook?id=` + encodeURIComponent(isbn), {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-//         let result = await response.json();
-//         console.log("Book deleted successfully:", result);
-//     } catch (error) {
-//         console.error("An error occurred while deleting the book:", error.message);
-//     }
-// }
+        let result = await response.json();
+        console.log("Book deleted successfully:", result);
+    } catch (error) {
+        console.error("An error occurred while deleting the book:", error.message);
+    }
+}
 
 
+deleteBook("978-0-06-112241-5");
 
 
 

@@ -70,7 +70,7 @@ namespace Library_Api_Sqlite.Controllers
         }
 
         [HttpDelete("DeleteBook")]
-        public async Task<IActionResult> DeleteById(int id)
+        public async Task<IActionResult> DeleteById(string id)
         {
             var deleted = await _bookservics.DeleteById(id);
             if (!deleted)

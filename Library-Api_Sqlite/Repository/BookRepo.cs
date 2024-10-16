@@ -166,7 +166,7 @@ namespace Library_Api_Sqlite.Repository
 
             return books;
         }
-        public async Task<bool> DeleteById(int id)
+        public async Task<bool> DeleteById(string id)
         {
             using (var connection = new SqliteConnection(_connectionString))
             {
@@ -174,7 +174,7 @@ namespace Library_Api_Sqlite.Repository
 
                 var command = connection.CreateCommand();
                 command.CommandText = "" +
-                    "DELETE FROM Books WHERE Id = @id ";
+                    "DELETE FROM Books WHERE Isbn = @id ";
                 command.Parameters.AddWithValue("@id", id);
 
                 var result = await command.ExecuteNonQueryAsync();
