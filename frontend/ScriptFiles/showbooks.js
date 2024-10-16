@@ -6,6 +6,7 @@ const bookTableBody = document.getElementById('bookTableBody');
 let inputbar = document.getElementById('booksearchinput');
 
 
+
 async function fetchbooks(ordervalue) {
     try {
         let url = 'https://localhost:7182/api/Book/GetOrderedByPublishYear?ascending=' + encodeURIComponent(ordervalue);
@@ -64,6 +65,9 @@ async function fetchGenres() {
         console.error("An error occurred:", error.message);
     }
 }
+
+
+
 async function fetchAuthors() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/GetAllAuthors');
@@ -119,9 +123,6 @@ async function fetchCategorizebooks(genre, author, publishYear) {
         console.error('Error fetching books:', error);
     }
 }
-
-
-
 async function showbooks_onAdminpage(value) {
     try {
         const books = await  fetchbooks(value);
@@ -131,6 +132,34 @@ async function showbooks_onAdminpage(value) {
         console.error('Error showing books:',error)
     }
 }
+
+
+
+// async function deleteBook(bookId) {
+//     try {
+//         let response = await fetch(`https://localhost:7182/api/Book/DeleteBook/${bookId}`, {
+//             method: 'DELETE',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
+
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+
+//         let result = await response.json();
+//         console.log("Book deleted successfully:", result);
+//     } catch (error) {
+//         console.error("An error occurred while deleting the book:", error.message);
+//     }
+// }
+
+
+
+
+
+
 async function displaybooks(booksarray) {
     let table = document.getElementById('bookinv_table');
     table.innerHTML = ` <thead>
@@ -156,7 +185,8 @@ async function displaybooks(booksarray) {
   <td>${book.copies}</td>
   <td>${book.genre}</td>
   <td>${book.aviCopies}</td>
-  <td><button>Edit</button> <button>Delete</button></td>
+  <td><button>Edit</button> 
+  <button onclick="deleteBook(123)">Delete</button></td>
 </tbody>`;
 
         
