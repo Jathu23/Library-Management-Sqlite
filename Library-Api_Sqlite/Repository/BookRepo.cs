@@ -214,14 +214,14 @@ namespace Library_Api_Sqlite.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        if (!reader.IsDBNull(0)) // Check if the PublishYear is not null
+                        if (!reader.IsDBNull(0))
                         {
-                            publishYears.Add(reader.GetInt32(0)); // Add the publish year to the list
+                            publishYears.Add(reader.GetInt32(0));
                         }
                     }
                 }
 
-                return publishYears; // Return the list of distinct publish years
+                return publishYears; 
             }
         }
         public async Task<List<string>> GetAllGenres()
@@ -270,7 +270,6 @@ namespace Library_Api_Sqlite.Repository
                 {
                     while (await reader.ReadAsync())
                     {
-                        // Read the author and add it to the list
                         authors.Add(reader.GetString(0));
                     }
                 }
@@ -367,7 +366,6 @@ namespace Library_Api_Sqlite.Repository
 
                 var command = connection.CreateCommand();
 
-                // Choose the sort order based on the 'ascending' parameter
                 command.CommandText = $"SELECT Id, ISBN, Title, Author, Genre, Copies, AviCopies, PublishYear, AddDateTime, Images, RentCount FROM Books ORDER BY PublishYear {(ascending ? "ASC" : "DESC")}";
 
                 var books = new List<Book>();

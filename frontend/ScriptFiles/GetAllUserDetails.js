@@ -17,18 +17,15 @@ async function fetchUserDetails() {
 async function showUserdatails() {
     try {
         const users = await fetchUserDetails();
-        let userTable = document.getElementById('bookTableBody');
+        let userTable = document.getElementById('MembersTable');
         userTable.innerHTML = '';
 
         users.forEach(user => {
             userTable.innerHTML += `
             <tr>
                 <td>${user.nic}</td>
-                <td>${user.firstName}</td>
-                <td>${user.lastName}</td>
                 <td>${user.fullName}</td>
                 <td>${user.email}</td>
-                <td>${user.password}</td>
                 <td>${user.phoneNumber}</td>
                 <td>${new Date(user.joinDate).toLocaleDateString()}</td>
                 <td>${new Date(user.lastLoginDate).toLocaleDateString()}</td>

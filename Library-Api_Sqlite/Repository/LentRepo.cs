@@ -113,7 +113,7 @@ namespace Library_Api_Sqlite.Repository
                 await connection.OpenAsync();
                 var command = connection.CreateCommand();
                 command.CommandText = @"
-            SELECT id, isbn, usernic, lentDate, ReturnDate
+            SELECT id, isbn, usernic, lentDate, ReturnDate,Copies
             FROM LentRecords"; // Adjust the table name as needed
 
                 using (var reader = await command.ExecuteReaderAsync())
@@ -127,6 +127,7 @@ namespace Library_Api_Sqlite.Repository
                             usernic = reader.GetInt32(2),
                             lentDate = reader.GetDateTime(3),
                             ReturnDate = reader.GetDateTime(4),
+                            copies = reader.GetInt32(5),
 
 
                         };
