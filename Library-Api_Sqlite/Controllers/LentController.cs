@@ -22,5 +22,14 @@ namespace Library_Api_Sqlite.Controllers
         {
             return await _lentService.Add (recode);
         }
+
+
+        [HttpGet("Get All Lend Recods")]
+        public async Task<IActionResult> GetAllLendRecords()
+        {
+            var lend= await _lentService.GetAllLendRecords();
+            return Ok(lend);
+        }
     }
+
 }

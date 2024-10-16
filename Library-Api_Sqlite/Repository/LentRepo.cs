@@ -104,6 +104,41 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
+        public async Task<IEnumerable<LentRecode>> GetAllLendRecords()
+        {
+            var lendRecords = new List<LentRecode>();
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT id, isbn, usernic, lentDate, ReturnDate
+            FROM LentRecords"; // Adjust the table name as needed
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var lendRecord = new LentRecode
+                        {
+                            id = reader.GetInt32(0),
+                            isbn = reader.GetString(1),
+                            usernic = reader.GetInt32(2),
+                            lentDate = reader.GetDateTime(3),
+                            ReturnDate = reader.GetDateTime(4),
+
+
+                        };
+                        lendRecords.Add(lendRecord);
+                    }
+                }
+            }
+
+            return lendRecords;
+        }
+
+
     }
 
 }

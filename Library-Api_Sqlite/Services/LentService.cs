@@ -63,6 +63,10 @@ namespace Library_Api_Sqlite.Services
                 throw new Exception("An error occurred while lending the book: " + ex.Message);
             }
         }
+        public async Task<IEnumerable<LentRecode>> GetAllLendRecords()
+        {
+            return await _lentRepo.GetAllLendRecords();
+        }
 
     }
 }
