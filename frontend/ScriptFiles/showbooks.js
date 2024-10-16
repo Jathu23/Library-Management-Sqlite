@@ -167,7 +167,7 @@ async function displaybooks(booksarray) {
         <td>Add Date</td>
         <td>Copies</td>
         <td>Genre</td>
-        <td>Available Copies</td>
+        <td>Av.Copies</td>
         <td>Actions</td>   
       </tr>
     </thead>`;
@@ -350,6 +350,7 @@ Add_dropdown_options();
       formData.append('copies', copies);
       formData.append('genre', genre);
       formData.append('image', image);
+console.log(formData);
 
       // Send a POST request
       const response = await fetch(url, {
