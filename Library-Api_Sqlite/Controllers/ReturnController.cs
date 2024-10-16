@@ -22,5 +22,11 @@ namespace Library_Api_Sqlite.Controllers
         {
             return await _returnService.ReciveBook(recode);
         }
+        [HttpGet("GetAllRecods")]
+        public async Task<IActionResult> GetAllReturnRecords()
+        {
+            var retBook = await _returnService.GetAllReturnRecords();
+            return Ok(retBook);
+        }
     }
 }

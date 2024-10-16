@@ -64,5 +64,9 @@ namespace Library_Api_Sqlite.Services
             }
 
         }
+        public async Task<IEnumerable<Return_Recode>> GetAllReturnRecords()
+        {
+            return await _returnrepo.GetAllReturnRecords();
+        }
     }
 }

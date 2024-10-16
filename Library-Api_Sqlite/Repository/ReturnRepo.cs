@@ -60,8 +60,42 @@ namespace Library_Api_Sqlite.Repository
             }
           
         }
+        public async Task<IEnumerable<Return_Recode>> GetAllReturnRecords()
+        {
+            var returnRecords = new List<Return_Recode>();
 
-      
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT id, usernic, lentId, isbn, lentcopies, returncopies, returndate
+            FROM ReturnRecords"; // Adjust the table name as needed
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var returnRecord = new Return_Recode
+                        {
+                            id = reader.GetInt32(0),
+                            usernic = reader.GetInt32(1),
+                            lentId = reader.GetInt32(2),
+                            isbn = reader.GetString(3),
+                            lentcopies = reader.GetInt32(4),
+                            returncopies = reader.GetInt32(5),
+                            returndate = reader.GetDateTime(6)
+                        };
+
+                        returnRecords.Add(returnRecord);
+                    }
+                }
+            }
+
+            return returnRecords;
+        }
+
+
 
 
     }
