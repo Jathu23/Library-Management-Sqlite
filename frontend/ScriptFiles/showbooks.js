@@ -135,7 +135,7 @@ async function showbooks_onAdminpage(value) {
 
 
 
-async function deleteBook(isbn) {
+async function deleteBook_api(isbn) {
     try {
         let response = await fetch(`https://localhost:7182/api/Book/DeleteBook?id=` + encodeURIComponent(isbn), {
             method: 'DELETE',
@@ -156,7 +156,7 @@ async function deleteBook(isbn) {
 }
 
 
-deleteBook("978-0-06-112241-5");
+
 
 
 
@@ -186,8 +186,9 @@ async function displaybooks(booksarray) {
   <td>${book.copies}</td>
   <td>${book.genre}</td>
   <td>${book.aviCopies}</td>
-  <td><button>Edit</button> 
-  <button onclick="deleteBook(123)">Delete</button></td>
+  <td>
+  <button onclick="editBook('${book.isbn}')">Edit</button>
+  <button onclick="deleteBook('${book.isbn}')">Delete</button></td>
 </tbody>`;
 
         
@@ -276,3 +277,9 @@ yearFilter.addEventListener('change',() =>{
 });
 
 
+function deleteBook(isbn) {
+    alert(isbn);
+}
+function editBook(isbn) {
+    alert("jhgdfg");
+}
