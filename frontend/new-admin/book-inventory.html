@@ -18,17 +18,17 @@
       </div>
       <div class="filter-container">
         <label for="genreFilter">Filter by Genre:</label>
-        <select id="genreFilter" onchange="filterBooks()">
+        <select id="genreFilter" >
           <option value="">All Genres</option>
         </select>
     
         <label for="authorFilter">Filter by Author:</label>
-        <select id="authorFilter" onchange="filterBooks()">
+        <select id="authorFilter" >
           <option value="">All Authors</option>
         </select>
     
         <label for="yearFilter">Filter by Year:</label>
-        <select id="yearFilter" onchange="filterBooks()">
+        <select id="yearFilter" >
           <option value="">All Years</option>
         </select>
       </div>
@@ -113,159 +113,6 @@
 <script src="../ScriptFiles/showbooks.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    document.addEventListener("DOMContentLoaded", (event) => {
-      event.preventDefault()
-      const tableBody = document.querySelector("tbody");
-      const addBookForm = document.getElementById("add-newbook-field");
-      const newBookButton = document.getElementById("add-bookInventory");
-      const cancelBookButton = document.getElementById("newbookcancel-btn");
-      const genreSelect = document.getElementById("genre");
-    const table=  document.getElementById('table');
-      // Fetch books and genres from the server
-      async function fetchData() {
-        try {
-          const booksResponse = await fetch('https://localhost:7182/api/Book/GetAllbook');
-          const genresResponse = await fetch('http://localhost:3000/book_genre');
-
-          if (!booksResponse.ok || !genresResponse.ok) {
-            throw new Error("Failed to fetch data from the server");
-          }
-
-          const books = await booksResponse.json();
-          const genres = await genresResponse.json();
-
-          // Populate genre dropdown
-          genres.forEach(genre => {
-            const option = document.createElement("option");
-            option.value = genre.GenreID; // Set GenreID as value
-            option.textContent = genre.Genre; // Display genre name
-            genreSelect.appendChild(option);
-          });
-
-          // Display the books in the table
-          displayBooks(books, genres);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      }
-
-
-      // Display books in the table
-      function displayBooks(books, genres) {
-        tableBody.innerHTML = '';
-        const genreMap = new Map();
-        genres.forEach(genre => {
-          genreMap.set(genre.GenreID, genre.Genre);
-        });
-
-        books.forEach(book => {
-          const genreName = genreMap.get(book.GenreID) || 'Unknown';
-          const row = `
-            <tr>
-              <td>${book.ISBN}</td>
-              <td>${book.Title}</td>
-              <td>${book.AuthorName}</td>
-              <td>${new Date(book.PublishYear).getFullYear()}</td>
-              <td>${new Date(book.AddDateTime).toLocaleDateString()}</td>
-              <td>${book.Copies}</td>
-              <td>${genreName}</td>
-              <td><span class="${book.AvailableCopies > 0 ? 'status available' : 'status notavailable'}">${book.AvailableCopies}</span></td>
-              <td><ion-icon name="create-outline"></ion-icon></td>
-              <td><ion-icon name="trash-outline"></ion-icon></td>
-            </tr>
-          `;
-          tableBody.innerHTML += row;
-        });
-      }
-
-      // Add new book
-   // Add new book
-document.getElementById("newbookadd-btn").addEventListener("click", async (event) => {
-    event.preventDefault();
-
-    // Fetch the current images to determine the next ImageID
-    const imgResponse = await fetch('http://localhost:3000/add_images');
-    const imgRes = await imgResponse.json();
-
-    // Create the images object
-    const images = {
-        ImageID: imgRes.length + 1, // Set ImageID based on current length
-        Image1: document.getElementById('mimage').value,
-        Image2: document.getElementById('fimage').value,
-        Image3: document.getElementById('simage').value,
-        Image4: document.getElementById('bimage').value,
-    };
-
-    // Send the images object to the JSON server
-    const imagePostResponse = await fetch('http://localhost:3000/add_images', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(images)
-    });
-
-    if (!imagePostResponse.ok) {
-        alert("Error adding images");
-        return;
-    }
-
-    // Fetch the current books to determine the next BookID
-    const bookResponse = await fetch('http://localhost:3000/books');
-    const bookData = await bookResponse.json();
-
-    // Create the new book object
-    const newBook = {
-        BookID: bookData.length + 1, // Set BookID based on current length
-        ISBN: document.getElementById("isbn").value,
-        Title: document.getElementById("title").value,
-        AuthorName: document.getElementById("author").value,
-        PublishYear: document.getElementById("publishYear").value,
-        AddDateTime: document.getElementById("addDate").value,
-        Copies: document.getElementById("copies").value,
-        AvailableCopies: document.getElementById("availableCopies").value,
-        GenreID: Number(document.getElementById("genre").value), // Capture the selected GenreID
-        ImageID: images.ImageID // Assign the new ImageID to the book
-    };
-
-    // Send the new book object to the JSON server
-    const bookPostResponse = await fetch('http://localhost:3000/books', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newBook)
-    });
-
-    if (bookPostResponse.ok) {
-        alert("Book added successfully!");
-        fetchData(); // Refresh the table with new data
-        addBookForm.style.display = 'none'; // Hide the form after successful submission
-    } else {
-        alert("Error adding book");
-    }
-});
-
-
-      // Show form on clicking "New"
-      newBookButton.addEventListener("click", (event) => {
-        event.preventDefault()
-       
-        addBookForm.style.display = 'block';
-        table.style.display='none'
-      });
-
-      // Hide form on clicking "Cancel"
-      cancelBookButton.addEventListener("click", () => {
-        addBookForm.style.display = 'none';
-        table.style.display='block';
-      });
-
-      // Initial fetch of books and genres
-      fetchData();
-    });
-  </script> -->
 
 </body>
 </html>

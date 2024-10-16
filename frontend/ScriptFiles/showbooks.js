@@ -5,6 +5,7 @@ const yearFilter = document.getElementById('yearFilter');
 const bookTableBody = document.getElementById('bookTableBody');
 let inputbar = document.getElementById('booksearchinput');
 
+
 async function fetchbooks(ordervalue) {
     try {
         let url = 'https://localhost:7182/api/Book/GetOrderedByPublishYear?ascending=' + encodeURIComponent(ordervalue);
@@ -112,8 +113,6 @@ async function fetchCategorizebooks(genre, author, publishYear) {
 
         const books = await response.json();
 
-        console.log(books);
-
         return books;
 
     } catch (error) {
@@ -126,38 +125,49 @@ async function fetchCategorizebooks(genre, author, publishYear) {
 async function showbooks_onAdminpage(value) {
     try {
         const books = await  fetchbooks(value);
-        let table = document.getElementById('bookinv_table');
-        table.innerHTML = ` <thead>
-          <tr>
-            <td>ISBN</td>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Publish Year</td>
-            <td>Add Date</td>
-            <td>Copies</td>
-            <td>Genre</td>
-            <td>Available Copies</td>
-            <td>Actions</td>   
-          </tr>
-        </thead>`;
-        books.forEach(book => {
-            table.innerHTML += `    <tbody>
-      <td>${book.isbn}</td>
-      <td>${book.title}</td>
-      <td>${book.author}</td>
-      <td>${book.publishYear}</td>
-      <td>${book.addDateTime}</td>
-      <td>${book.copies}</td>
-      <td>${book.genre}</td>
-      <td>${book.aviCopies}</td>
-      <td><button>Edit</button> <button>Delete</button></td>
-    </tbody>`;
-          
-
-            
-        });
+        await displaybooks(books);
+  
     } catch (error) {
         console.error('Error showing books:',error)
+    }
+}
+async function displaybooks(booksarray) {
+    let table = document.getElementById('bookinv_table');
+    table.innerHTML = ` <thead>
+      <tr>
+        <td>ISBN</td>
+        <td>Title</td>
+        <td>Author</td>
+        <td>Publish Year</td>
+        <td>Add Date</td>
+        <td>Copies</td>
+        <td>Genre</td>
+        <td>Available Copies</td>
+        <td>Actions</td>   
+      </tr>
+    </thead>`;
+    booksarray.forEach(book => {
+        table.innerHTML += `    <tbody>
+  <td>${book.isbn}</td>
+  <td>${book.title}</td>
+  <td>${book.author}</td>
+  <td>${book.publishYear}</td>
+  <td>${book.addDateTime}</td>
+  <td>${book.copies}</td>
+  <td>${book.genre}</td>
+  <td>${book.aviCopies}</td>
+  <td><button>Edit</button> <button>Delete</button></td>
+</tbody>`;
+
+        
+    });
+}
+async function showsearchbooks(input) {
+    try {
+        let books = await fetchSearchBook(input);
+        await displaybooks(books);
+    } catch (error) {
+        
     }
 }
 async function showbooks_onUserpage() {
@@ -172,42 +182,6 @@ async function showbooks_onUserpage() {
         console.error('Error showing books:',error)
     }
 }
-
-async function showsearchbooks(input) {
-    try {
-        let books = await fetchSearchBook(input);
-        let table = document.getElementById('bookinv_table');
-        table.innerHTML = ` <thead>
-          <tr>
-            <td>ISBN</td>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Publish Year</td>
-            <td>Add Date</td>
-            <td>Copies</td>
-            <td>Genre</td>
-            <td>Available Copies</td>
-            <td>Actions</td>   
-          </tr>
-        </thead>`;
-        books.forEach(book => {
-            table.innerHTML += `    <tbody>
-      <td>${book.isbn}</td>
-      <td>${book.title}</td>
-      <td>${book.author}</td>
-      <td>${book.publishYear}</td>
-      <td>${book.addDateTime}</td>
-      <td>${book.copies}</td>
-      <td>${book.genre}</td>
-      <td>${book.aviCopies}</td>
-      <td><button>Edit</button> <button>Delete</button></td>
-    </tbody>`;      
-        });
-    } catch (error) {
-        
-    }
-}
-
 async function Add_dropdown_options() {
 try {
     const genres = await fetchGenres();
@@ -232,8 +206,23 @@ function createDropdown(dropdown, options) {
     dropdown.appendChild(opt);
   });
 }
+async function filterbooks() {
+  let selectGener =genreFilter.value;
+  let selectAuthor =authorFilter.value;
+  let selectYear =yearFilter.value;
 
+  try {
+    let books = await fetchCategorizebooks(selectGener,selectAuthor,selectYear);
+   await displaybooks(books);
 
+  } catch (error) {
+    console.log(error.message);
+  }
+
+}
+
+showbooks_onAdminpage("true");
+Add_dropdown_options();
 
 inputbar.addEventListener('input', () => {
     let input = inputbar.value;
@@ -245,6 +234,14 @@ inputbar.addEventListener('input', () => {
    
 });
 
-showbooks_onAdminpage("true");
-Add_dropdown_options();
-fetchCategorizebooks("Romance","","");
+genreFilter.addEventListener('change',() =>{
+    filterbooks();
+});
+authorFilter.addEventListener('change',() =>{
+    filterbooks();
+});
+yearFilter.addEventListener('change',() =>{
+    filterbooks();
+});
+
+
