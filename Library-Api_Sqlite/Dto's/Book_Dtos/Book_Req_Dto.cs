@@ -9,7 +9,7 @@
         public List<string> Genre { get; set; }
         public int Copies { get; set; }
         public int PublishYear { get; set; }
-        public List<IFormFile> Images { get; set; }
+        public List<IFormFile>? Images { get; set; }
   
 
     }

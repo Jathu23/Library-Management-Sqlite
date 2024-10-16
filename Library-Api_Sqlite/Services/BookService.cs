@@ -22,8 +22,19 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<Book> AddBook(Book_Req_Dto Reqbook)
         {
-            var images = Reqbook.Images;
-            var imagePaths = await _Rootoprations.SaveImages(images, "bookimages");
+            List<string> imagePaths;
+
+
+            if (Reqbook.Images == null)
+            {
+                imagePaths = new List<string> { "defaultBookimg.jpg" };
+            }
+            else
+            {
+                var images = Reqbook.Images;
+
+                imagePaths = await _Rootoprations.SaveImages(images, "bookimages");
+            }
 
             Book book = new Book
             {
