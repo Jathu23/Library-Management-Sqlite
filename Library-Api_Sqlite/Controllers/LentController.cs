@@ -24,7 +24,7 @@ namespace Library_Api_Sqlite.Controllers
         }
 
 
-        [HttpGet("Get All Lend Recods")]
+        [HttpGet("GetAllLendRecods")]
         public async Task<IActionResult> GetAllLendRecords()
         {
             var lend= await _lentService.GetAllLendRecords();

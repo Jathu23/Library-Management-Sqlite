@@ -42,7 +42,7 @@
     <div class="details" id="book-inventory-field" style="display: block">
         <div class="recentorders">
             <div class="cardHeader">
-                <h2>Lend Books</h2>
+                <h2>Lend Records</h2>
                 <div class="search">
                     <label>
                         <input type="text" placeholder=" 🔍 Search" id="searchInput" oninput="filterTable()" />
@@ -53,13 +53,12 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Member Name</th>
-                            <th>Member Id</th>
-                            <th>Book Id</th>
-                            <th>Book Name</th>
-                            <th>Approved Date</th>
-                            <th>Due Date</th>
-                            <th>Overdue</th>
+                            <th>ISBN</th>
+                            <th>User NIC</th>
+                            <th>ID</th>
+                            <th>Copies Lent</th>
+                            <th>Lent Date</th>
+                            <th>Return Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -72,86 +71,53 @@
     </div>
 
     <script>
-        async function fetchData() {
+        async function fetchReturnRecords() {
             try {
-                const lendResponse = await fetch('http://localhost:3000/lends');
-                const requestsResponse = await fetch('http://localhost:3000/requests?status=approved');
-                const booksResponse = await fetch('http://localhost:3000/books');
-                const usersResponse = await fetch('http://localhost:3000/users');
-
-                const lends = await lendResponse.json();
-                const requests = await requestsResponse.json();
-                const books = await booksResponse.json();
-                const users = await usersResponse.json();
-
-                populateTable(requests, users, books, lends);
+                let response = await fetch('https://localhost:7182/api/Lent/GetAllLendRecods');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                let data = await response.json();
+                console.log(data);
+                return data;
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching return records:', error);
+                throw error;
             }
         }
 
-        function populateTable(requests, users, books, lends) {
-            const tableBody = document.getElementById('bookTableBody');
-            tableBody.innerHTML = ''; // Clear existing rows
+        async function showReturnRecords() {
+            try {
+                const records = await fetchReturnRecords();
+                let recordTable = document.getElementById('bookTableBody');
+                recordTable.innerHTML = '';
 
-            requests.forEach(request => {
-                const user = users.find(u => u.NICNumber === request.NICNumber);
-                const book = books.find(b => b.BookID === request.BookID);
-                const lend = lends.find(l => l.requestId === request.requestId);
-                
-                if (user && book) {
-                    const approvedDate = new Date(lend.approvedDate);
-                    const dueDate = new Date(lend.dueDate);
-                    const diffTime = dueDate - approvedDate;
-                    const diffDays = diffTime / (1000 * 60 * 60 * 24); // Convert milliseconds to days
-
-                    const overdueStatus = diffDays > 7; // True if overdue
-                    const overdueText = overdueStatus ? 'True' : 'False';
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${user.FirstName} ${user.LastName}</td>
-                        <td>${user.NICNumber}</td>
-                        <td>${book.BookID}</td>
-                        <td>${book.Title}</td>
-                        <td>${lend.approvedDate}</td>
-                        <td>${lend.dueDate || 'N/A'}</td>
-                        <td>${overdueText}</td>
-                        <td><button onclick="sendAlert('${user.NICNumber}', '${book.Title}', '${lend.approvedDate}', '${lend.dueDate}')">Send Alert</button></td>
+                records.forEach(record => {
+                    recordTable.innerHTML += `
+                    <tr>
+                        <td>${record.isbn}</td>
+                        <td>${record.usernic}</td>
+                        <td>${record.id}</td>
+                        <td>${record.copies}</td>
+                        <td>${new Date(record.lentDate).toLocaleDateString()}</td>
+                        <td>${new Date(record.returnDate).toLocaleDateString()}</td>
+                        <td>
+                            <button onclick="handleAction(${record.id})">Action</button>
+                        </td>
+                    </tr>
                     `;
-                    tableBody.appendChild(row);
-                }
-            });
-        }
-
-        async function sendAlert(NICNumber, bookName, approvedDate, dueDate) {
-            const alertMessage = {
-                NICNumber: NICNumber,
-                alert: `Please return the book "${bookName}". Approved Date: ${approvedDate}, Due Date: ${dueDate}`,
-                alertDate: new Date().toISOString() // Current date in ISO format
-            };
-console.log(alertMessage)
-            try {
-                const response = await fetch('http://localhost:3000/notifications', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(alertMessage)
                 });
-
-                if (response.ok) {
-                    alert('Alert sent successfully!');
-                } else {
-                    alert('Failed to send alert. Please try again.');
-                }
             } catch (error) {
-                console.error('Error sending alert:', error);
+                console.error('Error showing return records:', error);
             }
         }
 
-        // Fetch data on page load
-        window.onload = fetchData;
+        function handleAction(id) {
+            // Implement your action logic here, e.g., view details or delete
+            alert(`Action for record ID: ${id}`);
+        }
+
+        showReturnRecords();
     </script>
 </body>
 </html>

@@ -152,27 +152,28 @@ async function showUserDetails() {
 
 document.getElementById('issue-book-btn').addEventListener('click', async () => {
     // Get the latest values when the button is clicked
-    const lentCopies = document.getElementById("issue_bookcount").value;
+    const copies = document.getElementById("issue_bookcount").value;
     const NicNumber = document.getElementById('issue_userid').value;
     const isbn = document.getElementById('issue_bookid').value;
-
+console.log(copies)
     // Optional: Basic validation to check if fields are filled
-    if (!isbn || !NicNumber || !lentCopies) {
+    if (!isbn || !NicNumber || !copies) {
         alert("Please fill in all fields.");
         return;
     }
 
-    
-    const id1 = Date.now().toString().substring(7); 
-    const id=Number(id1)
-console.log(id)
-   
+    // Generate a unique ID
+    const id = Number(Date.now().toString().substring(7));
+    console.log("Generated ID:", id);
+
     alert("Attempting to lend the book...");
-    console.log("Lending book with details:", { isbn, NicNumber, lentCopies });
-    await AddlendBook(id, isbn, NicNumber, lentCopies);
+    console.log("Lending book with details:", { isbn, NicNumber, copies });
+
+    // Call the function to add the lent book
+    await AddlendBook(id, isbn, NicNumber, Number(copies)); // Ensure copies is passed as a number
 });
 
-async function AddlendBook(id, isbn, NicNumber, lentCopies) {
+async function AddlendBook(id, isbn, NicNumber, copies) {
     try {
         // Construct the URL for the API endpoint
         const url = 'https://localhost:7182/api/Lent/Add';
@@ -182,7 +183,7 @@ async function AddlendBook(id, isbn, NicNumber, lentCopies) {
             id: id, // Include the generated ID
             isbn: isbn,
             usernic: NicNumber,
-            lentcopies: lentCopies
+            lentcopies: copies // Already a number
         };
 
         // Send a POST request
