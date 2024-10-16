@@ -45,6 +45,16 @@ namespace Library_Api_Sqlite.Controllers
             var data = await _lentService.findoverdueAll();
             return Ok(data);
         }
+        [HttpGet("findoverdue_user")]
+        public async Task<IActionResult> findoverdue_user(int nic)
+        {
+            if (nic == null)
+            {
+                return BadRequest("nic invalid");
+            }
+            var data = await _lentService.findoverdue_user(nic);
+            return Ok(data);
+        }
     }
 
 }

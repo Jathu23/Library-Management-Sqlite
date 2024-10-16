@@ -91,6 +91,29 @@ namespace Library_Api_Sqlite.Services
 
         }
 
+        public async Task<List<Notifaction>> findoverdue_user(int nic)
+        {
+            
+            var lentrecods = await _lentRepo.GetAllLendRecords();
+            List<Notifaction> Notifactions = new List<Notifaction>();
+
+            foreach (var rec in lentrecods)
+            {
+                if (rec.usernic == nic)
+                {
+                    int diff = int.Parse(DateDifference(rec.ReturnDate, false));
+                    if (diff < 0)
+                    {
+                        var Nrec = new Notifaction(rec.id, rec.isbn, rec.usernic, rec.copies, rec.lentDate, rec.ReturnDate, DateDifference(rec.ReturnDate, true));
+                        Notifactions.Add(Nrec);
+                    }
+                }
+               
+            }
+            return Notifactions;
+
+        }
+
         public static string DateDifference(DateTime inputDate, bool outFormat)
         {
             DateTime today = DateTime.Now;
