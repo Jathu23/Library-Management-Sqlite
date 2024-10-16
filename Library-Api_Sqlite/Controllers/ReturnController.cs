@@ -28,5 +28,12 @@ namespace Library_Api_Sqlite.Controllers
             var retBook = await _returnService.GetAllReturnRecords();
             return Ok(retBook);
         }
+
+        [HttpGet("GetRecordsby_nic")]
+        public async Task<IActionResult> GetRecordsby_nic(int nic)
+        {
+            var retBook = await _returnService.GetRecordsby_nic (nic);
+            return Ok(retBook);
+        }
     }
 }

@@ -67,6 +67,11 @@ namespace Library_Api_Sqlite.Services
         public async Task<IEnumerable<Return_Recode>> GetAllReturnRecords()
         {
             return await _returnrepo.GetAllReturnRecords();
+
+        }
+        public async Task<IEnumerable<Return_Recode>> GetRecordsby_nic(int nic)
+        {
+            return await _returnrepo.GetRecordsby_nic(nic);
         }
     }
 }
