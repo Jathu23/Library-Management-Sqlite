@@ -1,4 +1,5 @@
 ﻿using Library_Api_Sqlite.Dto_s.Lent_Rec_Dtos;
+using Library_Api_Sqlite.Dto_s.Notifaction_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
 using System.ComponentModel.DataAnnotations;
@@ -47,7 +48,7 @@ namespace Library_Api_Sqlite.Services
                     id = recode.id,
                     usernic = recode.usernic,
                     copies = recode.lentcopies,
-                    ReturnDate = DateTime.Now.AddDays(14), 
+                    ReturnDate = DateTime.Now.AddDays(-14), 
                     lentDate = DateTime.Now
                 };
 
@@ -72,6 +73,48 @@ namespace Library_Api_Sqlite.Services
         {
             return await _lentRepo.GetRecordsby_Nic(nic);
         }
+        public async Task<List<Notifaction>> findoverdueAll()
+        {
+            var lentrecods = await _lentRepo.GetAllLendRecords();
+            List<Notifaction> Notifactions = new List<Notifaction>();
 
+            foreach (var rec in lentrecods)
+            {
+                int diff = int.Parse(DateDifference(rec.ReturnDate, false));
+                if (diff < 0)
+                {
+                    var Nrec = new Notifaction(rec.id,rec.isbn,rec.usernic,rec.copies, rec.lentDate,rec.ReturnDate, DateDifference(rec.ReturnDate, true));
+                    Notifactions.Add(Nrec);
+                }
+            }
+            return Notifactions;
+
+        }
+
+        public static string DateDifference(DateTime inputDate, bool outFormat)
+        {
+            DateTime today = DateTime.Now;
+
+            TimeSpan diff = inputDate - today;
+            int difference = (int)Math.Floor(diff.TotalHours);
+            int days = difference / 24;
+            int hours = difference % 24;
+
+            if (outFormat)
+            {
+                if (days < 0 && hours < 0)
+                {
+                    return $"{Math.Abs(days)} Days {Math.Abs(hours)} hours over";
+                }
+                else
+                {
+                    return $"{days} Days {hours} hours more";
+                }
+            }
+            else
+            {
+                return difference.ToString();
+            }
+        }
     }
 }

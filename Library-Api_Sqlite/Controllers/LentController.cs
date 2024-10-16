@@ -1,4 +1,5 @@
 ﻿using Library_Api_Sqlite.Dto_s.Lent_Rec_Dtos;
+using Library_Api_Sqlite.Dto_s.Notifaction_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Services;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,13 @@ namespace Library_Api_Sqlite.Controllers
         {
             var lend = await _lentService.GetRecordsby_Nic(nic);
             return Ok(lend);
+        }
+
+        [HttpGet("findoverdueAll")]
+        public async Task<IActionResult> findoverdueAll()
+        {
+            var data = await _lentService.findoverdueAll();
+            return Ok(data);
         }
     }
 
