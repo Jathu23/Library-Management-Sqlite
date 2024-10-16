@@ -150,17 +150,12 @@ async function deleteBook_api(isbn) {
 
         let result = await response.json();
         console.log("Book deleted successfully:", result);
+        alert("Book deleted successfully");
     } catch (error) {
-        console.error("An error occurred while deleting the book:", error.message);
+        console.error("An error occurred while deleting the book:", error);
+        alert("Failed to delete book: " + error.message);
     }
 }
-
-
-
-
-
-
-
 async function displaybooks(booksarray) {
     let table = document.getElementById('bookinv_table');
     table.innerHTML = ` <thead>
@@ -278,8 +273,10 @@ yearFilter.addEventListener('change',() =>{
 
 
 function deleteBook(isbn) {
-    alert(isbn);
+    alert(`Attempting to delete book with ISBN: ${isbn}`);
+    deleteBook_api(isbn);
 }
+
 function editBook(isbn) {
     alert("jhgdfg");
 }
