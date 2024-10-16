@@ -247,9 +247,18 @@ async function filterbooks() {
   }
 
 }
+async function deleteBook(isbn) {
+   await deleteBook_api(isbn);
+   showbooks_onAdminpage("true");
+}
 
-showbooks_onAdminpage("true");
-Add_dropdown_options();
+async function editBook(isbn) {
+    alert(isbn);
+    showbooks_onAdminpage("false");
+}
+
+
+
 
 inputbar.addEventListener('input', () => {
     let input = inputbar.value;
@@ -271,12 +280,5 @@ yearFilter.addEventListener('change',() =>{
     filterbooks();
 });
 
-
-function deleteBook(isbn) {
-    alert(`Attempting to delete book with ISBN: ${isbn}`);
-    deleteBook_api(isbn);
-}
-
-function editBook(isbn) {
-    alert("jhgdfg");
-}
+showbooks_onAdminpage("true");
+Add_dropdown_options();
