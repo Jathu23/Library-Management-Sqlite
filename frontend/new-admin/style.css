@@ -771,3 +771,31 @@ body {
 
 
 /* -------------------- */
+
+/* adddint styles to lent books tables */
+#lentbooks_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+#lentbooks_table tr {
+  background-color: #f2f2f2;
+}
+
+#lentbooks_table tr:nth-child(even) {
+  background-color: #e0e0e0;
+}
+
+#lentbooks_table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#lentbooks_table th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+}

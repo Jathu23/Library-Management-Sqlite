@@ -20,7 +20,7 @@
     <div class="cards_collection">
 
       <div class="card" id="one">
-        <img src="https://via.placeholder.com/150" alt="Card Image" class="card-image">
+        <img src="https://localhost:7182/" alt="Card Image" class="card-image">
         <div class="card-content">
           <h2 class="card-title">Book Title</h2>
           <p class="card-description">Author</p>
@@ -212,7 +212,7 @@
           data.forEach(element => {
             html += `
             <div class="card" id="${element.id}">
-           <img src="https://via.placeholder.com/150" alt="Card Image" class="card-image">
+           <img src="https://localhost:7182/${element.images[0]}" alt="Card Image" class="card-image">
           <div class="card-content">
           <h2 class="card-title">${element.title}</h2>
           <p class="card-description">${element.author}</p>
@@ -224,8 +224,8 @@
 
             //////
 
-            html1+=
-            `
+            html1 +=
+              `
           <div class="popup-content">
           <span class="close" onclick="closePopup()">&times;</span>
          <h2 class="popup-title">${element.title}</h2>
@@ -234,10 +234,10 @@
 
           <div class="slideshow-container">
           <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/ff7f7f" style="width:100%">
+            <img src="https://localhost:7182/${element.images[0]}" style="width:100%">
           </div>
           <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
+            <img src="https://localhost:7182/${element.images[1]}" style="width:100%">
           </div>
           <div class="mySlides fade">
             <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
@@ -252,13 +252,11 @@
             `
           });
 
-          grid_container.innerHTML=html
+          grid_container.innerHTML = html
           model_pop.innerHTML = html1
 
 
           ///// clling for modelopo ups///
-
-
 
 
           // Log the retrieved data
@@ -271,8 +269,7 @@
       }
 
       // Call the function to fetch data
-
-      document.addEventListener('DOMContentLoaded', ()=>{
+      document.addEventListener('DOMContentLoaded', () => {
         fetchUserData()
 
       });

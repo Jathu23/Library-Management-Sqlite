@@ -2,11 +2,11 @@ let lentrecode_table = document.getElementById('lentbooks_table');
 
 async function showlentrecode(nic) {
     lentrecode_table.innerHTML = ` <tr>
-    <td>lentId</td>
-    <td>ISBN</td>
-    <td>Copies</td>
-    <td>Lent-Date</td>
-    <td>Return_Date</td>
+    <th>lentId</th>
+        <th>ISBN</th>
+        <th>Copies</th>
+        <th>Lent-Date</th>
+        <th>Return_Date</th>
   </tr>
   `;
 
