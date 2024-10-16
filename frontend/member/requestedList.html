@@ -7,104 +7,111 @@
   <title>Requested Lists</title>
   <link rel="stylesheet" href="../new-admin/style.css">
   <style>
-    /* Add some basic styling for the grid view */
-    /* .book-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    } */
 
-    /* .book-item {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
-    } */
 
-    /* .book-item:hover {
-      transform: scale(1.05);
-    } */
-
-    /* .book-item img {
-      width: 100%;
-      height: auto;
-      border-radius: 5px;
-    } */
-
-    /* .available {
-      color: green;
-    } */
-
-    /* .not-available {
-      color: red;
-    } */
-    /* .book-grid img{
-width: 250px;
-height: 300px;
-    } */
   </style>
 </head>
 
 <body>
 
   <div class="details" id="book-inventory-field" style="display: block;">
-    <div class="recentorders">
-      <div class="cardHeader">
-        <h2>Requested Books</h2>
-      </div>
-      <div class="mainbar">
-        <div class="search">
-          <label>
-            <input type="text" id="searchInput" placeholder=" 🔍 Search" onkeyup="searchBooks()" />
-          </label>
+    <h2>Books in inventry</h2>
+
+    <div class="cards_collection">
+
+      <div class="card" id="one">
+        <img src="https://via.placeholder.com/150" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h2 class="card-title">Book Title</h2>
+          <p class="card-description">Author</p>
+          <p class="card-description">Genre</p>
+          <button class="card-button" onclick="showMore(event)">Learn More</button>
         </div>
+
       </div>
-      <div class="imageparent">
-        <div id="book-grid" class="book-grid"></div>
+
+      
+    <div class="cards_collection">
+
+      <div class="card" id="two">
+        <img src="https://via.placeholder.com/150" alt="Card Image" class="card-image">
+        <div class="card-content">
+          <h2 class="card-title">Book Title</h2>
+          <p class="card-description">Author</p>
+          <p class="card-description">Genre</p>
+          <button class="card-button" onclick="showMore(event)">Learn More</button>
+        </div>
+
       </div>
+
+
+
+
+    </div>
+  </div>
+  <!-- Popup Modal -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <h2 class="popup-title">Book Title</h2>
+      <p class="popup-description">Author: Author Name</p>
+      <p class="popup-description">Genre: Genre Name</p>
+
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <img src="https://via.placeholder.com/300/ff7f7f" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+          <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+          <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      </div>
+
+      <button onclick="closePopup()">Close</button>
     </div>
   </div>
 
-  
-    <script>
-  async function loadBooks() {
-    try {
-      const response = await fetch('http://localhost:3000/books');
-      const books = await response.json();
 
-      const imageResponse = await fetch('http://localhost:3000/add_images');
-      const images = await imageResponse.json();
 
-      const requestsResponse = await fetch('http://localhost:3000/requests');
-      const requests = await requestsResponse.json();
+  <script>
+    async function loadBooks() {
+      try {
+        const response = await fetch('http://localhost:3000/books');
+        const books = await response.json();
+
+        const imageResponse = await fetch('http://localhost:3000/add_images');
+        const images = await imageResponse.json();
+
+        const requestsResponse = await fetch('http://localhost:3000/requests');
+        const requests = await requestsResponse.json();
         console.log(requests)
-      let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      const userNIC = loggedInUser.NICNumber;
+        let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const userNIC = loggedInUser.NICNumber;
 
-      const bookGrid = document.getElementById('book-grid');
-      bookGrid.innerHTML = '';
+        const bookGrid = document.getElementById('book-grid');
+        bookGrid.innerHTML = '';
 
-      const imageMap = {};
-      images.forEach(image => {
-        imageMap[image.ImageID] = [image.Image1, image.Image2, image.Image3, image.Image4];
-      });
+        const imageMap = {};
+        images.forEach(image => {
+          imageMap[image.ImageID] = [image.Image1, image.Image2, image.Image3, image.Image4];
+        });
 
-      // Filter requests to get only those for the logged-in user
-      const userRequests = requests.filter(request => request.NICNumber === userNIC);
+        // Filter requests to get only those for the logged-in user
+        const userRequests = requests.filter(request => request.NICNumber === userNIC);
 
-      // Create a set of requested book IDs for quick lookup
-      const requestedBookIds = new Set(userRequests.map(request => request.BookID));
+        // Create a set of requested book IDs for quick lookup
+        const requestedBookIds = new Set(userRequests.map(request => request.BookID));
 
-      // Display all books that have been requested by the user
-      books.forEach(book => {
-        if (requestedBookIds.has(book.BookID)) {
-          const bookElement = document.createElement('div');
-          bookElement.classList.add('book-item');
-          bookElement.innerHTML = `
+        // Display all books that have been requested by the user
+        books.forEach(book => {
+          if (requestedBookIds.has(book.BookID)) {
+            const bookElement = document.createElement('div');
+            bookElement.classList.add('book-item');
+            bookElement.innerHTML = `
             <img src="${imageMap[book.ImageID]?.[0] || './OIP.jpg'}" alt="${book.Title}">
             <h2>${book.Title}</h2>
             <p>BookID: ${book.BookID}</p>
@@ -117,24 +124,61 @@ height: 300px;
             <p>ISBN: ${book.ISBN}</p>
           `;
 
-          bookElement.onclick = () => {
-            // Define what happens when the book is clicked
-            console.log(`Selected Book: ${book.Title}`);
-          };
+            bookElement.onclick = () => {
+              // Define what happens when the book is clicked
+              console.log(`Selected Book: ${book.Title}`);
+            };
 
-          bookGrid.appendChild(bookElement);
-        }
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
+            bookGrid.appendChild(bookElement);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
-  }
 
-  // Call the loadBooks function when the document is loaded
-  document.addEventListener('DOMContentLoaded', loadBooks);
-</script>
+    // Call the loadBooks function when the document is loaded
+    document.addEventListener('DOMContentLoaded', loadBooks);
 
- 
+
+    ////// Functions for showing more/////
+
+    function showMore(event) {
+      const cardId = event.currentTarget.closest('.card').id;
+      alert(cardId);
+    }
+
+    function showMore(event) {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'block';
+      showSlides(slideIndex = 1); // Initialize slideshow
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    let slideIndex = 1;
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+      const slides = document.getElementsByClassName("mySlides");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex - 1].style.display = "block";
+    }
+
+
+
+  </script>
+
+
 </body>
 
 </html>
