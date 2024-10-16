@@ -162,22 +162,27 @@ document.getElementById('issue-book-btn').addEventListener('click', async () => 
         return;
     }
 
-    // Call the function to add the lent book
+    
+    const id1 = Date.now().toString().substring(7); 
+    const id=Number(id1)
+console.log(id)
+   
     alert("Attempting to lend the book...");
     console.log("Lending book with details:", { isbn, NicNumber, lentCopies });
-    await AddlendBook(isbn, NicNumber, lentCopies);
+    await AddlendBook(id, isbn, NicNumber, lentCopies);
 });
 
-async function AddlendBook(isbn, NicNumber, lentCopies) {
+async function AddlendBook(id, isbn, NicNumber, lentCopies) {
     try {
         // Construct the URL for the API endpoint
-        const url = 'http://localhost:7182/api/Lent/Add';
+        const url = 'https://localhost:7182/api/Lent/Add';
         
         // Create the data object to send
         const data = {
+            id: id, // Include the generated ID
             isbn: isbn,
             usernic: NicNumber,
-            copies: lentCopies
+            lentcopies: lentCopies
         };
 
         // Send a POST request
@@ -203,5 +208,3 @@ async function AddlendBook(isbn, NicNumber, lentCopies) {
         console.error("An error occurred while lending the book:", error.message);
     }
 }
-
-
