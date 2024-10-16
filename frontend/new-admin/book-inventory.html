@@ -16,39 +16,42 @@
       <div class="cardHeader">
         <h2>Book Inventory</h2>
       </div>
-      <div class="filter-container">
-        <label for="genreFilter">Filter by Genre:</label>
-        <select id="genreFilter" >
-          <option value="">All Genres</option>
-        </select>
-    
-        <label for="authorFilter">Filter by Author:</label>
-        <select id="authorFilter" >
-          <option value="">All Authors</option>
-        </select>
-    
-        <label for="yearFilter">Filter by Year:</label>
-        <select id="yearFilter" >
-          <option value="">All Years</option>
-        </select>
+      <div class="Addbutton-box">
+        <button class="Addbutton" id="add-bookInventory">New</button>
       </div>
-      <div class="mainbar">
-        <div class="search">
-          <label>
-            <input id="booksearchinput" type="text" placeholder=" 🔍 Search" />
-          </label>
+      <div id="detail-container">
+        <div class="filter-container">
+          <label for="genreFilter">Filter by Genre:</label>
+          <select id="genreFilter" >
+            <option value="">All Genres</option>
+          </select>
+      
+          <label for="authorFilter">Filter by Author:</label>
+          <select id="authorFilter" >
+            <option value="">All Authors</option>
+          </select>
+      
+          <label for="yearFilter">Filter by Year:</label>
+          <select id="yearFilter" >
+            <option value="">All Years</option>
+          </select>
         </div>
-        <div class="Addbutton-box">
-          <button class="Addbutton" id="add-bookInventory">New</button>
+        <div class="mainbar">
+          <div class="search">
+            <label>
+              <input id="booksearchinput" type="text" placeholder=" 🔍 Search" />
+            </label>
+          </div>
+         
         </div>
+     
+        <table id="bookinv_table" >
+         
+      
+            <!-- Dynamically populated  -->
+  
+        </table>
       </div>
-   
-      <table id="bookinv_table" >
-       
-    
-          <!-- Dynamically populated  -->
-
-      </table>
   
       <!-- Add New Book Form -->
   <div class="addbook-container" id="add-newbook-field" style="display: none;">
@@ -69,40 +72,21 @@
       <label>Publish Year</label><br>
       <input id="publishYear" type="number">
     </div>
-    <div class="single-detail">
-      <label>Add Date</label><br>
-      <input id="addDate" type="date">
-    </div>
+   
     <div class="single-detail">
       <label>Copies</label><br>
       <input id="copies" type="number">
     </div>
-    <div class="single-detail">
-      <label>Available Copies</label><br>
-      <input id="availableCopies" type="number">
+    
+    <div>
+      <label for="mimage"> image</label><br>
+      <input type="file"  id="mimage" multiple>
     </div>
     <div>
-      <label for="mimage">main image</label><br>
-      <input type="text"  id="mimage" >
+      <label for="genre">Genre</label><br>
+      <input type="text"  id="genre" >
     </div>
-    <div>
-      <label for="fimage">front image</label><br>
-      <input type="text"  id="fimage" >
-    </div>
-    <div>
-      <label for="simage">side image</label><br>
-      <input type="text"  id="simage" >
-    </div>
-    <div>
-      <label for="bimage">back image</label><br>
-      <input type="text"  id="bimage" >
-    </div>
-    <div class="single-detail">
-      <label>Genre</label><br>
-      <select id="genre">
-        <!-- Dynamically populate genre options from JSON server -->
-      </select>
-    </div>
+    
     <button class="savebtn" id="newbookadd-btn">Add Book</button>
     <button class="savebtn" id="newbookcancel-btn">Cancel</button >
   </div>
@@ -113,6 +97,8 @@
 <script src="../ScriptFiles/showbooks.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
+<script>
+ 
+</script>
 </body>
 </html>

@@ -342,34 +342,68 @@ iframe {
     color: var(--blue);
   }
   
+
+
+
+
+
+
+
+
+
+
   /* ================================Book add in book inventory============== */
-.addbook-cintainer{
-  width: 450px;
-  text-align: center;
-  justify-content: center;
-  background-color: var(--white);
-  padding: 50px;
-  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  margin: 40px;
-  margin-left: 300px;
-  margin-top: 0px;
-color: var(--blue);
-z-index: 4;
-}
-.addbook-cintainer:hover{
-  background-color: var(--blue);
-  color: var(--white);
-  
-}
-.addbook-cintainer p{
-  font-size: xx-large;
-  font-weight: bolder;
-}
-.addbook-cintainer label{
-  font-size: large;
-  font-weight: bold;
-}
+  .addbook-container input{
+    
+    background-color: white;
+    padding: 10px;
+    margin: 5px ;
+    border: 1px solid;
+    border-radius: 10px;
+    margin-left: 40px;
+  }
+
+  .addbook-container {
+   background-color: #29218555; 
+   width: 45%;
+   margin-left: 25%;
+   padding: 15px;
+   border-radius: 10px;
+  }
+  .addbook-container label{
+   
+    width: 45%;
+    margin-left: 10%;
+   }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 /* ================savebutton in book invebtory========= */
 .savebtn{
   padding: 10px 15px 10px 15px;
@@ -419,15 +453,9 @@ font-size: 16px;
  
  
 }
-.single-detail{
-  margin-top: 15px;
-}
 
-.single-detail input{
-font-size: 16px;
-text-align: center;
-font-weight: bold;
-}
+
+
 
 
 /* /profile showning container */
