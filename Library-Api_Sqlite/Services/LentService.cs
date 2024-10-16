@@ -68,5 +68,10 @@ namespace Library_Api_Sqlite.Services
             return await _lentRepo.GetAllLendRecords();
         }
 
+        public async Task<IEnumerable<LentRecode>> GetRecordsby_Nic(int nic)
+        {
+            return await _lentRepo.GetRecordsby_Nic(nic);
+        }
+
     }
 }

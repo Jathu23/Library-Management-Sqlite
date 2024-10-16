@@ -30,6 +30,13 @@ namespace Library_Api_Sqlite.Controllers
             var lend= await _lentService.GetAllLendRecords();
             return Ok(lend);
         }
+
+        [HttpGet("GetRecordsby_Nic")]
+        public async Task<IActionResult> GetRecordsby_Nic(int nic)
+        {
+            var lend = await _lentService.GetRecordsby_Nic(nic);
+            return Ok(lend);
+        }
     }
 
 }
