@@ -8,6 +8,90 @@
   <link rel="stylesheet" href="../new-admin/style.css">
   <style>
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#book-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.book-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-card h3 {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.image-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image-slider img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+#prev-btn, #next-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
 
   </style>
 </head>
@@ -17,307 +101,30 @@
   <div class="details" id="book-inventory-field" style="display: block;">
     <h2>Books in inventry</h2>
 
-    <div class="cards_collection">
+    <div id="book-container"></div>
 
-      <div class="card" id="one">
-        <img src="https://localhost:7182/" alt="Card Image" class="card-image">
-        <div class="card-content">
-          <h2 class="card-title">Book Title</h2>
-          <p class="card-description">Author</p>
-          <p class="card-description">Genre</p>
-          <button class="card-button" onclick="showMore(event)">Show More</button>
-        </div>
-
-      </div>
-
-
-      <div class="cards_collection">
-
-        <div class="card" id="two">
-          <img src="https://via.placeholder.com/150" alt="Card Image" class="card-image">
-          <div class="card-content">
-            <h2 class="card-title">Book Title</h2>
-            <p class="card-description">Author</p>
-            <p class="card-description">Genre</p>
-            <button class="card-button" onclick="showMore(event)">Show More</button>
-          </div>
-
-        </div>
-
-
-
-
-      </div>
-    </div>
-    <!-- Popup Modal -->
-    <div id="popup" class="popup">
-      <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="popup-title">Book Title</h2>
-        <p class="popup-description">Author: Author Name</p>
-        <p class="popup-description">Genre: Genre Name</p>
-
-        <div class="slideshow-container">
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/ff7f7f" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
-          </div>
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-
-        <button onclick="closePopup()">Close</button>
-      </div>
-    </div>
-
-
-
-    <script>
-      // async function loadBooks() {
-      //   try {
-      //     const response = await fetch('http://localhost:3000/books');
-      //     const books = await response.json();
-
-      //     const imageResponse = await fetch('http://localhost:3000/add_images');
-      //     const images = await imageResponse.json();
-
-      //     const requestsResponse = await fetch('http://localhost:3000/requests');
-      //     const requests = await requestsResponse.json();
-      //     console.log(requests)
-      //     let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      //     const userNIC = loggedInUser.NICNumber;
-
-      //     const bookGrid = document.getElementById('book-grid');
-      //     bookGrid.innerHTML = '';
-
-      //     const imageMap = {};
-      //     images.forEach(image => {
-      //       imageMap[image.ImageID] = [image.Image1, image.Image2, image.Image3, image.Image4];
-      //     });
-
-      //     // Filter requests to get only those for the logged-in user
-      //     const userRequests = requests.filter(request => request.NICNumber === userNIC);
-
-      //     // Create a set of requested book IDs for quick lookup
-      //     const requestedBookIds = new Set(userRequests.map(request => request.BookID));
-
-      //     // Display all books that have been requested by the user
-      //     books.forEach(book => {
-      //       if (requestedBookIds.has(book.BookID)) {
-      //         const bookElement = document.createElement('div');
-      //         bookElement.classList.add('book-item');
-      //         bookElement.innerHTML = `
-      //       <img src="${imageMap[book.ImageID]?.[0] || './OIP.jpg'}" alt="${book.Title}">
-      //       <h2>${book.Title}</h2>
-      //       <p>BookID: ${book.BookID}</p>
-      //       <h3>${book.AuthorName}</h3>
-      //       <p>Publish Year: ${book.PublishYear}</p>
-      //       <span class="${book.AvailableCopies > 0 ? 'available' : 'not-available'}">
-      //         ${book.AvailableCopies > 0 ? 'Available' : 'Not Available'}
-      //       </span>
-      //       <p>Rent Count: ${book.RentCount}</p>
-      //       <p>ISBN: ${book.ISBN}</p>
-      //     `;
-
-      //         bookElement.onclick = () => {
-      //           // Define what happens when the book is clicked
-      //           console.log(`Selected Book: ${book.Title}`);
-      //         };
-
-      //         bookGrid.appendChild(bookElement);
-      //       }
-      //     });
-      //   } catch (error) {
-      //     console.error('Error fetching data:', error);
-      //   }
-      // }
-
-      // // Call the loadBooks function when the document is loaded
-      // document.addEventListener('DOMContentLoaded', loadBooks);
-
-
-
-
-      ///////////Functions to showing the grid view of the books///
-
-
-      const grid_container = document.querySelector(".cards_collection");
-      const model_pop = document.getElementById("popup")
-
-
-
-
-      ////// Functions for showing more model pop ups/////
-
-      // function showMore(event) {
-      //   const cardId = event.currentTarget.closest('.card').id;
-      //   alert(cardId);
-      // }
-
-
-      function showMore(event) {
-        const cardId = event.currentTarget.closest('.card').id;
-
-
-        // functions fo rendering tge datils//
-        model_pop.innerHTML =
-          `
-        <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="popup-title">${event.currentTarget.closest('.card').id}</h2>
-        <p class="popup-description">Author:${event.currentTarget.closest('.card').querySelector('.element_author').textContent}</p>
-        <p class="popup-description">Genre: ${event.currentTarget.closest('.card').querySelector('.element_genre').textContent}</p>
-
-        <div class="slideshow-container">
-          <div class="mySlides fade">
-            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.card-image').textContent}" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
-          </div>
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-
-        <button onclick="closePopup()">Close</button>
-      </div>
-        
-        `
-
-
-        const popup = document.getElementById('popup');
-        popup.style.display = 'block';
-        showSlides(slideIndex = 1); // Initialize slideshow
-      }
-
-      function closePopup() {
-        document.getElementById('popup').style.display = 'none';
-      }
-
-      let slideIndex = 1;
-
-      function plusSlides(n) {
-        showSlides(slideIndex += n);
-      }
-
-      function showSlides(n) {
-        const slides = document.getElementsByClassName("mySlides");
-        if (n > slides.length) { slideIndex = 1 }
-        if (n < 1) { slideIndex = slides.length }
-        for (let i = 0; i < slides.length; i++) {
-          slides[i].style.display = "none";
-        }
-        slides[slideIndex - 1].style.display = "block";
-      }
-
-      /////CALLING APIS for rendering details///
-
-      // Define the API endpoint
-      const apiUrl = 'https://localhost:7182/api/Book/GetAllBooks';
-
-      // Function to fetch user data
-      async function fetchUserData() {
-        try {
-          const response = await fetch(apiUrl);
-
-          // Check if the response is ok (status code in the range 200-299)
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          // Parse the JSON from the response
-          const data = await response.json();
-
-
-          //////functions to make all the books using grid view
-          let html = ''
-          let html1 = ''
-
-
-          data.forEach(element => {
-            html += `
-        <div class="main_div">
-            <div class="card" id="${element.id}">
-           <img src="https://localhost:7182/${element.images[0]}" alt="Card Image" class="card-image">
-          <div class="card-content">
-          <h2 class="card-title">${element.title}</h2>
-          <p class="card-description element_author">${element.author}</p>
-          <p class="card-description element_genre">${element.genre[0]}</p>
-          <button class="card-button" onclick="showMore(event)">Show More</button>
-          </div>
+    <!-- Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-author"></p>
+            <p id="modal-genre"></p>
+            <p id="modal-publish-year"></p>
+            <p id="modal-copies"></p>
+            <p id="modal-rent-count"></p>
+            <div class="image-slider">
+                <button id="prev-btn">&#10094;</button>
+                <img id="slider-image" src="" alt="Book Image">
+                <button id="next-btn">&#10095;</button>
             </div>
         </div>
-
-            `
-
-            //////
-
-            //     html1 =
-            //       `
-            //   <div class="popup-content">
-            //   <span class="close" onclick="closePopup()">&times;</span>
-            //  <h2 class="popup-title">${element.title}</h2>
-            //  <p class="popup-description">Author: ${element.author}</p>
-            //   <p class="popup-description">Genre: ${element.genre}</p>
-
-            //   <div class="slideshow-container">
-            //   <div class="mySlides fade">
-            //     <img src="https://localhost:7182/${element.images[0]}" style="width:100%">
-            //   </div>
-            //   <div class="mySlides fade">
-            //     <img src="https://localhost:7182/${element.images[1]}" style="width:100%">
-            //   </div>
-            //   <div class="mySlides fade">
-            //     <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
-            //   </div>
-            //   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            //   <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            //   </div>
-
-            //   <button onclick="closePopup()">Close</button>
-            //   </div>
-
-            //     `
-          }
-          );
-
-          grid_container.innerHTML = html
-          // model_pop.innerHTML = html1
+    </div>
 
 
-          ///// clling for modelopo ups///
+<script src="../ScriptFiles/user.js"></script>
 
 
-          // Log the retrieved data
-          console.log(data);
-          return data;
-        } catch (error) {
-          // Handle any errors that occurred during the fetch
-          console.error('Error fetching user data:', error);
-        }
-      }
-
-      // Call the function to fetch data
-      document.addEventListener('DOMContentLoaded', () => {
-        fetchUserData()
-
-      });
-
-
-
-
-
-
-
-    </script>
 
 
 </body>
