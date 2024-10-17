@@ -59,7 +59,7 @@ namespace Library_Api_Sqlite.Controllers
         [HttpGet("Getlentbooks_nic")]
         public async Task<IActionResult> Getlentbooks(int nic)
         {
-            var data = await _lentService.Getlentbooks(nic);
+            var data = await _lentService.GetLentBooks(nic);
             return Ok(data);
         }
     }

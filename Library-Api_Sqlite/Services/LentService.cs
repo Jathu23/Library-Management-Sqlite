@@ -131,24 +131,31 @@ namespace Library_Api_Sqlite.Services
         }
 
 
-        public async Task<IEnumerable<string>> Getlentbooks(int nic)
+        public async Task<IEnumerable<string>> GetLentBooks(int nic)
         {
-            var recods = await GetRecordsby_Nic(nic);
+           
+            var orBooks = await _bookRepo.GetAllBooks();
+            var records = await _lentRepo.GetRecordsby_Nic(nic);
+
             var books = new List<string>();
-            foreach (var rec in recods)
+
+            foreach (var rec in records)
             {
-                if (rec.usernic == nic) { 
-
-                    books.Add(rec.isbn);
+                if (rec.usernic == nic)
+                {
+                    var isbn = rec.isbn;
+                    var book = orBooks.FirstOrDefault(x => x.ISBN == isbn);
+                    if (book != null)
+                    {
+                        books.Add(book.Title);
+                    }
                 }
-            }
-            var decbooks = books.Distinct();
-
-            return decbooks;
-                
+            }         
+            return books.Distinct();
         }
 
-        public  string DateDifference(DateTime inputDate, bool outFormat)
+
+        public string DateDifference(DateTime inputDate, bool outFormat)
         {
             DateTime today = DateTime.Now;
 
