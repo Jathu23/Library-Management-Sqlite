@@ -124,8 +124,8 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<int> CountTotalBooks()
         {
-            var imagePaths = new List<string> { "bookimages/40533406-0348-45ba-b80a-c4c4868347fbth.jpg" };
-            _Rootoprations.DeleteImages(imagePaths, "bookimages");
+            //var imagePaths = new List<string> { "bookimages/40533406-0348-45ba-b80a-c4c4868347fbth.jpg" };
+            //_Rootoprations.DeleteImages(imagePaths, "bookimages");
 
             return await _bookRepo.CountTotalBooks();
         }

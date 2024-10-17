@@ -2,7 +2,7 @@ let cads = document.getElementById("cardBox");
 console.log( cads.children[1].children[0].children[0].innerHTML );
 console.log( cads.children[0].children[0].children[0].innerHTML );
 console.log( cads.children[2].children[0].children[0].innerHTML );
-console.log( cads.children[4].children[0].children[0].innerHTML );
+console.log( cads.children[5].children[0].children[0].innerHTML );
 async function fetchBookCount() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/CountTotalBooks');
