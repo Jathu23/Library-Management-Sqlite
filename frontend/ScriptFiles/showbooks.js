@@ -177,7 +177,7 @@ async function displaybooks(booksarray) {
   <td>${book.title}</td>
   <td>${book.author}</td>
   <td>${book.publishYear}</td>
-  <td>${book.addDateTime}</td>
+  <td>${new Date(book.addDateTime).toLocaleDateString()}</td>
   <td>${book.copies}</td>
   <td>${book.genre}</td>
   <td>${book.aviCopies}</td>
