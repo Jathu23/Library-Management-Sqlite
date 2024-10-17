@@ -154,12 +154,45 @@
 
       ////// Functions for showing more model pop ups/////
 
-      function showMore(event) {
-        const cardId = event.currentTarget.closest('.card').id;
-        alert(cardId);
-      }
+      // function showMore(event) {
+      //   const cardId = event.currentTarget.closest('.card').id;
+      //   alert(cardId);
+      // }
+
 
       function showMore(event) {
+        const cardId = event.currentTarget.closest('.card').id;
+
+
+        // functions fo rendering tge datils//
+        model_pop.innerHTML =
+          `
+        <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 class="popup-title">${event.currentTarget.closest('.card').id}</h2>
+        <p class="popup-description">Author:${event.currentTarget.closest('.card').querySelector('.element_author').textContent}</p>
+        <p class="popup-description">Genre: ${event.currentTarget.closest('.card').querySelector('.element_genre').textContent}</p>
+
+        <div class="slideshow-container">
+          <div class="mySlides fade">
+            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.card-image').textContent}" style="width:100%">
+          </div>
+          <div class="mySlides fade">
+            <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
+          </div>
+          <div class="mySlides fade">
+            <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
+          </div>
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <button onclick="closePopup()">Close</button>
+      </div>
+        
+        `
+
+
         const popup = document.getElementById('popup');
         popup.style.display = 'block';
         showSlides(slideIndex = 1); // Initialize slideshow
@@ -211,49 +244,53 @@
 
           data.forEach(element => {
             html += `
+        <div class="main_div">
             <div class="card" id="${element.id}">
            <img src="https://localhost:7182/${element.images[0]}" alt="Card Image" class="card-image">
           <div class="card-content">
           <h2 class="card-title">${element.title}</h2>
-          <p class="card-description">${element.author}</p>
-          <p class="card-description">${element.genre[0]}</p>
+          <p class="card-description element_author">${element.author}</p>
+          <p class="card-description element_genre">${element.genre[0]}</p>
           <button class="card-button" onclick="showMore(event)">Show More</button>
           </div>
             </div>
+        </div>
+
             `
 
             //////
 
-            html1 +=
-              `
-          <div class="popup-content">
-          <span class="close" onclick="closePopup()">&times;</span>
-         <h2 class="popup-title">${element.title}</h2>
-         <p class="popup-description">Author: ${element.author}</p>
-          <p class="popup-description">Genre: ${element.genre}</p>
+            //     html1 =
+            //       `
+            //   <div class="popup-content">
+            //   <span class="close" onclick="closePopup()">&times;</span>
+            //  <h2 class="popup-title">${element.title}</h2>
+            //  <p class="popup-description">Author: ${element.author}</p>
+            //   <p class="popup-description">Genre: ${element.genre}</p>
 
-          <div class="slideshow-container">
-          <div class="mySlides fade">
-            <img src="https://localhost:7182/${element.images[0]}" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://localhost:7182/${element.images[1]}" style="width:100%">
-          </div>
-          <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
-          </div>
-          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-          <a class="next" onclick="plusSlides(1)">&#10095;</a>
-          </div>
+            //   <div class="slideshow-container">
+            //   <div class="mySlides fade">
+            //     <img src="https://localhost:7182/${element.images[0]}" style="width:100%">
+            //   </div>
+            //   <div class="mySlides fade">
+            //     <img src="https://localhost:7182/${element.images[1]}" style="width:100%">
+            //   </div>
+            //   <div class="mySlides fade">
+            //     <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
+            //   </div>
+            //   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            //   <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            //   </div>
 
-          <button onclick="closePopup()">Close</button>
-          </div>
-            
-            `
-          });
+            //   <button onclick="closePopup()">Close</button>
+            //   </div>
+
+            //     `
+          }
+          );
 
           grid_container.innerHTML = html
-          model_pop.innerHTML = html1
+          // model_pop.innerHTML = html1
 
 
           ///// clling for modelopo ups///
