@@ -73,5 +73,11 @@ namespace Library_Api_Sqlite.Services
         {
             return await _returnrepo.GetRecordsby_nic(nic);
         }
+
+        public async Task<int> CountTotalReturnBooks()
+        {
+
+            return await _returnrepo.CountTotalReturnBooks();
+        }
     }
 }

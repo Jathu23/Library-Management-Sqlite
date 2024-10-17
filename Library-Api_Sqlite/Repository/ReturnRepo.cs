@@ -129,6 +129,23 @@ namespace Library_Api_Sqlite.Repository
 
             return returnRecords;
         }
+        public async Task<int> CountTotalReturnBooks()
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(*) FROM ReturnRecords";
+
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
+            }
+        }
+
+
 
 
 
