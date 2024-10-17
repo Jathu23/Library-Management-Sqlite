@@ -51,7 +51,7 @@
             return imagePaths;
         }
 
-        public void DeleteImages(List<string> imagePaths, string folderName)
+        public async void DeleteImages(List<string> imagePaths, string folderName)
         {
             if (imagePaths == null || imagePaths.Count == 0)
             {
