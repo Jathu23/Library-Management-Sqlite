@@ -133,8 +133,6 @@ async function showbooks_onAdminpage(value) {
     }
 }
 
-
-
 async function deleteBook_api(isbn) {
     try {
         let response = await fetch(`https://localhost:7182/api/Book/DeleteBook?id=` + encodeURIComponent(isbn), {
@@ -253,8 +251,14 @@ async function deleteBook(isbn) {
 }
 
 async function editBook(isbn) {
-    alert(isbn);
+    try {
+       var Book=  await fetchSingleISBN(isbn);
+       console.log(Book);
+    } catch (error) {
+        
+    }
     showbooks_onAdminpage("false");
+
 }
 
 
@@ -357,3 +361,109 @@ async function addNewBook(Id,isbn,title,author,copies,publishYear,genre) {
 
 
 
+
+
+// ----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// async function fetchSingleISBN(isbn) {
+//     try {
+//         let url = 'https://localhost:7182/api/Book/GetBook?isbn=' + encodeURIComponent(isbn);
+//         let response = await fetch(url);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! Status: ${response.status}`);
+//         }
+//         let data = await response.json();
+//         return data;
+
+//     } catch (error) {
+//         console.error("An error occurred:", error.message);
+//     }
+// }
+
+
+
+// function editBook(isbn) {
+//     // Fetch book details using the ISBN (you can modify the API endpoint as needed)
+//     fetch(`https://localhost:7182/api/Book/GetBookByIsbn/${isbn}`)
+//         .then(response => response.json())
+//         .then(book => {
+//             if (book) {
+//                 // Populate the form fields with the book details
+//                 document.getElementById('isbn').value = book.isbn;
+//                 document.getElementById('title').value = book.title;
+//                 document.getElementById('author').value = book.author;
+//                 document.getElementById('publishYear').value = book.publishYear;
+//                 document.getElementById('copies').value = book.copies;
+//                 document.getElementById('genre').value = book.genre;
+
+//                 // Show the add-newbook-field and hide the detail-container
+//                 document.getElementById('detail-container').style.display = 'none';
+//                 document.getElementById('add-newbook-field').style.display = 'block';
+//             }
+//         })
+//         .catch(error => console.error('Error fetching book details:', error));
+// }
+
+
+
+// document.getElementById('update-book-btn').addEventListener('click', async () => {
+//     const isbn = document.getElementById('isbn').value; // Read-only
+//     const title = document.getElementById('title').value;
+//     const author = document.getElementById('author').value;
+//     const publishYear = document.getElementById('publishYear').value;
+//     const copies = document.getElementById('copies').value;
+//     const genre = document.getElementById('genre').value;
+
+//     await updateBook(isbn, title, author, publishYear, copies, genre);
+// });
+
+// async function updateBook(isbn, title, author, publishYear, copies, genre) {
+//     const updatedData = {
+//         ISBN: isbn,
+//         Title: title,
+//         Author: author,
+//         PublishYear: publishYear,
+//         Copies: copies,
+//         Genre: genre,
+//     };
+
+//     try {
+//         const response = await fetch(`https://localhost:7182/api/Book/UpdateBook`, {
+//             method: 'PUT', // Use PUT method for updates
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(updatedData),
+//         });
+
+//         if (response.ok) {
+//             const data = await response.json();
+//             console.log('Book updated successfully:', data);
+//             // Optionally, refresh the book list or perform any other actions
+//         } else {
+//             const errorData = await response.json();
+//             console.error('Error updating book:', errorData);
+//         }
+//     } catch (error) {
+//         console.error('Network error:', error);
+//     }
+// }

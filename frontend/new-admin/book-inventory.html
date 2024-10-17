@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Inventory</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    
+
   </style>
 </head>
+
 <body>
 
   <!-- Book Inventory Table -->
 
-  
+
   <div class="details" id="book-inventory-field" style="display: block;">
     <div class="recentorders">
       <div class="cardHeader">
@@ -25,17 +27,17 @@
       <div id="detail-container">
         <div class="filter-container">
           <label for="genreFilter">Filter by Genre:</label>
-          <select id="genreFilter" >
+          <select id="genreFilter">
             <option value="">All Genres</option>
           </select>
-      
+
           <label for="authorFilter">Filter by Author:</label>
-          <select id="authorFilter" >
+          <select id="authorFilter">
             <option value="">All Authors</option>
           </select>
-      
+
           <label for="yearFilter">Filter by Year:</label>
-          <select id="yearFilter" >
+          <select id="yearFilter">
             <option value="">All Years</option>
           </select>
         </div>
@@ -45,63 +47,68 @@
               <input id="booksearchinput" type="text" placeholder=" 🔍 Search" />
             </label>
           </div>
-         
+
         </div>
-     
-        <table id="bookinv_table" >
-         
-      
-            <!-- Dynamically populated  -->
-  
+
+        <table id="bookinv_table">
+
+
+          <!-- Dynamically populated  -->
+
         </table>
       </div>
-  
+
       <!-- Add New Book Form -->
-  <div class="addbook-container" id="add-newbook-field" style="display: none;">
-    <h2>Add New Book</h2>
-    <div class="single-detail">
-      <label>ISBN </label><br>
-      <input id="isbn" type="text">
-    </div>
-    <div class="single-detail">
-      <label>Title</label><br>
-      <input id="title" type="text">
-    </div>
-    <div class="single-detail">
-      <label>Author</label><br>
-      <input id="author" type="text">
-    </div>
-    <div class="single-detail">
-      <label>Publish Year</label><br>
-      <input id="publishYear" type="number">
-    </div>
-   
-    <div class="single-detail">
-      <label>Copies</label><br>
-      <input id="copies" type="number">
-    </div>
-    
-    <div>
-      <label for="mimage"> image</label><br>
-      <input type="file"  id="mimage" multiple>
-    </div>
-    <div>
-      <label for="genre">Genre</label><br>
-      <input type="text"  id="genre" >
-    </div>
-    
-    <button class="savebtn" id="newbookadd-btn">Add Book</button>
-    <button class="savebtn" id="newbookcancel-btn">Cancel</button >
-  </div>
+      <div class="addbook-container" id="add-newbook-field" style="display: none;">
+        <form id="addbookform">
+          <h2>Add New Book</h2>
+          <div class="single-detail">
+            <label>ISBN </label><br>
+            <input id="isbn" type="text">
+          </div>
+          <div class="single-detail">
+            <label>Title</label><br>
+            <input id="title" type="text">
+          </div>
+          <div class="single-detail">
+            <label>Author</label><br>
+            <input id="author" type="text">
+          </div>
+          <div class="single-detail">
+            <label>Publish Year</label><br>
+            <input id="publishYear" type="number">
+          </div>
+
+          <div class="single-detail">
+            <label>Copies</label><br>
+            <input id="copies" type="number">
+          </div>
+
+          <div>
+            <label for="mimage"> image</label><br>
+            <input type="file" id="mimage" multiple>
+          </div>
+          <div>
+            <label for="genre">Genre</label><br>
+            <input type="text" id="genre">
+          </div>
+
+          <button class="savebtn" id="newbookadd-btn">Add Book</button>
+          <button class="savebtn" id="newbookcancel-btn">Cancel</button>
+        </form>
+      </div>
     </div>
   </div>
 
- 
-<script src="../ScriptFiles/showbooks.js"></script>
+
+
+
+  <script src="../ScriptFiles/showbooks.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
- 
-</script>
+  <script>
+
+  </script>
 </body>
+
 </html>
