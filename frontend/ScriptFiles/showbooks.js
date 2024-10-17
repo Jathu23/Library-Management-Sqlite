@@ -310,6 +310,7 @@ document.getElementById('newbookadd-btn').addEventListener('click', async () => 
         const publishYear = document.getElementById('publishYear').value;
         const copies = document.getElementById('copies').value;
         const genre = document.getElementById('genre').value;
+
      await addNewBook(setid(),isbn,title,author,copies,publishYear,genre);
 
 });
@@ -329,7 +330,7 @@ async function addNewBook(Id,isbn,title,author,copies,publishYear,genre) {
         for (let i = 0; i < imageInput.files.length; i++) {
             formData.append('Images', imageInput.files[i]);
         }
-    }
+    }  
 
     try {
         const response = await fetch('https://localhost:7182/api/Book/AddNewBook', {
@@ -352,118 +353,89 @@ async function addNewBook(Id,isbn,title,author,copies,publishYear,genre) {
 
 
 
+async function fetchSingleISBN(isbn) {
+    try {
+        let url = 'https://localhost:7182/api/Book/GetBook?isbn=' + encodeURIComponent(isbn);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
+
+async function editBook(isbn) {
+    try {
+        let uBook = await fetchSingleISBN(isbn);
+        lodebookdetials(uBook);
+        console.log(uBook);
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+function lodebookdetials(book) {
+document.getElementById('newbookadd-btn').style.display = 'none';
+document.getElementById('Update_book').style.display = 'block';
+
+        document.getElementById('detail-container').style.display = 'none'; 
+        document.getElementById('add-newbook-field').style.display = 'block';
+
+             document.getElementById('isbn').value = book.isbn;
+                document.getElementById('title').value = book.title;
+                document.getElementById('author').value = book.author;
+                document.getElementById('publishYear').value = book.publishYear;
+                document.getElementById('copies').value = book.copies;
+                document.getElementById('genre').value = book.genre;
+
+}
+async function updateBook(isbn, title, author, copies, publishYear, genre) {
+    const formData = new FormData();
+    formData.append('isbn', isbn);
+    formData.append('Title', title);
+    formData.append('Author', author);
+    formData.append('Copies', copies);
+    formData.append('PublishYear', publishYear);
+    formData.append('Genre', genre);
+
+    const imageInput = document.querySelector('#mimage');
+    if (imageInput && imageInput.files.length > 0) {
+        for (let i = 0; i < imageInput.files.length; i++) {
+            formData.append('Images', imageInput.files[i]);
+        }
+    }
+
+    try {
+        const response = await fetch(`https://localhost:7182/api/Book/UpdateBook`, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Book updated successfully:', data);
+        } else {
+            const errorData = await response.json();
+            console.error('Error updating book:', errorData);
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+    }
+}
+document.getElementById('Update_book').addEventListener('click', async () => {
+    const isbn = document.getElementById('isbn').value;
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const publishYear = document.getElementById('publishYear').value;
+    const copies = document.getElementById('copies').value;
+    const genre = document.getElementById('genre').value;
 
 
+    await updateBook(isbn,title,author,copies,publishYear,genre);
+});
 
-
-
-
-
-
-
-
-
-// ----------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// async function fetchSingleISBN(isbn) {
-//     try {
-//         let url = 'https://localhost:7182/api/Book/GetBook?isbn=' + encodeURIComponent(isbn);
-//         let response = await fetch(url);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//         }
-//         let data = await response.json();
-//         return data;
-
-//     } catch (error) {
-//         console.error("An error occurred:", error.message);
-//     }
-// }
-
-
-
-// function editBook(isbn) {
-//     // Fetch book details using the ISBN (you can modify the API endpoint as needed)
-//     fetch(`https://localhost:7182/api/Book/GetBookByIsbn/${isbn}`)
-//         .then(response => response.json())
-//         .then(book => {
-//             if (book) {
-//                 // Populate the form fields with the book details
-//                 document.getElementById('isbn').value = book.isbn;
-//                 document.getElementById('title').value = book.title;
-//                 document.getElementById('author').value = book.author;
-//                 document.getElementById('publishYear').value = book.publishYear;
-//                 document.getElementById('copies').value = book.copies;
-//                 document.getElementById('genre').value = book.genre;
-
-//                 // Show the add-newbook-field and hide the detail-container
-//                 document.getElementById('detail-container').style.display = 'none';
-//                 document.getElementById('add-newbook-field').style.display = 'block';
-//             }
-//         })
-//         .catch(error => console.error('Error fetching book details:', error));
-// }
-
-
-
-// document.getElementById('update-book-btn').addEventListener('click', async () => {
-//     const isbn = document.getElementById('isbn').value; // Read-only
-//     const title = document.getElementById('title').value;
-//     const author = document.getElementById('author').value;
-//     const publishYear = document.getElementById('publishYear').value;
-//     const copies = document.getElementById('copies').value;
-//     const genre = document.getElementById('genre').value;
-
-//     await updateBook(isbn, title, author, publishYear, copies, genre);
-// });
-
-// async function updateBook(isbn, title, author, publishYear, copies, genre) {
-//     const updatedData = {
-//         ISBN: isbn,
-//         Title: title,
-//         Author: author,
-//         PublishYear: publishYear,
-//         Copies: copies,
-//         Genre: genre,
-//     };
-
-//     try {
-//         const response = await fetch(`https://localhost:7182/api/Book/UpdateBook`, {
-//             method: 'PUT', // Use PUT method for updates
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(updatedData),
-//         });
-
-//         if (response.ok) {
-//             const data = await response.json();
-//             console.log('Book updated successfully:', data);
-//             // Optionally, refresh the book list or perform any other actions
-//         } else {
-//             const errorData = await response.json();
-//             console.error('Error updating book:', errorData);
-//         }
-//     } catch (error) {
-//         console.error('Network error:', error);
-//     }
-// }

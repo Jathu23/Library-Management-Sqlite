@@ -1,8 +1,4 @@
 let cads = document.getElementById("cardBox");
-console.log( cads.children[1].children[0].children[0].innerHTML );
-console.log( cads.children[0].children[0].children[0].innerHTML );
-console.log( cads.children[2].children[0].children[0].innerHTML );
-console.log( cads.children[5].children[0].children[0].innerHTML );
 async function fetchBookCount() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/CountTotalBooks');
@@ -24,7 +20,7 @@ async function fetchMemberCount() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error('Error fetching users count:', error);
@@ -39,7 +35,7 @@ async function fetchLendBooks() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+        
         return data;
     } catch (error) {
         console.error('Error fetching users count:', error);
@@ -55,7 +51,7 @@ async function fetchReturnBooks() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+      
         return data;
     } catch (error) {
         console.error('Error fetching users count:', error);
@@ -63,7 +59,19 @@ async function fetchReturnBooks() {
     }
 }
 
-
+async function fetchGenres() {
+    try {
+        let response = await fetch('https://localhost:7182/api/Book/GetAllGenres');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+       
+        return data;
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 async function fetchGatAlluser() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/GetAllGenres');
@@ -71,7 +79,7 @@ async function fetchGatAlluser() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error('Error fetching users count:', error);
@@ -87,7 +95,7 @@ async function fetchGatAuthor() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         let data = await response.json();
-        console.log(data);
+       
         return data;
     } catch (error) {
         console.error('Error fetching users count:', error);
@@ -101,8 +109,8 @@ async function updateDashboard() {
         const usercount= await fetchMemberCount();
         const lendcounts =await fetchLendBooks();
         const returncounts =await fetchReturnBooks();
-        const GatAlluser =await fetchGatAlluser();
-        const counts =  GatAlluser.length; 
+        const genre =await  fetchGenres();
+        const counts =  genre.length; 
         const GatAuthor =await fetchGatAuthor();
         const counts1 =  GatAuthor.length; 
         
@@ -110,8 +118,9 @@ async function updateDashboard() {
         cads.children[0].children[0].children[0].innerHTML =usercount;
         cads.children[2].children[0].children[0].innerHTML=lendcounts;
         cads.children[3].children[0].children[0].innerHTML=returncounts;
-        cads.children[5].children[0].children[0].innerHTML=counts;
-        cads.children[6].children[0].children[0].innerHTML=counts1;
+        cads.children[4].children[0].children[0].innerHTML=counts;
+        cads.children[5].children[0].children[0].innerHTML=counts1;
+      
     } catch (error) {
         console.error('Error updating dashboard:', error); 
     }

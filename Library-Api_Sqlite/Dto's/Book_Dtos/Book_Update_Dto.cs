@@ -2,8 +2,6 @@
 {
     public class Book_Update_Dto
     {
-      
-      
         public string Title { get; set; }
         public string Author { get; set; }
         public List<string> Genre { get; set; }
