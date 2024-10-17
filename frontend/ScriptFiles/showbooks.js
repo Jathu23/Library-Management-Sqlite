@@ -280,109 +280,80 @@ yearFilter.addEventListener('change',() =>{
     filterbooks();
 });
 
+function setid()
+{
+   return Number(Date.now().toString().substring(6));
+};
 showbooks_onAdminpage("true");
 Add_dropdown_options();
 
 
 
+document.getElementById('add-bookInventory').addEventListener('click', () => {
+    document.getElementById('detail-container').style.display = 'none'; 
+    document.getElementById('add-newbook-field').style.display = 'block';
+});
 
-
-
-
-
-
-
-
-
-
- // Toggle between inventory and add book form
- document.getElementById('add-bookInventory').addEventListener('click', () => {
-    document.getElementById('detail-container').style.display = 'none'; // Hide inventory
-    document.getElementById('add-newbook-field').style.display = 'block'; // Show add book form
-  });
-
-  // Cancel and go back to the inventory view
-  document.getElementById('newbookcancel-btn').addEventListener('click', () => {
-    document.getElementById('add-newbook-field').style.display = 'none'; // Hide add book form
-    document.getElementById('detail-container').style.display = 'block'; // Show inventory
-  });
-
-  // Add book to the server when "Add Book" is clicked
-  document.getElementById('newbookadd-btn').addEventListener('click', async () => {
-    // Get form values
-    const isbn = document.getElementById('isbn').value;
-    const title = document.getElementById('title').value;
-    const author = document.getElementById('author').value;
-    const publishYear = document.getElementById('publishYear').value;
-    const copies = document.getElementById('copies').value;
-    const genre = document.getElementById('genre').value;
-    const image = document.getElementById('mimage').files[0];
-
-    // Basic validation
-    if (!isbn || !title || !author || !publishYear || !copies || !genre || !image) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    // Generate a unique ID
-    const id = Number(Date.now().toString().substring(7));
-    console.log("Generated ID:", id);
-
-    alert("Attempting to add the book...");
-    console.log("Adding book with details:", { isbn, title, author, publishYear, copies, genre });
-
-    // Call the function to add the new book
-    await AddNewBook(id, isbn, title, author, publishYear, copies, genre, image);
-  });
-
-  // Function to send book details to the server
-  async function AddNewBook(id, isbn, title, author, publishYear, copies, genre, image) {
-    try {
-      const url = 'https://localhost:7182/api/Book/AddNewBook';
-      
-      // Create FormData object to handle file and text data
-      const formData = new FormData();
-      formData.append('id', id);
-      formData.append('isbn', isbn);
-      formData.append('title', title);
-      formData.append('author', author);
-      formData.append('publishYear', publishYear);
-      formData.append('copies', copies);
-      formData.append('genre', genre);
-      formData.append('image', image);
-console.log(formData);
-
-      // Send a POST request
-      const response = await fetch(url, {
-        method: 'POST',
-        body: formData // Send the FormData directly
-      });
-
-      // Check if the response is OK
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Parse the response JSON
-      const result = await response.json();
-      console.log("Book added successfully:", result);
-      alert("Book added successfully!");
-
-      // Reset the form after successful submission
-      document.getElementById('isbn').value = '';
-      document.getElementById('title').value = '';
-      document.getElementById('author').value = '';
-      document.getElementById('publishYear').value = '';
-      document.getElementById('copies').value = '';
-      document.getElementById('genre').value = '';
-      document.getElementById('mimage').value = '';
-
-      // Switch back to the inventory view
-      document.getElementById('add-newbook-field').style.display = 'none'; // Hide add book form
+document.getElementById('newbookcancel-btn').addEventListener('click', () => {
+    document.getElementById('add-newbook-field').style.display = 'none'; 
     document.getElementById('detail-container').style.display = 'block'; 
+});
 
-    } catch (error) {
-      console.error("An error occurred while adding the book:", error.message);
-      alert("Failed to add the book.");
+document.getElementById('newbookadd-btn').addEventListener('click', async () => {
+    const isbn = document.getElementById('isbn').value;
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        const publishYear = document.getElementById('publishYear').value;
+        const copies = document.getElementById('copies').value;
+        const genre = document.getElementById('genre').value;
+     await addNewBook(setid(),isbn,title,author,copies,publishYear,genre);
+
+});
+
+async function addNewBook(Id,isbn,title,author,copies,publishYear,genre) {
+    const formData = new FormData();
+
+    formData.append('Id', Id); 
+    formData.append('ISBN', isbn);
+    formData.append('Title',title );
+    formData.append('Author', author);
+    formData.append('Copies', copies);
+    formData.append('PublishYear', publishYear);
+    formData.append('Genre', genre);
+    const imageInput = document.querySelector('#mimage'); 
+    if (imageInput.files.length > 0) {
+        for (let i = 0; i < imageInput.files.length; i++) {
+            formData.append('Images', imageInput.files[i]);
+        }
     }
-  }
+
+    try {
+        const response = await fetch('https://localhost:7182/api/Book/AddNewBook', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Book added successfully:', data);
+        } else {
+            const errorData = await response.json();
+            console.error('Error adding book:', errorData);
+        }
+    } catch (error) {
+        console.error('Network error:', error);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
