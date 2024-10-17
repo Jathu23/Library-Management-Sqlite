@@ -69,26 +69,35 @@ async function fetchSingleUser(NicNumber) {
         console.error("An error occurred:", error.message);
     }
 }
+async function fetchlentbookby_user(nic) {
+    try {
+        let url = 'https://localhost:7182/api/Lent/Getlentbooks_nic?nic=' + encodeURIComponent(nic);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
 
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 async function showUserDetails() {
     try {
         const NicNumber = document.getElementById('issue_userid').value;
+        let pendingbooks = await fetchlentbookby_user(NicNumber);
 
         if (NicNumber) {
             const UserData = await fetchSingleUser(NicNumber);
-            console.log(UserData);
-            console.log(UserData.fullName);
-            console.log(UserData.phoneNumber);
-            console.log(UserData.joinDate);
-            console.log(UserData.email);
             let displaydiv = document.getElementById('issue-user');
 
             displaydiv.children[0].children[1].innerHTML = UserData.fullName
             displaydiv.children[1].children[1].innerHTML = UserData.phoneNumber
             displaydiv.children[2].children[1].innerHTML = UserData.email
             displaydiv.children[3].children[1].innerHTML = UserData.joinDate
-            displaydiv.children[4].children[1].innerHTML = UserData.copies
-            displaydiv.children[5].children[1].innerHTML = `${futureDate}`
+            displaydiv.children[4].children[1].innerHTML = pendingbooks
+        
         }
 
     } catch (error) {
