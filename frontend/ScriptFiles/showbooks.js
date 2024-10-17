@@ -195,18 +195,7 @@ async function showsearchbooks(input) {
         
     }
 }
-async function showbooks_onUserpage() {
-    try {
-        const books = await  fetchbooks();
-       
-        books.forEach(book => {
-            console.log(book.title);
-            
-        });
-    } catch (error) {
-        console.error('Error showing books:',error)
-    }
-}
+
 async function Add_dropdown_options() {
 try {
     const genres = await fetchGenres();

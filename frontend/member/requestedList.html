@@ -8,6 +8,90 @@
   <link rel="stylesheet" href="../new-admin/style.css">
   <style>
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#book-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.book-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-card h3 {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.image-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image-slider img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+#prev-btn, #next-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
 
   </style>
 </head>
@@ -17,8 +101,9 @@
   <div class="details" id="book-inventory-field" style="display: block;">
     <h2>Books in inventry</h2>
 
-    <div class="cards_collection">
+    <div id="book-container"></div>
 
+<<<<<<< HEAD
       <div class="card" id="one">
         <img src="https://localhost:7182/" alt="Card Image" class="card-image">
         <div class="card-content">
@@ -270,70 +355,30 @@
           
            
           
+=======
+    <!-- Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-author"></p>
+            <p id="modal-genre"></p>
+            <p id="modal-publish-year"></p>
+            <p id="modal-copies"></p>
+            <p id="modal-rent-count"></p>
+            <div class="image-slider">
+                <button id="prev-btn">&#10094;</button>
+                <img id="slider-image" src="" alt="Book Image">
+                <button id="next-btn">&#10095;</button>
+            </div>
+>>>>>>> 160ff97ab03483038d9703a41be1ee0606cd3262
         </div>
-
-            `
-
-            //////
-
-            //     html1 =
-            //       `
-            //   <div class="popup-content">
-            //   <span class="close" onclick="closePopup()">&times;</span>
-            //  <h2 class="popup-title">${element.title}</h2>
-            //  <p class="popup-description">Author: ${element.author}</p>
-            //   <p class="popup-description">Genre: ${element.genre}</p>
-
-            //   <div class="slideshow-container">
-            //   <div class="mySlides fade">
-            //     <img src="https://localhost:7182/${element.images[0]}" style="width:100%">
-            //   </div>
-            //   <div class="mySlides fade">
-            //     <img src="https://localhost:7182/${element.images[1]}" style="width:100%">
-            //   </div>
-            //   <div class="mySlides fade">
-            //     <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
-            //   </div>
-            //   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            //   <a class="next" onclick="plusSlides(1)">&#10095;</a>
-            //   </div>
-
-            //   <button onclick="closePopup()">Close</button>
-            //   </div>
-
-            //     `
-          }
-          );
-
-          grid_container.innerHTML = html
-          // model_pop.innerHTML = html1
+    </div>
 
 
-          ///// clling for modelopo ups///
+<script src="../ScriptFiles/user.js"></script>
 
 
-          // Log the retrieved data
-          console.log(data);
-          return data;
-        } catch (error) {
-          // Handle any errors that occurred during the fetch
-          console.error('Error fetching user data:', error);
-        }
-      }
-
-      // Call the function to fetch data
-      document.addEventListener('DOMContentLoaded', () => {
-        fetchUserData()
-
-      });
-
-
-
-
-
-
-
-    </script>
 
 
 </body>
