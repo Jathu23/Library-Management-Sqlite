@@ -1,5 +1,6 @@
 ﻿using Library_Api_Sqlite.Dto_s;
 using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.Dto_s.Reports_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
 using Library_Api_Sqlite.Services;
@@ -147,6 +148,13 @@ namespace Library_Api_Sqlite.Controllers
         {
             var books = await _bookservics.Categorization(genre, author, publishYear);
             return  Ok(books);
+        }
+
+        [HttpGet("BookReport")]
+        public async Task<IActionResult> BookReport()
+        {
+            var books = await _bookservics.BookReport();
+            return Ok(books);
         }
     }
 }

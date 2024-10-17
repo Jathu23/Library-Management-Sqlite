@@ -1,5 +1,6 @@
 ﻿using Library_Api_Sqlite.Dto_s;
 using Library_Api_Sqlite.Dto_s.Book_Dtos;
+using Library_Api_Sqlite.Dto_s.Reports_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.FileService;
 using Library_Api_Sqlite.Repository;
@@ -173,6 +174,16 @@ namespace Library_Api_Sqlite.Services
             return await _bookRepo.Categorization(genre, author, publishYear);
         }
 
+        public async Task<IEnumerable<Book_report_Dto>> BookReport()
+        {
+            var books = await _bookRepo.GetAllBooks();
+            var repots = new List<Book_report_Dto>();
+            foreach (var book in books)
+            {
+                repots.Add(new Book_report_Dto(book.ISBN,book.Title,book.Copies,book.AviCopies,book.RentCount));
+            }
+            return repots;
+        }
 
 
 
