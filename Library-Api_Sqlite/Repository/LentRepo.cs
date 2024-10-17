@@ -138,6 +138,12 @@ namespace Library_Api_Sqlite.Repository
 
             return lendRecords;
         }
+
+
+
+
+
+
         public async Task<IEnumerable<LentRecode>> GetRecordsby_Nic(int nic)
         {
             var lendRecords = new List<LentRecode>();
