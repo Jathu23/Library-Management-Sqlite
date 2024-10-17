@@ -75,6 +75,8 @@
       </div>
     </div>
 
+ 
+
 
 
     <script>
@@ -169,19 +171,24 @@
           `
         <div class="popup-content">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h2 class="popup-title">${event.currentTarget.closest('.card').id}</h2>
-        <p class="popup-description">Author:${event.currentTarget.closest('.card').querySelector('.element_author').textContent}</p>
+        <h2 class="popup-title">${event.currentTarget.closest('.card').querySelector('.card-title').textContent}</h2>
+        <h3 class="popup-title">Id:${event.currentTarget.closest('.card').id}</h3>
+        <p class="popup-description">Author:${event.currentTarget.closest('.card').querySelector('.element_author').textContent}</p> 
         <p class="popup-description">Genre: ${event.currentTarget.closest('.card').querySelector('.element_genre').textContent}</p>
+        <p class="popup-description">Genre: </p>
+
+
+
 
         <div class="slideshow-container">
           <div class="mySlides fade">
-            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.card-image').textContent}" style="width:100%">
+            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.image_1').textContent}" style="width:100%" class="slideshow-container">
           </div>
           <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7f7fff" style="width:100%">
+            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.image_2').textContent}"  style="width:100%" class="slideshow-container">
           </div>
           <div class="mySlides fade">
-            <img src="https://via.placeholder.com/300/7fff7f" style="width:100%">
+            <img src="https://localhost:7182/${event.currentTarget.closest('.card').querySelector('.image_3').textContent}"  style="width:100%" class="slideshow-container">
           </div>
           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
           <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -246,14 +253,23 @@
             html += `
         <div class="main_div">
             <div class="card" id="${element.id}">
-           <img src="https://localhost:7182/${element.images[0]}" alt="Card Image" class="card-image">
+              <div class="image_div"> 
+              <img src="https://localhost:7182/${element.images[0]}" alt="Card Image" class="card-image">
+              </div>
           <div class="card-content">
           <h2 class="card-title">${element.title}</h2>
           <p class="card-description element_author">${element.author}</p>
           <p class="card-description element_genre">${element.genre[0]}</p>
+          <p style="display: none;" class="image_1">${element.images[0]}</p>
+          <p style="display: none;" class="image_2">${element.images[1]}</p>
+          <p style="display: none;" class="image_3">${element.images[2]}</p>
+
           <button class="card-button" onclick="showMore(event)">Show More</button>
           </div>
-            </div>
+          </div>
+          
+           
+          
         </div>
 
             `
