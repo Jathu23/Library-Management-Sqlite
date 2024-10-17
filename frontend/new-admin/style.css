@@ -857,30 +857,6 @@ td{
 width: 2px;
 height: 3px;
 }
-/* ///css for images that are in all books */
-
-.card-image{
-  width: 150px;
-  height: 100px;
-}
-.card{
-  width: 200px;
-  height: 250px;
-}
-
-/* styles for pop up pictures */
-.slideshow-container{
-  width: 80%;
-  height: 300px;
-}
-.prev{
-  color: red;
-}
-.next{
-  color: red  ;
-}
-
-
 
 <<<<<<< HEAD
 
@@ -893,6 +869,3 @@ height: 3px;
   height: 30px;
 } */
 >>>>>>> 032cb7a240b4254e9d3c04901b4bbe313c4d4b95
-
-
-
