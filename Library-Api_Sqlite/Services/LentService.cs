@@ -130,6 +130,24 @@ namespace Library_Api_Sqlite.Services
 
         }
 
+
+        public async Task<IEnumerable<string>> Getlentbooks(int nic)
+        {
+            var recods = await GetRecordsby_Nic(nic);
+            var books = new List<string>();
+            foreach (var rec in recods)
+            {
+                if (rec.usernic == nic) { 
+
+                    books.Add(rec.isbn);
+                }
+            }
+            var decbooks = books.Distinct();
+
+            return decbooks;
+                
+        }
+
         public  string DateDifference(DateTime inputDate, bool outFormat)
         {
             DateTime today = DateTime.Now;
