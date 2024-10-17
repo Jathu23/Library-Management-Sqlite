@@ -174,6 +174,22 @@ namespace Library_Api_Sqlite.Repository
             return lendRecords;
         }
 
+        public async Task<int> CountTotalLendBooks()
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(*) FROM LentRecords";
+
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
+            }
+        }
+
 
     }
 

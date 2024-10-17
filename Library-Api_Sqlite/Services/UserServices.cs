@@ -129,12 +129,13 @@ namespace Library_Api_Sqlite.Services
             return await _userRepo.Getuser(nic);
         }
 
+        public async Task<int> CountTotalUsers()
+        {
+
+            return await _userRepo.CountTotalUsers();
+        }
 
 
 
-        //public async Task<Dictionary<string, string>> Browusers()
-        //{
-
-        //}
     }
 }

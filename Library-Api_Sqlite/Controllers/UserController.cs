@@ -82,7 +82,13 @@ namespace Library_Api_Sqlite.Controllers
                 return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
             }
         }
-    
+        [HttpGet("CountTotalUsers")]
+        public async Task<IActionResult> CountTotalUsers()
+        {
+            var count = await _services.CountTotalUsers();
+            return Ok(count);
+        }
+
 
 
     }
