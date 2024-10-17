@@ -226,5 +226,22 @@ namespace Library_Api_Sqlite.Repository
         }
 
 
+        public async Task<int> CountTotalUsers()
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT COUNT(*) FROM Users";
+
+
+                var result = await command.ExecuteScalarAsync();
+
+                return Convert.ToInt32(result);
+            }
+        }
+
+
     }
 }

@@ -212,5 +212,11 @@ namespace Library_Api_Sqlite.Services
                 return difference.ToString();
             }
         }
+
+        public async Task<int> CountTotalLendBooks()
+        {
+
+            return await _lentRepo.CountTotalLendBooks();
+        }
     }
 }

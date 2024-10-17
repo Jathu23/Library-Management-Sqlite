@@ -70,6 +70,14 @@ namespace Library_Api_Sqlite.Controllers
             var data = await _lentService.R_getuserandlentbooks();
             return Ok(data);
         }
+
+        [HttpGet("CountTotalLendBooks")]
+        public async Task<IActionResult> CountTotalLendBooks()
+        {
+            var count = await _lentService.CountTotalLendBooks();
+            return Ok(count);
+        }
+
     }
 
 }
