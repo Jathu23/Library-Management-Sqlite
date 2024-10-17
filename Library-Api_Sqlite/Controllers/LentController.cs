@@ -1,5 +1,6 @@
 ﻿using Library_Api_Sqlite.Dto_s.Lent_Rec_Dtos;
 using Library_Api_Sqlite.Dto_s.Notifaction_Dtos;
+using Library_Api_Sqlite.Dto_s.Reports_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Services;
 using Microsoft.AspNetCore.Http;
@@ -60,6 +61,13 @@ namespace Library_Api_Sqlite.Controllers
         public async Task<IActionResult> Getlentbooks(int nic)
         {
             var data = await _lentService.GetLentBooks(nic);
+            return Ok(data);
+        }
+
+        [HttpGet("R_getuserandlentbooks")]
+        public async Task<IActionResult> R_getuserandlentbooks()
+        {
+            var data = await _lentService.R_getuserandlentbooks();
             return Ok(data);
         }
     }

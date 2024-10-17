@@ -1,5 +1,6 @@
 ﻿using Library_Api_Sqlite.Dto_s.Lent_Rec_Dtos;
 using Library_Api_Sqlite.Dto_s.Notifaction_Dtos;
+using Library_Api_Sqlite.Dto_s.Reports_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
 using System.ComponentModel.DataAnnotations;
@@ -152,6 +153,37 @@ namespace Library_Api_Sqlite.Services
                 }
             }         
             return books.Distinct();
+        }
+
+
+      public async Task<List<Lent_user_books_Dtos>> R_getuserandlentbooks()
+        { 
+            var lentrecods = await _lentRepo.GetAllLendRecords();
+            var usersNic = new List<int>();
+            var Dec_usersNic = usersNic.Distinct();
+            
+            var Repots = new List<Lent_user_books_Dtos>();
+
+            foreach (var rec in lentrecods)
+            {
+                usersNic.Add(rec.usernic);
+            }
+            foreach (var user in Dec_usersNic)
+            {
+                var lbooks = new List<string>();
+                    foreach (var rec in lentrecods)
+                    {
+
+                          if (rec.usernic == user)
+                        {
+                        lbooks.Add(rec.isbn);
+                         }
+                     }
+
+                Repots.Add(new Lent_user_books_Dtos(user,lbooks));
+            }
+
+            return Repots;
         }
 
 
