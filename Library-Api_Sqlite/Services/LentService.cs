@@ -70,20 +70,20 @@ namespace Library_Api_Sqlite.Services
             var rec = await _lentRepo.GetAllLendRecords();
             foreach (var item in rec)
             {
-                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies, DateDifference(item.ReturnDate, true));
+                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies,item.lentDate,item.ReturnDate, DateDifference(item.ReturnDate, true));
                 lentRec.Add(recS);
             }
 
             return lentRec;
         }
-
+       
         public async Task<IEnumerable<Lent__Res_Dto>> GetRecordsby_Nic(int nic)
         {
             var lentRec = new List<Lent__Res_Dto>();
             var rec = await _lentRepo.GetRecordsby_Nic(nic);
             foreach (var item in rec)
             {
-                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies, DateDifference(item.ReturnDate, true));
+                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies, item.lentDate, item.ReturnDate, DateDifference(item.ReturnDate, true));
                 lentRec.Add(recS);
             }
 

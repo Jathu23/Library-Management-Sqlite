@@ -114,7 +114,7 @@ namespace Library_Api_Sqlite.Repository
                 var command = connection.CreateCommand();
                 command.CommandText = @"
             SELECT id, isbn, usernic, lentDate, ReturnDate,Copies
-            FROM LentRecords"; // Adjust the table name as needed
+            FROM LentRecords"; 
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
