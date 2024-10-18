@@ -252,7 +252,7 @@ namespace Library_Api_Sqlite.Repository
                     }
                 }
 
-                return genres.ToList();
+                return genres.Distinct().ToList();
             }
         }
         public async Task<List<string>> GetAllAuthors()
