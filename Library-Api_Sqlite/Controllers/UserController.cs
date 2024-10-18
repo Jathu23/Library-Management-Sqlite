@@ -68,14 +68,7 @@ namespace Library_Api_Sqlite.Controllers
 
                 bool isValid = await _services.ValidDateUser(user, nic);
 
-                if (isValid)
-                {
-                    return Ok(new { message = "User is valid." });
-                }
-                else
-                {
-                    return Unauthorized(new { message = "Invalid NIC or password." });
-                }
+               return Ok(isValid);
             }
             catch (Exception ex)
             { 
