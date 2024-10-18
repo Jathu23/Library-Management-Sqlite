@@ -6,7 +6,9 @@ async function showbooks_onUserpage() {
             const card = document.createElement('div');
             card.classList.add('book-card');
             card.innerHTML = `
-              <img src="https://localhost:7182/${book.images[0]}" alt="${book.title}">
+            <div class="image_div">
+             <img src="https://localhost:7182/${book.images[0]}" alt="${book.title}">
+            </div>
               <h3>${book.title}</h3>
               <p>By ${book.author}</p>
               <p>${book.publishYear}</p>
