@@ -61,30 +61,24 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Retrieve the logged-in user from local storage
-            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            
+function getQueryParam(param) {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+var nicnumber = getQueryParam('nicnumber')
+console.log(nicnumber);
 
-            if (loggedUser) {
-                // Set the profile image
-                const profileImage = document.getElementById('profileImage');
-                profileImage.src = `../member/${loggedUser.ProfileImage}` || '../member/default-image.jpg'; // Default image if none is set
+localStorage.setItem("LoginNic",JSON.stringify(nicnumber));
 
-                // Set the member's name
-                const memberName = document.getElementById('member');
-                memberName.textContent = `${loggedUser.FirstName} ${loggedUser.LastName}` || 'Member';
-            } else {
-                console.error('No user is logged in');
-            }
 
-             // Logout functionality
-        document.getElementById('logoutLink').addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent the default anchor behavior
-            localStorage.removeItem('loggedInUser'); // Remove user data from local storage
-            window.location.href = '../login.html'; // Redirect to the login page
+ 
+  
         });
-        });
+
 
 
 

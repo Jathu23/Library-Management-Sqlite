@@ -42,4 +42,8 @@ async function fetchLentrecodes(nic) {
     }
 }
 
-showlentrecode(1001);
+
+let usernic =JSON.parse(localStorage.getItem("LoginNic"));
+console.log(usernic);
+showlentrecode(usernic);
+

@@ -87,3 +87,5 @@ async function fetchbooks(ordervalue) {
   showbooks_onUserpage();
 
   sliderImage.src = 'https://localhost:7182/${currentImages[currentIndex]}';
+
+
