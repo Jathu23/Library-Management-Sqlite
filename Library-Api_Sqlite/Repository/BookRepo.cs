@@ -43,6 +43,7 @@ namespace Library_Api_Sqlite.Repository
 
 
 
+
         public async Task<bool> UpdateBook(UpdateBook book ,string ISBN)
         {
             using (var connection = new SqliteConnection(_connectionString))
@@ -252,7 +253,7 @@ namespace Library_Api_Sqlite.Repository
                     }
                 }
 
-                return genres.ToList();
+                return genres.Distinct().ToList();
             }
         }
         public async Task<List<string>> GetAllAuthors()
