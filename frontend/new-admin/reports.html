@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lend member</title>
+  <title>Lend Member</title>
   <link rel="stylesheet" href="../new-admin/style.css">
 </head>
 
@@ -13,24 +13,75 @@
   <div class="details" id="book-inventory-field" style="display: block;">
     <div class="recentorders">
       <div class="cardHeader">
-        <h2>Inventory reports</h2>
+        <button class="Addbutton" id="inventory-reports-btn">Inventory Reports</button>
+      </div>
+      <div class="cardHeader">
+        <button class="Addbutton" id="user-reports">User Reports</button>
       </div>
       <div class="mainbar">
-
-        
-        <button class="reports-Btn">Last Week Reports</button>
+        <button class="Addbutton" id="full-books-reports-btn">Full Books Reports</button>
+        <button class="Addbutton" id="lend-reports-btn">Lend Reports</button>
+        <button class="Addbutton" id="return-reports-btn">Return Reports</button>
       </div>
 
-      <table>
+      <!-- Table for Full Books Reports -->
+      <table id="books-table" style="display: none;">
         <thead>
           <tr>
-            <td>Book Id</td>
-            <td>Book Name</td>
-            <td>Author</td>
-            <td>Published Date</td>
-            <td>Category</td>
-            <td>Status</td>
-            
+            <td>ISBN</td>
+            <td>Title</td>
+            <td>Total Copies</td>
+            <td>Available Copies</td>
+            <td>Lent Count</td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be dynamically populated here -->
+        </tbody>
+      </table>
+
+      <!-- Table for Lend Reports -->
+      <table id="lend-table" style="display: none;">
+        <thead>
+          <tr>
+            <td>User NIC</td>
+            <td>Books Lent</td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be dynamically populated here -->
+        </tbody>
+      </table>
+
+      <!-- Table for Return Reports -->
+      <table id="return-table" style="display: none;">
+        <thead>
+          <tr>
+            <td>Return ID</td>
+            <td>User NIC</td>
+            <td>Lent ID</td>
+            <td>ISBN</td>
+            <td>Lent Copies</td>
+            <td>Returned Copies</td>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Rows will be dynamically populated here -->
+        </tbody>
+      </table>
+
+      <table id="user-table" style="display: none;">
+        <thead>
+          <tr>
+            <td>User NIC</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Full Name</td>
+            <td>Email</td>
+            <td>Phone Number</td>
+            <td>Join Date</td>
+            <td>Last Login Date</td>
+            <td>Rent Count</td>
           </tr>
         </thead>
         <tbody>
@@ -38,15 +89,111 @@
         </tbody>
       </table>
     </div>
-    <!-- book inventory end here-->
+    <!-- book inventory ends here-->
   </div>
 
-    
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
-      
-    </script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    // Function to fetch and display book details for Full Books Reports
+    async function fetchBookDetails() {
+      try {
+        const response = await fetch('https://localhost:7182/api/Book/BookReport');
+        const books = await response.json();
+
+        const tableBody = document.querySelector('#books-table tbody');
+        tableBody.innerHTML = '';  // Clear existing rows
+
+        books.forEach(book => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${book.isbn}</td>
+            <td>${book.title}</td>
+            <td>${book.totalcopies}</td>
+            <td>${book.avicopies}</td>
+            <td>${book.lentcount}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        // Show books table and hide others
+        document.getElementById('books-table').style.display = 'table';
+        document.getElementById('lend-table').style.display = 'none';
+        document.getElementById('return-table').style.display = 'none';
+      } catch (error) {
+        console.error('Error fetching book details:', error);
+      }
+    }
+
+    // Function to fetch and display lend details for Lend Reports
+    async function fetchLendDetails() {
+      try {
+        const response = await fetch('https://localhost:7182/api/Lent/R_getuserandlentbooks');
+        const lendRecords = await response.json();
+
+        const tableBody = document.querySelector('#lend-table tbody');
+        tableBody.innerHTML = '';  // Clear existing rows
+
+        lendRecords.forEach(record => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.nic}</td>
+            <td>${record.books.join(', ')}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        // Show lend table and hide others
+        document.getElementById('lend-table').style.display = 'table';
+        document.getElementById('books-table').style.display = 'none';
+        document.getElementById('return-table').style.display = 'none';
+      } catch (error) {
+        console.error('Error fetching lend records:', error);
+      }
+    }
+
+    // Function to fetch and display return details for Return Reports
+    async function fetchReturnDetails() {
+      try {
+        const response = await fetch('https://localhost:7182/api/Return/GetAllRecods');
+        const returnRecords = await response.json();
+
+        const tableBody = document.querySelector('#return-table tbody');
+        tableBody.innerHTML = '';  // Clear existing rows
+
+        returnRecords.forEach(record => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${record.id}</td>
+            <td>${record.usernic}</td>
+            <td>${record.lentId}</td>
+            <td>${record.isbn}</td>
+            <td>${record.lentcopies}</td>
+            <td>${record.returncopies}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+
+        // Show return table and hide others
+        document.getElementById('return-table').style.display = 'table';
+        document.getElementById('books-table').style.display = 'none';
+        document.getElementById('lend-table').style.display = 'none';
+      } catch (error) {
+        console.error('Error fetching return records:', error);
+      }
+    }
+
+    // Event listeners for buttons
+    document.getElementById('full-books-reports-btn').addEventListener('click', fetchBookDetails);
+    document.getElementById('lend-reports-btn').addEventListener('click', fetchLendDetails);
+    document.getElementById('return-reports-btn').addEventListener('click', fetchReturnDetails);
+
+    // Fetch and display book details by default on page load
+    window.onload = fetchBookDetails;
+
+  </script>
+
 </body>
 
 </html>

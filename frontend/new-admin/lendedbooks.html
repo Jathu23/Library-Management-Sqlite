@@ -59,7 +59,7 @@
                             <th>Copies Lent</th>
                             <th>Lent Date</th>
                             <th>DueDate</th>
-                            <th>Action</th>
+                            
                         </tr>
                     </thead>
                     <tbody id="bookTableBody">
@@ -101,9 +101,7 @@
                         <td>${record.lentcopies}</td>
                         <td>${new Date(record.lentDate).toLocaleDateString()}</td>
                         <td>${new Date(record.returnDate).toLocaleDateString()}</td>
-                        <td>
-                            <button onclick="handleAction(${record.id})">Action</button>
-                        </td>
+                        
                     </tr>
                     `;
                 });
