@@ -40,22 +40,33 @@ try {
     if (Urole == "member") {
         let validate = await ValidateUser(nicNumber,password);
         if (validate) {
-            window.location.replace("../member/member.html"); 
-            // window.location.replace ="../member/member.html"; 
+            
+            window.location.replace("../member/member.html?nicnumber=" + nicNumber);
+          
         }else{
             document.getElementById("loginMessage").textContent = "User Id or Password incorrect";
+
+            setTimeout(() => {
+                document.getElementById("loginMessage").textContent = "";
+            }, 2000);
         }
     }else{
         if (nicNumber == "admin" && password == "admin" ) {
             window.location.replace("../new-admin/dashboard-Admin .html");
         }else{
             document.getElementById("loginMessage").textContent = "User Id or Password incorrect";
+            setTimeout(() => {
+                document.getElementById("loginMessage").textContent = "";
+            }, 2000);
         }
     }
  
 } catch (error) {
     console.error('There was an error with the login:', error);
     document.getElementById("loginMessage").textContent = "An error occurred. Please try again.";
+    setTimeout(() => {
+        document.getElementById("loginMessage").textContent = "";
+    }, 3000);
 }
 
 
