@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library System</title>
-    <link rel="stylesheet" href="../welcompage/stylesheet.css">
-    <link rel="stylesheet" href="../Login,Signup\lonin.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="../welcompage/stulesheet.css"> <!-- Fixed stylesheet link -->
+    <link rel="stylesheet" href="../Login,Signup/lonin.css">
+    <!-- Fixed typo in path -->
 </head>
+
 <body>
-    <!-- Login Form Section -->
+    <div class="sidebox">
+        <div class="heading">
+            <h1>WELCOME</h1>
+            <h2>BLUE SKY LIBRARY</h2>
+        </div>
+        <div class="iconBx">
+            <ion-icon name="book-outline"></ion-icon>
+        </div>
+    </div>
+
     <div class="main-container" id="logincontainer" style="display: block;">
         <div id="login-page" class="login-container">
             <h1>Login</h1>
@@ -17,126 +29,22 @@
                     <option value="member">Member</option> 
                     <option value="admin">Admin</option>
                 </select><br>
-
-                
-
-                <input type="text" id="loginNIC" required placeholder="User Id"><br>
-
+                <input type="text" id="loginNIC" required placeholder="NIC Number"><br>
                 <input type="password" id="loginPassword" required placeholder="Password"><br>
                 <button type="submit" class="btn">Login</button>
             </form>
             <p id="loginMessage" class="display-message"></p>
-            <a href="#" class="link" id="createAccountLink">Create an account</a>
+            <a href="#" class="link" id="login">Create an account</a>
         </div>
     </div>
 
-<<<<<<< HEAD
-    <!-- Signup Form Section -->
-=======
 
->>>>>>> 4c033407a0d02889d3146190e389374b5920ad5b
     <div id="user-creation-page" class="user-creation-container" style="display: none;">
         <div class="login-container">
             <h1>Sign Up Form</h1>
-            <form id="creation-form" enctype="multipart/form-data">
+            <form id="creation-form">
                 <input type="text" id="firstname" placeholder="First Name" required><br>
                 <input type="text" id="lastname" placeholder="Last Name" required><br>
-<<<<<<< HEAD
-                <input type="file" id="image" required><br> <!-- File input for image -->
-                <input type="text" id="nicnumberSignup" placeholder="NIC Number" required><br>
-                <input type="email" id="email" placeholder="E-mail" required><br>
-                <input type="text" id="phonenumber" placeholder="Phone Number" required><br>
-                <input type="password" id="createPassword" placeholder="Create Password" required><br>
-                <input type="password" id="confirmpassword" placeholder="Confirm Password" required><br>
-                <select id="userRoleSignup" name="userRoleSignup" required>
-                    <option value="member">Member</option>
-                </select><br>
-                <button type="submit" class="btn">Create User</button>
-                <h3 id="createMessage"></h3>
-            </form>
-            <a href="#" class="link" id="signupLoginLink">Have an account</a>
-        </div>
-    </div>
-
-    <script>
-        // Switch to Signup Form
-        document.getElementById('createAccountLink').addEventListener('click', function () {
-            document.getElementById('logincontainer').style.display = 'none';
-            document.getElementById('user-creation-page').style.display = 'block';
-        });
-
-        // Switch back to Login Form
-        document.getElementById('signupLoginLink').addEventListener('click', function () {
-            document.getElementById('user-creation-page').style.display = 'none';
-            document.getElementById('logincontainer').style.display = 'block';
-        });
-
-        // Handle Login Form Submission
-        document.getElementById('loginForm').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const nicnumber = document.getElementById('nicnumber').value;
-            const password = document.getElementById('loginPassword').value;
-
-            try {
-                const response = await fetch(`https://localhost:7182/api/User/ValidateUser?nic=${nicnumber}&password=${password}`);
-
-                if (response.ok) {
-                    const data = await response.json();
-
-                    // Save the logged-in user's NIC number in localStorage
-                    localStorage.setItem('loggedinuser', nicnumber);
-
-                    // Redirect based on user role
-                    if (data.role === 'admin') {
-                        window.location.href = '../new-admin/dashboard-Admin.html'; // Admin page
-                    } else if (data.role === 'member') {
-                        window.location.href = '../new-admin/dashboard-Member.html'; // Member page
-                    }
-                } else {
-                    document.getElementById('loginMessage').textContent = 'Invalid NIC number or password';
-                }
-            } catch (error) {
-                console.error('Error during login:', error);
-                document.getElementById('loginMessage').textContent = 'An error occurred during login';
-            }
-        });
-
-        // Handle Signup Form Submission with Image Upload
-        document.getElementById('creation-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const formData = new FormData();
-
-            // Append form fields to FormData
-            formData.append('firstName', document.getElementById('firstname').value);
-            formData.append('lastName', document.getElementById('lastname').value);
-            formData.append('image', document.getElementById('image').files[0]); // Append file
-            formData.append('nic', document.getElementById('nicnumberSignup').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('phoneNumber', document.getElementById('phonenumber').value);
-            formData.append('password', document.getElementById('createPassword').value);
-console.log(formData);
-
-            try {
-                const response = await fetch('https://localhost:7182/api/User/AddUser', {
-                    method: 'POST',
-                    body: JSON.stringify(formData) // Send FormData with the request
-                });
-
-                if (response.ok) {
-                    document.getElementById('createMessage').textContent = 'User created successfully!';
-                    // Clear the form or redirect as needed
-                } else {
-                    document.getElementById('createMessage').textContent = 'Failed to create user';
-                }
-            } catch (error) {
-                console.error('Error creating user:', error);
-                document.getElementById('createMessage').textContent = 'An error occurred while creating the user';
-            }
-        });
-    </script>
-
-    <!-- Ionicons library for icons -->
-=======
                 <input type="number" id="nicnumber" placeholder="NIC Number" required><br>
                 <input type="email" id="email" placeholder="E-mail" required><br>
                 <input type="text" id="phonenumber" placeholder="Phone Number" required><br>
@@ -213,8 +121,8 @@ async function addNewUser(firstname, lastname, nicnumber, email, createPassword,
 
     </script>
     <script src="../ScriptFiles/login.js"></script>
->>>>>>> 4c033407a0d02889d3146190e389374b5920ad5b
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>
