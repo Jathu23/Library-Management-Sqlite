@@ -1,4 +1,7 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Library_Api_Sqlite.EntityModals;
+using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace Library_Api_Sqlite.Data
 {
@@ -45,6 +48,14 @@ namespace Library_Api_Sqlite.Data
             lastLoginDate TEXT NOT NULL,  -- Storing DateTime as TEXT
             rentCount INTEGER NOT NULL,
             profileImg TEXT  -- Profile image file path
+        );
+        CREATE TABLE IF NOT EXISTS ADMINS(
+        ID INTEGER PRIMARY KEY,
+        NAME TEXT NOT NULL,
+        EMAIL TEXT NOT NULL UNIQUE,
+        USERID TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        profileImg TEXT
         );
 
         CREATE TABLE IF NOT EXISTS LentRecords (
@@ -102,7 +113,17 @@ namespace Library_Api_Sqlite.Data
         INSERT OR IGNORE INTO Users (NIC, firstName, lastName, fullName, email, password, phoneNumber, joinDate, lastLoginDate, rentCount, profileImg) VALUES
         (1001, 'John', 'Doe', 'John Doe', 'john.doe@example.com', 'password123', '555-1234', '2024-09-27', '2024-09-27', 0, 'johndoe.jpg'),
         (1002, 'Jane', 'Smith', 'Jane Smith', 'jane.smith@example.com', 'password456', '555-5678', '2024-09-27', '2024-09-27', 0, 'janesmith.jpg');
-        ";
+
+        
+         --Insert sample data for ADMINS if the table is empty
+        INSERT OR IGNORE INTO ADMINS(ID, NAME, EMAIL, USERID, password, profileImg) VALUES
+          (2301, 'Alice Johnson', 'alice.johnson@example.com', 'alice01', 'password123', 'alice.jpg'),
+           (2302, 'Bob Smith', 'bob.smith@example.com', 'bob02', 'password456', 'bob.jpg');
+
+
+        "
+                ;
+       
 
                 command.ExecuteNonQuery();
             }
