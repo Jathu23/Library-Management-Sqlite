@@ -109,7 +109,8 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<bool> RemoveUser(int id)
         {
-            User user = new User();
+            User user = await _userRepo.Getuser(id);
+            Console.WriteLine(user.profileimg);
 
             if (user.profileimg != "default.jpg" && user.profileimg != null)
             {
@@ -131,7 +132,8 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<int> CountTotalUsers()
         {
-
+           
+           //_RootOprations.DeleteImages(new List<string> { "userimages/a5c0e4dbad89-44c1-b0ae-a60b05a3c6baPoinsettias1.jpeg" }, "userimages");
             return await _userRepo.CountTotalUsers();
         }
 
