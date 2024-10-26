@@ -112,6 +112,7 @@ async function showUserDetails() {
 async function showLendRecordDetails(nic) {
     try {
       let infos = await getCustomInfo(nic)
+      custoninfodiv.innerHTML = ``;
       infos.forEach(rec => {
         custoninfodiv.innerHTML += ` <div>
                         <p>${rec.lentId}</p>
@@ -159,10 +160,12 @@ showReturnrecods();
 
 
 document.getElementById('issue_userid').addEventListener('input', () => {
-    showUserDetails();
-})
+    showUserDetails();   
+    showLendRecordDetails(document.getElementById('issue_userid').value);
+});
 
-showLendRecordDetails(1001);
+
+
 
 
 
