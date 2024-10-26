@@ -71,13 +71,13 @@ namespace Library_Api_Sqlite.Services
             var rec = await _lentRepo.GetAllLendRecords();
             foreach (var item in rec)
             {
-                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies,item.lentDate,item.ReturnDate, DateDifference(item.ReturnDate, true));
+                var recS = new Lent__Res_Dto(item.isbn, item.id, item.usernic, item.copies, item.lentDate, item.ReturnDate, DateDifference(item.ReturnDate, true));
                 lentRec.Add(recS);
             }
 
             return lentRec;
         }
-       
+
         public async Task<IEnumerable<Lent__Res_Dto>> GetRecordsby_Nic(int nic)
         {
             var lentRec = new List<Lent__Res_Dto>();
@@ -100,7 +100,7 @@ namespace Library_Api_Sqlite.Services
                 int diff = int.Parse(DateDifference(rec.ReturnDate, false));
                 if (diff < 0)
                 {
-                    var Nrec = new Notifaction(rec.id,rec.isbn,rec.usernic,rec.copies, rec.lentDate,rec.ReturnDate, DateDifference(rec.ReturnDate, true));
+                    var Nrec = new Notifaction(rec.id, rec.isbn, rec.usernic, rec.copies, rec.lentDate, rec.ReturnDate, DateDifference(rec.ReturnDate, true));
                     Notifactions.Add(Nrec);
                 }
             }
@@ -110,7 +110,7 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<List<Notifaction>> findoverdue_user(int nic)
         {
-            
+
             var lentrecods = await _lentRepo.GetAllLendRecords();
             List<Notifaction> Notifactions = new List<Notifaction>();
 
@@ -125,7 +125,7 @@ namespace Library_Api_Sqlite.Services
                         Notifactions.Add(Nrec);
                     }
                 }
-               
+
             }
             return Notifactions;
 
@@ -134,7 +134,7 @@ namespace Library_Api_Sqlite.Services
 
         public async Task<IEnumerable<string>> GetLentBooks(int nic)
         {
-           
+
             var orBooks = await _bookRepo.GetAllBooks();
             var records = await _lentRepo.GetRecordsby_Nic(nic);
 
@@ -151,17 +151,17 @@ namespace Library_Api_Sqlite.Services
                         books.Add(book.Title);
                     }
                 }
-            }         
+            }
             return books.Distinct();
         }
 
 
-      public async Task<List<Lent_user_books_Dtos>> R_getuserandlentbooks()
-        { 
+        public async Task<List<Lent_user_books_Dtos>> R_getuserandlentbooks()
+        {
             var lentrecods = await _lentRepo.GetAllLendRecords();
             var usersNic = new List<int>();
             var Dec_usersNic = usersNic.Distinct();
-            
+
             var Repots = new List<Lent_user_books_Dtos>();
 
             foreach (var rec in lentrecods)
@@ -171,16 +171,16 @@ namespace Library_Api_Sqlite.Services
             foreach (var user in Dec_usersNic)
             {
                 var lbooks = new List<string>();
-                    foreach (var rec in lentrecods)
+                foreach (var rec in lentrecods)
+                {
+
+                    if (rec.usernic == user)
                     {
-
-                          if (rec.usernic == user)
-                        {
                         lbooks.Add(rec.isbn);
-                         }
-                     }
+                    }
+                }
 
-                Repots.Add(new Lent_user_books_Dtos(user,lbooks));
+                Repots.Add(new Lent_user_books_Dtos(user, lbooks));
             }
 
             return Repots;
@@ -217,6 +217,33 @@ namespace Library_Api_Sqlite.Services
         {
 
             return await _lentRepo.CountTotalLendBooks();
+        }
+        public async Task<List<Custom_Lent_Rec>> customInfo(int userid)
+        {
+            var lentrecods =await _lentRepo.GetRecordsby_Nic(userid);
+            var Books = await _bookRepo.GetAllBooks();
+            var customrecods = new List<Custom_Lent_Rec>();
+          
+            foreach (var rec in lentrecods)
+            {
+                if (rec.usernic == userid)
+                {
+                  
+                    foreach (var book in Books)
+                    {
+                        if (rec.isbn == book.ISBN)
+                        {
+                           var title = book.Title;
+                            var cusRec = new Custom_Lent_Rec(rec.id, title, rec.copies,rec.lentDate, DateDifference(rec.ReturnDate, true));
+                            customrecods.Add(cusRec);
+                        }
+                    }
+                   
+                }
+            }
+            return customrecods;
+           
+
         }
     }
 }

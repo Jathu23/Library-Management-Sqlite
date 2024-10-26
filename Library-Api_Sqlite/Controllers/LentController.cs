@@ -78,6 +78,13 @@ namespace Library_Api_Sqlite.Controllers
             return Ok(count);
         }
 
+        [HttpGet("customInfo")]
+        public async Task<IActionResult> customInfo(int userid)
+        {
+            var data = await _lentService.customInfo(userid);
+            return Ok(data);
+        }
+
     }
 
 }

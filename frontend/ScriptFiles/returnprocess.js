@@ -1,4 +1,5 @@
 let rec_table = document.getElementById('return_rec_table');
+var custoninfodiv = document.getElementById('custominfo');
 async function fetchreturnrecods() {
     try {
         let response = await fetch('https://localhost:7182/api/Return/GetAllRecods');
@@ -11,7 +12,6 @@ async function fetchreturnrecods() {
         console.error("An error occurred:", error.message);
     }
 }
-
 async function showReturnrecods() {``
     try {
         rec_table.innerHTML =`<tr>
@@ -44,17 +44,20 @@ rec.forEach(r => {
         console.log(error,error.message);
     }
 }
+async function fetchSingleUserLend(NicNumber) {
+    try {
+        let url = 'https://localhost:7182/api/Lent/GetRecordsby_Nic?nic==' + encodeURIComponent(NicNumber);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
 
-showReturnrecods();
-
-
-
-document.getElementById('issue_userid').addEventListener('input', () => {
-    showUserDetails();
-})
-
-
-
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 async function fetchSingleUser(NicNumber) {
     try {
         let url = 'https://localhost:7182/api/User/GetByUser?nic=' + encodeURIComponent(NicNumber);
@@ -106,50 +109,21 @@ async function showUserDetails() {
     }
 
 }
-
-
-
-
-
-
-async function fetchSingleUserLend(NicNumber) {
+async function showLendRecordDetails(nic) {
     try {
-        let url = 'https://localhost:7182/api/Lent/GetRecordsby_Nic?nic==' + encodeURIComponent(NicNumber);
-        let response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        let data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error("An error occurred:", error.message);
-    }
-}
-
-
-
-
-
-async function showLendRecordDetails() {
-    try {
-        const NicNumber = document.getElementById('issue_userid').value;
-
-        if (true) {
-            const endData = await fetchSingleUserLend(NicNumber) ;
-           
-
-            let displaydiv = document.getElementById('issue-info');
-
-            displaydiv.children[0].children[1].innerHTML = bookData.title
-            displaydiv.children[1].children[1].innerHTML = bookData.author
-            displaydiv.children[2].children[1].innerHTML = bookData.id
-            displaydiv.children[3].children[1].innerHTML = bookData.publishYear
-            displaydiv.children[4].children[1].innerHTML = bookData.copies
-            displaydiv.children[5].children[1].innerHTML = `${futureDate}`
-
-
-        }
+      let infos = await getCustomInfo(nic)
+      infos.forEach(rec => {
+        custoninfodiv.innerHTML += ` <div>
+                        <p>${rec.lentId}</p>
+                        <p>${rec.bookTitle}</p>
+                        <p>${rec.copies}</p>
+                        <p>${rec.lentDate}</p>
+                        <p>${rec.status}</p>
+                 </div>  </br>  `;
+   
+        
+      });
+     
 
     } catch (error) {
         console.log("error ");
@@ -157,3 +131,46 @@ async function showLendRecordDetails() {
     }
 
 }
+async function getCustomInfo(userId) {
+    try {
+        const url = `https://localhost:7182/api/Lent/customInfo?userid=${userId}`;
+        
+        let response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        console.log("Custom Info:", data);
+        return data;
+
+    } catch (error) {
+        console.error("Error fetching custom info:", error.message);
+    }
+}
+
+
+
+
+
+showReturnrecods();
+
+
+
+document.getElementById('issue_userid').addEventListener('input', () => {
+    showUserDetails();
+})
+
+showLendRecordDetails(1001);
+
+
+
+
+
+
+
+
+
+
+
