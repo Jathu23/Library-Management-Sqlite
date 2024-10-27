@@ -258,7 +258,7 @@ window.onclick = function (event) {
   }
 }
 
-showbooks_onUserpage();
+// showbooks_onUserpage();
 
 sliderImage.src = 'https://localhost:7182/${currentImages[currentIndex]}';
 
