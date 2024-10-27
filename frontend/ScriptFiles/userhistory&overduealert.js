@@ -94,4 +94,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadReturnRecords(usernic);
     loadLentRecords(usernic);
+
+
+
+
+    async function fetchOverdueLentRecords(usernic) {
+        try {
+            const response = await fetch(`https://localhost:7182/api/Lent/findoverdue_user?nic=${usernic}`);
+            
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+    
+            return await response.json();
+        } catch (error) {
+            console.error("Failed to fetch overdue lent records:", error);
+            return [];
+        }
+    }
+    
+    function displayOverdueLentRecords(overdueRecords) {
+        const tableBody = document.getElementById("overdueLentRecordsTable").querySelector("tbody");
+        tableBody.innerHTML = "";
+    
+        overdueRecords.forEach(record => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${record.lentid}</td>
+                <td>${record.isbn}</td>
+                <td>${record.copies}</td>
+                <td>${new Date(record.lentDate).toLocaleDateString()}</td>
+                <td>${new Date(record.returnDate).toLocaleDateString()}</td>
+                <td>${record.status}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+    
+   
+    async function loadOverdueRecords(usernic) {
+        if (usernic) {
+            const overdueRecords = await fetchOverdueLentRecords(usernic);
+            displayOverdueLentRecords(overdueRecords);
+        } else {
+            console.log ("Please enter a valid UserNIC.");
+           
+        }
+    }
+    
+    loadOverdueRecords(usernic);
 });
