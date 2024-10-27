@@ -168,7 +168,6 @@ async function filterbooks() {
 }
 async function showAllbooks() {
   const books = await fetchbooks(true);
-  console.log(books);
   
   await displaybooks(books);
 }
@@ -245,12 +244,12 @@ document.querySelector('.close').addEventListener('click', () => {
 
 document.getElementById('prev-btn').addEventListener('click', () => {
   currentIndex = (currentIndex > 0) ? currentIndex - 1 : currentImages.length - 1;
-  sliderImage.src = sliderImage.src = `https://localhost:7182/${currentImages[currentIndex]}`;
+ sliderImage.src = `https://localhost:7182/${currentImages[currentIndex]}`;
 });
 
 document.getElementById('next-btn').addEventListener('click', () => {
   currentIndex = (currentIndex < currentImages.length - 1) ? currentIndex + 1 : 0;
-  sliderImage.src = sliderImage.src = `https://localhost:7182/${currentImages[currentIndex]}`;
+sliderImage.src = `https://localhost:7182/${currentImages[currentIndex]}`;
 });
 
 window.onclick = function (event) {

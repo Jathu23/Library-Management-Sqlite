@@ -11,8 +11,8 @@
         <ul>
             <li>
                 <p>
-                    <img src="../member/img.jpg" id="profileImage" style="border-radius: 50%; width: 150px;">
-                   <br> <span class="title" id="member">Member</span>
+                    <img  id="profileImage" style="border-radius: 50%; width: 150px;">
+                   <br> <span class="title" id="memberName">Member</span>
                 </p>
             </li>
         
@@ -58,7 +58,7 @@
     <div class="content">
         <iframe name="contentFrame" src="./requestedList.html"></iframe>
     </div>
-
+    <script src="../ScriptFiles/userinfo.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     
@@ -70,25 +70,8 @@ function getQueryParam(param) {
     return urlParams.get(param);
 }
 var nicnumber = getQueryParam('nicnumber')
-console.log(nicnumber);
-
 localStorage.setItem("LoginNic",JSON.stringify(nicnumber));
-
-
- 
-  
         });
-
-
-
-
-     
-        
-
-
-        
-        
-
     </script>
 </body>
 </html>

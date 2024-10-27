@@ -7,6 +7,7 @@ async function showlentrecode(nic) {
         <th>Copies</th>
         <th>Lent-Date</th>
         <th>Return_Date</th>
+        <th>Status</th>
   </tr>
   `;
 
@@ -16,9 +17,10 @@ try {
         lentrecode_table.innerHTML += `<tr>
         <td>${rec.id}</td>
         <td>${rec.isbn}</td>
-        <td>${rec.copies}</td>
-        <td>${rec.lentDate}</td>
-        <td>${rec.returnDate}</td>
+        <td>${rec.lentcopies}</td>
+        <td>${new Date(rec.lentDate).toLocaleDateString()}</td>
+        <td>${ new Date(rec.returnDate).toLocaleDateString()}</td>
+        <td>${rec.status}</td>
       </tr>`;
     });
 } catch (error) {
@@ -44,6 +46,5 @@ async function fetchLentrecodes(nic) {
 
 
 let usernic =JSON.parse(localStorage.getItem("LoginNic"));
-console.log(usernic);
 showlentrecode(usernic);
 

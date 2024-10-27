@@ -64,7 +64,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         if (Urole == "member") {
             let validate = await ValidateUser(userid, password);
             if (validate) {
-
+                localStorage.setItem("LoginNic",JSON.stringify(userid));
                 window.location.replace("../member/member.html?nicnumber=" + userid);
 
             } else {
