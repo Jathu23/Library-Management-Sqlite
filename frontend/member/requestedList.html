@@ -135,8 +135,36 @@ body {
 
   <div class="details" id="book-inventory-field" style="display: block;">
     <h2>Books in inventry</h2>
+    <div id="detail-container">
+        <div class="filter-container">
+          <label for="genreFilter">Filter by Genre:</label>
+          <select id="genreFilter">
+            <option value="">All Genres</option>
+          </select>
 
-    <div id="book-container"></div>
+          <label for="authorFilter">Filter by Author:</label>
+          <select id="authorFilter">
+            <option value="">All Authors</option>
+          </select>
+
+          <label for="yearFilter">Filter by Year:</label>
+          <select id="yearFilter">
+            <option value="">All Years</option>
+          </select>
+        </div>
+        
+        <div class="mainbar">
+          <div class="search">
+            <label>
+              <input id="booksearchinput" type="text" placeholder=" 🔍 Search" />
+            </label>
+          </div>
+
+        </div>
+     </div>
+    <div id="book-container">
+        
+    </div>
 
     <!-- Modal -->
     <div id="book-modal" class="modal">

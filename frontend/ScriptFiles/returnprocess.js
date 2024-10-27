@@ -120,6 +120,7 @@ async function showLendRecordDetails(nic) {
                         <p>${rec.copies}</p>
                         <p>${rec.lentDate}</p>
                         <p>${rec.status}</p>
+                        <button onclick="lodeinfo('${rec.lentId}')">select</button>
                  </div>  </br>  `;
    
         
@@ -150,7 +151,9 @@ async function getCustomInfo(userId) {
         console.error("Error fetching custom info:", error.message);
     }
 }
-
+function lodeinfo(lentid) {
+    alert(lentid);
+}
 
 
 

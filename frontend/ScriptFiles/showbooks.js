@@ -23,7 +23,6 @@ async function fetchbooks(ordervalue) {
     }
  
 }
-
 async function fetchSearchBook(input) {
     try {
         let url = 'https://localhost:7182/api/Book/SearchByTitle?title=' + encodeURIComponent(input);
@@ -38,7 +37,6 @@ async function fetchSearchBook(input) {
         console.error("An error occurred:", error.message);
     }
 }
-
 async function fetchpublishyears() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/GetAllPublishYears');
@@ -65,9 +63,6 @@ async function fetchGenres() {
         console.error("An error occurred:", error.message);
     }
 }
-
-
-
 async function fetchAuthors() {
     try {
         let response = await fetch('https://localhost:7182/api/Book/GetAllAuthors');
@@ -123,6 +118,7 @@ async function fetchCategorizebooks(genre, author, publishYear) {
         console.error('Error fetching books:', error);
     }
 }
+
 async function showbooks_onAdminpage(value) {
     try {
         const books = await  fetchbooks(value);
@@ -210,8 +206,6 @@ try {
 }
 
 }
-
-
 function createDropdown(dropdown, options) {
   options.forEach(option => {
     const opt = document.createElement('option');
