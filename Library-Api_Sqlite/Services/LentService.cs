@@ -53,7 +53,8 @@ namespace Library_Api_Sqlite.Services
                     lentDate = DateTime.Now
                 };
 
-                await _bookRepo.updatecopies(book.Copies - recode.lentcopies, recode.isbn);
+                await _bookRepo.updatecopies(book.AviCopies - recode.lentcopies, recode.isbn);
+                await _bookRepo.updaterentcount( recode.isbn, book.RentCount + 1);
                 _lentRepo.AddlentHistory(lentrec);
               
 

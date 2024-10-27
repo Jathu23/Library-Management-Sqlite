@@ -554,6 +554,21 @@ namespace Library_Api_Sqlite.Repository
                 command.ExecuteNonQuery();
             }
         }
+        public async Task updaterentcount(string isbn,int count)
+        {
+            Console.WriteLine(isbn);
+            Console.WriteLine(count);
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"UPDATE books SET RentCount = @count WHERE isbn = @isbn";
+                command.Parameters.AddWithValue("@count", count);
+                command.Parameters.AddWithValue("@isbn", isbn);
+                command.ExecuteNonQuery();
+            }
+        }
 
 
 
