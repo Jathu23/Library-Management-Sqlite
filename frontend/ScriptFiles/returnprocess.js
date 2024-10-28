@@ -202,6 +202,34 @@ async function getCustomInfo(userId) {
         console.error("Error fetching custom info:", error.message);
     }
 }
+
+async function returnBook(data) {
+    const url = "https://localhost:7182/api/Return/ReciveBook";
+  console.log(data);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+  
+      const result = await response.json();
+      alert("Return book successful:", result);
+      console.log("Return book successful:", result);
+      return result;
+  
+    } catch (error) {
+      alert.error("Failed to return book:", error);
+    }
+  }
+
+  
 function lodeinfo(lentid, copies,userid,title) {
     let count = document.getElementById('issue_bookcount');
     let Rtitle = document.getElementById('issue_title');
@@ -217,13 +245,13 @@ function lodeinfo(lentid, copies,userid,title) {
 
     let receiveBookButton = document.getElementById("recivebookbtn");
 
-    // Remove any existing click event listeners on the button
     receiveBookButton.replaceWith(receiveBookButton.cloneNode(true));
     receiveBookButton = document.getElementById("recivebookbtn");
 
-    // Add a new click event listener
     receiveBookButton.addEventListener('click', () => {
-        console.log(receivebook);
+        returnBook(receivebook);
+         console.log(receivebook);
+
 
     });
 }
