@@ -4,53 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="../new-admin/style.css">
+    <!-- <link rel="stylesheet" href="../new-admin/style.css"> -->
     <style>
-        /* Add grid styles for the profile details */
-        .profile-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        .profile-grid img {
-            grid-column: span 2; /* Make the image span two columns */
-            width: 100%;
-            height: auto;
-            border-radius: 50%;
-        }
-        .profile-grid label {
-            font-weight: bold;
-        }
-        .profile-grid input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        #saveButton {
-            grid-column: span 2; /* Make button span two columns */
-            padding: 10px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #saveButton:hover {
-            background-color: #45a049;
+       /* General container styling */
+.details-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.details-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Grid styling for labels and inputs */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-grid label {
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-grid input,
+.profile-grid p {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.profile-grid input[readonly] {
+    background-color: #e9ecef;
+    color: #555;
+}
+
+.profile-grid p {
+    margin: 0;
+    padding: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Profile image styling */
+#profileImage2 {
+    grid-column: span 2;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border: 2px solid #ddd;
+    padding: 5px;
+     width: 150px;
+}
+
+/* Save button styling */
+#saveButton {
+    grid-column: span 2;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#saveButton:hover {
+    background-color: #0056b3;
+}
+
         }
     </style>
 </head>
 <body>
-    <div class="admin-details-container">
+    <div class="details-container">
         <h2>Member Profile</h2>
         <div class="personal-details profile-grid">
-            <img src="./img3.jpg" id="profileImage" alt="Profile Image">
+            <img  id="profileImage2" alt="img">
 
             <label for="nicNumber">NIC Number</label>
             <p id="nicNumber">Loading...</p>
@@ -70,8 +117,6 @@
             <label for="dateofjoin">Date of Join</label>
             <input type="text" id="dateofjoin" placeholder="Date of Join" readonly>
 
-            <label for="userRole">User Role</label>
-            <input type="text" id="userRole" placeholder="User Role" readonly value="Member">
 
             <label for="lastlogin">Last Active</label>
             <input type="text" id="lastlogin" placeholder="Date of Join" readonly>
@@ -80,8 +125,10 @@
         </div>
     </div>
 
+    <script src="../ScriptFiles/userinfo.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+ 
     <script>
 
 let UserNic = document.getElementById('nicNumber');
@@ -91,8 +138,8 @@ let useEmail = document.getElementById('emailInput');
 let userPhoneNumber = document.getElementById('phoneNumberInput');
 let dateOfjoin = document.getElementById('dateofjoin');
 let lastActiveDate = document.getElementById('lastlogin');
-let profileImage = document.getElementById('profileImage');
-
+let profileImage = document.getElementById('profileImage2');
+profileImage.src = '../member/defaultuserimg.png';
 let nic = JSON.parse(localStorage.getItem("LoginNic"));
 nic = Number(nic);
 let password; // Declare the password variable
@@ -128,14 +175,14 @@ async function fetchAndLogUser(nic) {
         userLastName.value = userData.lastName;
         useEmail.value = userData.email;
         userPhoneNumber.value = userData.phoneNumber;
-        dateOfjoin.value = userData.joinDate;
-        lastActiveDate.value = userData.lastLoginDate;
+        dateOfjoin.value = new Date(userData.joinDate).toLocaleDateString();
+        lastActiveDate.value = new Date(userData.lastLoginDate).toLocaleDateString();
         password = userData.password; 
 
         if (userData.profileImageUrl) {
-            profileImage.src = userData.profileImageUrl;
+            profileImage.src = '../member/defaultuserimg.png';
         } else {
-            profileImage.alt = "Profile image not available";
+            profileImage.alt = "image ";
         }
     }
 }
