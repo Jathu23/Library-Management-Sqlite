@@ -101,7 +101,7 @@
                         <td>${record.lentcopies}</td>
                         <td>${new Date(record.lentDate).toLocaleDateString()}</td>
                         <td>${new Date(record.returnDate).toLocaleDateString()}</td>
-                        <td>
+                        <td>${record.status}
                             <button onclick="handleAction(${record.id})">Action</button>
                         </td>
                     </tr>

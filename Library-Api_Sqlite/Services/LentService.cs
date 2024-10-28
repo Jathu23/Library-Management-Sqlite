@@ -49,7 +49,7 @@ namespace Library_Api_Sqlite.Services
                     id = recode.id,
                     usernic = recode.usernic,
                     copies = recode.lentcopies,
-                    ReturnDate = DateTime.Now.AddDays(-14), 
+                    ReturnDate = DateTime.Now.AddDays(7), 
                     lentDate = DateTime.Now
                 };
 

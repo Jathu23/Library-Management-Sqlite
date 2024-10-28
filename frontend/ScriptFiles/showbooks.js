@@ -296,6 +296,9 @@ document.getElementById('newbookadd-btn').addEventListener('click', async () => 
 
      await addNewBook(setid(),isbn,title,author,copies,publishYear,genre);
 
+     showbooks_onAdminpage("true");
+    
+
 });
 
 async function addNewBook(Id,isbn,title,author,copies,publishYear,genre) {
@@ -420,6 +423,7 @@ document.getElementById('Update_book').addEventListener('click', async () => {
 
 
     await updateBook(isbn,title,author,copies,publishYear,genre);
+    showbooks_onAdminpage("true");
 });
 
 
