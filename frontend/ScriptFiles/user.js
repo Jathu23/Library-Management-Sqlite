@@ -186,12 +186,13 @@ async function displaybooks(bookArray) {
       const card = document.createElement('div');
       card.classList.add('book-card');
       card.innerHTML = `
+
             <div class="image_div">
              <img src="https://localhost:7182/${book.images[0]}" alt="${book.title}">
-            </div>
-              <h3>${book.title}</h3>
-              <p>By ${book.author}</p>
-              <p>${book.publishYear}</p>
+            </div id="card_div">
+              <h3 id="card_Heading">${book.title}</h3>
+              <p id-"card_P">By ${book.author}</p>
+              <p id="card_p2">${book.publishYear}</p>
             `;
       card.addEventListener('click', () => openModal(book));
       bookContainer.appendChild(card);

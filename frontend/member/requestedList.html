@@ -126,6 +126,82 @@ body {
     width: 90%;
 }
 
+/* styles */
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between elements */
+    padding: 15px; /* Padding around the container */
+    background-color: #b0e0ee; /* Light background for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+label {
+    font-weight: bold; /* Make labels bold */
+    margin-right: 10px; /* Space between label and select */
+    color: #333; /* Darker text color */
+}
+
+select {
+    padding: 10px; /* Padding inside select boxes */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners for select boxes */
+    font-size: 14px; /* Font size for select options */
+    transition: border-color 0.2s; /* Smooth transition for border color on focus */
+}
+
+select:focus {
+    border-color: #007BFF; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+option {
+    padding: 10px; /* Padding inside options for better spacing */
+}
+
+.search {
+    position: relative; /* Allows positioning of the search icon */
+    max-width: 300px; /* Set a maximum width for the search box */
+}
+
+label {
+    display: block; /* Ensure the label takes the full width */
+}
+
+#booksearchinput {
+    width: 100%; /* Full width of the container */
+    padding: 10px 40px 10px 20px; /* Padding around the text */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Slightly larger font for better readability */
+    transition: border-color 0.2s; /* Smooth transition for border color on focus */
+}
+
+#booksearchinput:focus {
+    border-color: #007BFF; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+#booksearchinput::placeholder {
+    color: #888; /* Placeholder color */
+    opacity: 1; /* Ensures full opacity for visibility */
+}
+
+/* Card_style */
+.book-card{
+    background-color: rgb(235, 242, 243);
+    border: 2px solid rgb(183, 185, 187) 
+}
+
+
+
+
+
+
+
+
 
 
   </style>
@@ -134,7 +210,7 @@ body {
 <body>
 
   <div class="details" id="book-inventory-field" style="display: block;">
-    <h2>Books in inventry</h2>
+    <h2 id="heading_inventry">Books in inventry</h2>
     <div id="detail-container">
         <div class="filter-container">
           <label for="genreFilter">Filter by Genre:</label>
