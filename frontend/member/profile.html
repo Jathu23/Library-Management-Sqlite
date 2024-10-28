@@ -50,7 +50,7 @@
     <div class="admin-details-container">
         <h2>Member Profile</h2>
         <div class="personal-details profile-grid">
-            <img src="./img3.jpg" id="profileImage" alt="Profile Image" style="width: 190px;">
+            <img src="./img3.jpg" id="profileImage" alt="Profile Image">
 
             <label for="nicNumber">NIC Number</label>
             <p id="nicNumber">Loading...</p>
@@ -71,7 +71,10 @@
             <input type="text" id="dateofjoin" placeholder="Date of Join" readonly>
 
             <label for="userRole">User Role</label>
-            <input type="text" id="userRole" placeholder="User Role" readonly>
+            <input type="text" id="userRole" placeholder="User Role" readonly value="Member">
+
+            <label for="lastlogin">Last Active</label>
+            <input type="text" id="lastlogin" placeholder="Date of Join" readonly>
 
             <button id="saveButton">Save Changes</button>
         </div>
@@ -80,27 +83,96 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Retrieve the logged-in user from local storage
-            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
-            // Check if a user is logged in
-            if (loggedUser) {
-                // Update profile image
-                document.getElementById('profileImage').src = loggedUser.ProfileImage || './default-image.jpg';
+let UserNic = document.getElementById('nicNumber');
+let userFirstname = document.getElementById('firstNameInput');
+let userLastName = document.getElementById('lastNameInput');
+let useEmail = document.getElementById('emailInput');
+let userPhoneNumber = document.getElementById('phoneNumberInput');
+let dateOfjoin = document.getElementById('dateofjoin');
+let lastActiveDate = document.getElementById('lastlogin');
+let profileImage = document.getElementById('profileImage');
 
-                // Populate input fields with current user details
-                document.getElementById('nicNumber').textContent = loggedUser.NICNumber || 'N/A';
-                document.getElementById('firstNameInput').value = loggedUser.FirstName || '';
-                document.getElementById('lastNameInput').value = loggedUser.LastName || '';
-                document.getElementById('phoneNumberInput').value = loggedUser.PhoneNumber || '';
-                document.getElementById('emailInput').value = loggedUser.Email || '';
-                document.getElementById('dateofjoin').value = loggedUser.JoinDate || '';
-                document.getElementById('userRole').value = loggedUser.UserRole || '';
-            } else {
-                document.getElementById('nicNumber').textContent = 'No user logged in';
+let nic = JSON.parse(localStorage.getItem("LoginNic"));
+nic = Number(nic);
+let password; // Declare the password variable
+
+async function getUserByNIC(nic) {
+    try {
+        const url = `https://localhost:7182/api/User/GetByUser?nic=${nic}`;
+        
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
             }
         });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("Error fetching user details:", error.message);
+    }
+}
+
+async function fetchAndLogUser(nic) {
+    const userData = await getUserByNIC(nic);
+    if (userData) {
+        UserNic.innerHTML = userData.nic;
+        userFirstname.value = userData.firstName;
+        userLastName.value = userData.lastName;
+        useEmail.value = userData.email;
+        userPhoneNumber.value = userData.phoneNumber;
+        dateOfjoin.value = userData.joinDate;
+        lastActiveDate.value = userData.lastLoginDate;
+        password = userData.password; 
+
+        if (userData.profileImageUrl) {
+            profileImage.src = userData.profileImageUrl;
+        } else {
+            profileImage.alt = "Profile image not available";
+        }
+    }
+}
+
+document.getElementById('saveButton').addEventListener('click', async () => {
+    const updatedUserData = {
+       nic,
+        FirstName: userFirstname.value,
+        LastName: userLastName.value,
+        Password: password, 
+        PhoneNumber: userPhoneNumber.value,
+    };
+    console.log(updatedUserData);
+
+    try {
+        const url = `https://localhost:7182/api/User/Updateuser?nic=${nic}`;
+        let response = await fetch(url, {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUserData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        alert('Profile updated successfully!');
+    } catch (error) {
+        console.error("Error updating user details:", error.message);
+        alert('Failed to update profile. Please try again later.');
+    }
+});
+
+fetchAndLogUser(nic);
+
     </script>
 </body>
 </html>
