@@ -382,7 +382,7 @@ document.getElementById('Update_book').style.display = 'block';
 }
 async function updateBook(isbn, title, author, copies, publishYear, genre) {
     const formData = new FormData();
-    formData.append('isbn', isbn);
+    formData.append('ISBN', isbn);
     formData.append('Title', title);
     formData.append('Author', author);
     formData.append('Copies', copies);
@@ -397,9 +397,10 @@ async function updateBook(isbn, title, author, copies, publishYear, genre) {
     }
 
     try {
-        const response = await fetch(`https://localhost:7182/api/Book/UpdateBook`, {
+        const response = await fetch(`https://localhost:7182/api/Book/Update`, {
             method: 'PUT',
             body: formData,
+            // Content-Type header is omitted to allow the browser to set it for FormData
         });
 
         if (response.ok) {
@@ -410,9 +411,10 @@ async function updateBook(isbn, title, author, copies, publishYear, genre) {
             console.error('Error updating book:', errorData);
         }
     } catch (error) {
-        console.error('Network error:', error);
+        console.error('error:', error);
     }
 }
+
 document.getElementById('Update_book').addEventListener('click', async () => {
     const isbn = document.getElementById('isbn').value;
     const title = document.getElementById('title').value;
@@ -423,9 +425,7 @@ document.getElementById('Update_book').addEventListener('click', async () => {
 
 
     await updateBook(isbn,title,author,copies,publishYear,genre);
-    showbooks_onAdminpage("true");
 });
-
 
 
 

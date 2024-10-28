@@ -139,7 +139,7 @@ let userPhoneNumber = document.getElementById('phoneNumberInput');
 let dateOfjoin = document.getElementById('dateofjoin');
 let lastActiveDate = document.getElementById('lastlogin');
 let profileImage = document.getElementById('profileImage2');
-profileImage.src = '../member/defaultuserimg.png';
+// profileImage.src = '../member/defaultuserimg.png';
 let nic = JSON.parse(localStorage.getItem("LoginNic"));
 nic = Number(nic);
 let password; // Declare the password variable
@@ -178,11 +178,11 @@ async function fetchAndLogUser(nic) {
         dateOfjoin.value = new Date(userData.joinDate).toLocaleDateString();
         lastActiveDate.value = new Date(userData.lastLoginDate).toLocaleDateString();
         password = userData.password; 
-
-        if (userData.profileImageUrl) {
-            profileImage.src = '../member/defaultuserimg.png';
+      
+        if (userData.profileimg) {
+            profileImage.src =`https://localhost:7182/${userData.profileimg}`;
         } else {
-            profileImage.alt = "image ";
+            profileImage.alt = "image";
         }
     }
 }

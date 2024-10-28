@@ -23,7 +23,7 @@ namespace Library_Api_Sqlite.Services
 
             if (Requser.profileimg == null)
             {
-                imagePath = new List<string> { "defaultimg.jpg"};
+                imagePath = new List<string> { "userimages/defaultuserimg.png" };
             }
             else
             {

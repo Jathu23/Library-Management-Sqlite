@@ -28,7 +28,7 @@ namespace Library_Api_Sqlite.Services
 
             if (Reqbook.Images == null)
             {
-                imagePaths = new List<string> { "defaultBookimg.jpg" };
+                imagePaths = new List<string> { "bookimages/defaultimg.jpg" };
             }
             else
             {
