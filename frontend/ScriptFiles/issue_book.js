@@ -144,53 +144,12 @@ async function showUserDetails() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 document.getElementById('issue-book-btn').addEventListener('click', async () => {
 
     const copies = document.getElementById("issue_bookcount").value;
     const NicNumber = document.getElementById('issue_userid').value;
     const isbn = document.getElementById('issue_bookid').value;
-    console.log(copies)
+  
 
     if (!isbn || !NicNumber || !copies) {
         alert("Please fill in all fields.");
@@ -203,9 +162,9 @@ document.getElementById('issue-book-btn').addEventListener('click', async () => 
 
     alert("Attempting to lend the book...");
     console.log("Lending book with details:", { isbn, NicNumber, copies });
-
-
     await AddlendBook(id, isbn, NicNumber, Number(copies));
+    document.getElementById("issue-bookform").reset();
+    document.getElementById('issue_date').value = new Date().toISOString().split('T')[0];
 });
 
 async function AddlendBook(id, isbn, NicNumber, copies) {

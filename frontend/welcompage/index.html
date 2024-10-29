@@ -29,8 +29,8 @@
                     <option value="member">Member</option> 
                     <option value="admin">Admin</option>
                 </select><br>
-                <input type="text" id="loginNIC" required placeholder="User Id"><br>
-                <input type="password" id="loginPassword" required placeholder="Password"><br>
+                <input type="text" id="loginNIC" required placeholder="User Id" value=""><br>
+                <input type="password" id="loginPassword" required placeholder="Password" value=""><br>
                 <button type="submit" class="btn">Login</button>
             </form>
             <p id="loginMessage" class="display-message"></p>
@@ -107,10 +107,17 @@ async function addNewUser(firstname, lastname, nicnumber, email, createPassword,
             const data = await response.json();
             console.log('User added successfully:', data);
             document.getElementById('createMessage').innerText = 'User created successfully';
+            setTimeout(() => {
+                    document.getElementById("createMessage").textContent = "";
+                }, 2000);
+
         } else {
             const errorData = await response.json();
             console.error('Error adding user:', errorData);
             document.getElementById('createMessage').innerText = 'Error creating user';
+            setTimeout(() => {
+                    document.getElementById("createMessage").textContent = "";
+                }, 2500);
         }
     } catch (error) {
         console.error('Network error:', error);

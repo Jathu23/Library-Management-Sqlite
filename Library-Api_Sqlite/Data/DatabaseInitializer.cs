@@ -117,8 +117,8 @@ namespace Library_Api_Sqlite.Data
         
          --Insert sample data for ADMINS if the table is empty
         INSERT OR IGNORE INTO ADMINS(ID, NAME, EMAIL, USERID, password, profileImg) VALUES
-          (2301, 'Alice Johnson', 'alice.johnson@example.com', 'alice01', 'password123', 'alice.jpg'),
-           (2302, 'Bob Smith', 'bob.smith@example.com', 'bob02', 'password456', 'bob.jpg');
+          (2301, 'Thuva Karan', 'Thuvakaran@gmail.com', 'thuva01', '228', 'thuva.jpg'),
+           (2302, 'Deno 003', 'Deno003@Gmail.com.com', 'deno003', '456', 'deno.jpg');
 
 
         "

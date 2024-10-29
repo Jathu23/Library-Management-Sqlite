@@ -66,10 +66,13 @@ document.getElementById("loginForm").addEventListener("submit", async function (
             if (validate) {
                 localStorage.setItem("LoginNic",JSON.stringify(userid));
                 window.location.replace("../member/member.html?nicnumber=" + userid);
+                userid.value="";
+                password.value="";
 
             } else {
                 document.getElementById("loginMessage").textContent = "User Id or Password incorrect";
-
+                document.getElementById("loginNIC").value="";
+                document.getElementById("loginPassword").value;
                 setTimeout(() => {
                     document.getElementById("loginMessage").textContent = "";
                 }, 2000);
@@ -78,8 +81,12 @@ document.getElementById("loginForm").addEventListener("submit", async function (
             let res = await validateAdmin(userid,password);
             if (res == true) {
                 window.location.replace("../new-admin/dashboard-Admin .html");
+                userid.value="";
+                password.value="";
             } else {
                 document.getElementById("loginMessage").textContent = "User Id or Password incorrect";
+                userid.value="";
+                password.value="";
                 setTimeout(() => {
                     document.getElementById("loginMessage").textContent = "";
                 }, 2000);
