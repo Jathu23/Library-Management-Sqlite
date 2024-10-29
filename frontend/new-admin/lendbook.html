@@ -67,27 +67,28 @@
             <div class="mainbar">
                 <div class="issue-book display-none" id="issue-book-div">
                     <div class="issue-div">
-                        
+
                         <div class="detaildiv">
                             <div class="form">
                                 <form id="issue-bookform" onsubmit="return false;">
                                     <div class="issue-book-inputs-div">
                                         <h3>Issue Book</h3>
                                         <div class="full-width">
-                                            <input class="form-input" type="text" placeholder="Book-ISBN" id="issue_bookid"
-                                                oninput="fetchBookDetails()" />
+                                            <input class="form-input" type="text" placeholder="Book-ISBN"
+                                                id="issue_bookid" oninput="fetchBookDetails()" />
                                         </div>
                                         <div class="full-width">
-                                            <input class="form-input" type="text" placeholder="User-NIC" id="issue_userid"
-                                                oninput="fetchUserDetails()" />
+                                            <input class="form-input" type="text" placeholder="User-NIC"
+                                                id="issue_userid" oninput="fetchUserDetails()" />
                                         </div>
                                         <div class="full-width">
-                                            <input class="form-input" type="text" placeholder="Copies" id="issue_bookcount" />
+                                            <input class="form-input" type="text" placeholder="Copies"
+                                                id="issue_bookcount" />
                                         </div>
                                         <div class="full-width">
                                             <input class="form-input" type="date" id="issue_date" />
                                         </div>
-                                        <button class="form-btn" id="issue-book-btn" >Issue</button>
+                                        <button class="form-btn" id="issue-book-btn">Issue</button>
                                     </div>
                                 </form>
                             </div>
@@ -123,14 +124,13 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="issue-info-div" id="issue-user">
+                                <h3>Enter user Id</h3>
                                 <div class="info">
                                     <h4>Full Name</h4>
                                     <p id="full-name">--------</p>
                                 </div>
-                               
-                
                                 <div class="info">
                                     <h4>Phone Number</h4>
                                     <p id="user-phone">--------</p>
@@ -145,16 +145,17 @@
                                 </div>
                                 <div class="info">
                                     <h4>Pending Books</h4>
-                                    <p id="user-pending-books">----------</p>
+                                    <ul id="user_pending_books" style="margin-left: 20px;"></ul>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-               
+
             </div>
             <table id="return_rec_table">
-            
+
             </table>
         </div>
     </div>

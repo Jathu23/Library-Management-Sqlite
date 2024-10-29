@@ -111,8 +111,8 @@ namespace Library_Api_Sqlite.Data
 
         -- Insert sample data for Users if the table is empty
         INSERT OR IGNORE INTO Users (NIC, firstName, lastName, fullName, email, password, phoneNumber, joinDate, lastLoginDate, rentCount, profileImg) VALUES
-        (1001, 'John', 'Doe', 'John Doe', 'john.doe@example.com', 'password123', '555-1234', '2024-09-27', '2024-09-27', 0, 'johndoe.jpg'),
-        (1002, 'Jane', 'Smith', 'Jane Smith', 'jane.smith@example.com', 'password456', '555-5678', '2024-09-27', '2024-09-27', 0, 'janesmith.jpg');
+        (1001, 'John', 'Doe', 'John Doe', 'john.doe@example.com', 'password123', '555-1234', '2024-09-27', '2024-09-27', 0, 'userimages/defaultuserimg.png'),
+        (1002, 'Jane', 'Smith', 'Jane Smith', 'jane.smith@example.com', 'password456', '555-5678', '2024-09-27', '2024-09-27', 0, 'userimages/defaultuserimg.png');
 
         
          --Insert sample data for ADMINS if the table is empty

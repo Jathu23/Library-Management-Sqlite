@@ -109,7 +109,7 @@ async function showUserDetails() {
                     </div>
                     <div class="info">
                         <h4>Join Date</h4>
-                        <p id="user-join-date">${UserData.joinDate}</p>
+                        <p id="user-join-date">${new Date(UserData.joinDate).toLocaleDateString()}</p>
                     </div>
                     <div class="info">
                         <h4>Pending Books</h4>
@@ -172,7 +172,7 @@ async function showLendRecordDetails(nic) {
                           <p>${rec.lentId}</p>
                           <p>${rec.bookTitle}</p>
                           <p>${rec.copies}</p>
-                          <p>${rec.lentDate}</p>
+                          <p>${ new Date(rec.lentDate).toLocaleDateString()}</p>
                           <p>${rec.status}</p>
                         <button onclick="lodeinfo('${rec.lentId}', '${rec.copies}','${nic}','${rec.bookTitle}')">select</button>
 

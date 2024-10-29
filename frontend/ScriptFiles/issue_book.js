@@ -1,3 +1,5 @@
+const deuration = 7;
+
 document.getElementById('issue_bookid').addEventListener('input', () => {
     showBookDetails();
 })
@@ -35,6 +37,20 @@ async function fetchSingleUser(NicNumber) {
         console.error("An error occurred:", error.message);
     }
 }
+async function fetchlentbookby_user(nic) {
+    try {
+        let url = 'https://localhost:7182/api/Lent/Getlentbooks_nic?nic=' + encodeURIComponent(nic);
+        let response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("An error occurred:", error.message);
+    }
+}
 
 
 async function showBookDetails() {
@@ -51,7 +67,7 @@ async function showBookDetails() {
             let today = new Date();
 
             
-            today.setDate(today.getDate() + 14);
+            today.setDate(today.getDate() + deuration);
 
            
             let futureDate = today.toLocaleDateString();
@@ -83,22 +99,39 @@ async function showBookDetails() {
 async function showUserDetails() {
     try {
         const NicNumber = document.getElementById('issue_userid').value;
-
+        let pendingbooks = await fetchlentbookby_user(NicNumber);
+ 
         if (NicNumber) {
             const UserData = await fetchSingleUser(NicNumber);
-            console.log(UserData);
-            console.log(UserData.fullName);
-            console.log(UserData.phoneNumber);
-            console.log(UserData.joinDate);
-            console.log(UserData.email);
-            let displaydiv = document.getElementById('issue-user');
+            var displaydiv = document.getElementById('issue-user');
+            displaydiv.innerHTML = `  <div class="info">
+                        <h4>Full Name</h4>
+                        <p id="full-name">${UserData.fullName}</p>
+                    </div>
+                    <div class="info">
+                        <h4>Phone Number</h4>
+                        <p id="user-phone">${UserData.phoneNumber}</p>
+                    </div>
+                    <div class="info">
+                        <h4>Email</h4>
+                        <p id="user-email">${UserData.email}</p>
+                    </div>
+                    <div class="info">
+                        <h4>Join Date</h4>
+                        <p id="user-join-date">${new Date(UserData.joinDate).toLocaleDateString() }</p>
+                    </div>
+                    <div class="info">
+                        <h4>Pending Books</h4>
+                        <ul id="user_pending_books" style="margin-left: 20px;"></ul>
+                    </div>`;
 
-            displaydiv.children[0].children[1].innerHTML = UserData.fullName
-            displaydiv.children[1].children[1].innerHTML = UserData.phoneNumber
-            displaydiv.children[2].children[1].innerHTML = UserData.email
-            displaydiv.children[3].children[1].innerHTML = UserData.joinDate
-            displaydiv.children[4].children[1].innerHTML = UserData.copies
-            displaydiv.children[5].children[1].innerHTML = `${futureDate}`
+            var pending = document.getElementById('user_pending_books');
+            pendingbooks.forEach(book => {
+                pending.innerHTML += `<li>${book}</li>`;
+            });
+            if (pendingbooks.length == 0) {
+                pending.innerHTML += `No pending books`;
+            }
         }
 
     } catch (error) {
