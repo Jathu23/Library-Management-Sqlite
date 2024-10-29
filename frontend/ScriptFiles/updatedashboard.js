@@ -46,7 +46,7 @@ async function fetchLendBooks() {
 
 async function fetchReturnBooks() {
     try {
-        let response = await fetch('https://localhost:7182/api/Return/CountTotalReturnBooks');
+        let response = await fetch('https://localhost:7182/api/Lent/findoverdueAll');
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -103,23 +103,43 @@ async function fetchGatAuthor() {
     }
 }
 
+async function fetchTotalLendTimes() {
+    try {
+        let response = await fetch('https://localhost:7182/api/History/Lent');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        
+        return data;
+    } catch (error) {
+        console.error('Error fetching users count:', error);
+        throw error; 
+    }
+}
+
+
 async function updateDashboard() {
     try {
         const count = await fetchBookCount(); 
         const usercount= await fetchMemberCount();
         const lendcounts =await fetchLendBooks();
         const returncounts =await fetchReturnBooks();
+        const notreturncounts = returncounts.length;
         const genre =await  fetchGenres();
         const counts =  genre.length; 
         const GatAuthor =await fetchGatAuthor();
         const counts1 =  GatAuthor.length; 
+        const lendtimes = await fetchTotalLendTimes();
+        const lendtimes1 = lendtimes.length;
         
         cads.children[1].children[0].children[0].innerHTML = count; 
         cads.children[0].children[0].children[0].innerHTML =usercount;
         cads.children[2].children[0].children[0].innerHTML=lendcounts;
-        cads.children[3].children[0].children[0].innerHTML=returncounts;
+        cads.children[3].children[0].children[0].innerHTML=notreturncounts;
         cads.children[4].children[0].children[0].innerHTML=counts;
         cads.children[5].children[0].children[0].innerHTML=counts1;
+        cads.children[6].children[0].children[0].innerHTML=lendtimes1;
       
     } catch (error) {
         console.error('Error updating dashboard:', error); 
