@@ -380,40 +380,6 @@ document.getElementById('Update_book').style.display = 'block';
                 document.getElementById('genre').value = book.genre;
 
 }
-async function updateBook(isbn, title, author, copies, publishYear, genre) {
-    const formData = new FormData();
-    formData.append('ISBN', isbn);
-    formData.append('Title', title);
-    formData.append('Author', author);
-    formData.append('Copies', copies);
-    formData.append('PublishYear', publishYear);
-    formData.append('Genre', genre);
-
-    const imageInput = document.querySelector('#mimage');
-    if (imageInput && imageInput.files.length > 0) {
-        for (let i = 0; i < imageInput.files.length; i++) {
-            formData.append('Images', imageInput.files[i]);
-        }
-    }
-
-    try {
-        const response = await fetch(`https://localhost:7182/api/Book/Update`, {
-            method: 'PUT',
-            body: formData,
-            // Content-Type header is omitted to allow the browser to set it for FormData
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Book updated successfully:', data);
-        } else {
-            const errorData = await response.json();
-            console.error('Error updating book:', errorData);
-        }
-    } catch (error) {
-        console.error('error:', error);
-    }
-}
 
 document.getElementById('Update_book').addEventListener('click', async () => {
     const isbn = document.getElementById('isbn').value;
@@ -424,10 +390,90 @@ document.getElementById('Update_book').addEventListener('click', async () => {
     const genre = document.getElementById('genre').value;
 
 
-    await updateBook(isbn,title,author,copies,publishYear,genre);
+    // await updateBook(isbn,title,author,copies,publishYear,genre);
+    updateBook(isbn,title,author,genre,copies,publishYear);
+   
+
 });
 
 
 
 
 
+
+
+async function updateBook(isbn, title, author, genre, copies, publishYear) {
+    // Construct the URL with query parameters
+    const url = `https://localhost:7182/api/Book/Update?isbn=${isbn}&Title=${encodeURIComponent(title)}&Author=${encodeURIComponent(author)}&Genre=${encodeURIComponent(genre)}&Copies=${copies}&PublishYear=${publishYear}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json', // Expecting JSON response
+            },
+        });
+
+        // Check if the response is OK
+        if (response.ok) {
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const data = await response.json();
+                console.log("Book updated successfully:", data);
+            } else {
+                console.log("Book updated successfully (non-JSON response)");
+            }
+        } else {
+            const errorText = await response.text();
+            console.error("Error updating book:", errorText);
+        }
+    } catch (error) {
+        console.error("Network error:", error);
+    }
+}
+
+
+
+
+
+// async function updateBook(isbn, title, author, genre, copies, publishYear) {
+//     // Create a FormData object to send as the body of the request
+//     const formData = new FormData();
+//     formData.append('isbn', isbn);
+//     formData.append('Title', title);
+//     formData.append('Author', author);
+//     formData.append('Genre', genre);
+//     formData.append('Copies', copies);
+//     formData.append('PublishYear', publishYear);
+
+//     // Append images if provided in the #mimage input element
+//     const imageInput = document.querySelector('#mimage');
+//     if (imageInput && imageInput.files.length > 0) {
+//         for (let i = 0; i < imageInput.files.length; i++) {
+//             formData.append('Images', imageInput.files[i]);
+//         }
+//     }
+
+//     try {
+//         const response = await fetch('https://localhost:7182/api/Book/Update', {
+//             method: 'PUT',
+//             body: formData,
+//         });
+
+//         // Check if the response is OK
+//         if (response.ok) {
+//             const contentType = response.headers.get("content-type");
+//             if (contentType && contentType.includes("application/json")) {
+//                 const data = await response.json();
+//                 console.log("Book updated successfully:", data);
+//             } else {
+//                 console.log("Book updated successfully (non-JSON response)");
+//             }
+//         } else {
+//             const errorText = await response.text();
+//             console.error("Error updating book:", errorText);
+//         }
+//     } catch (error) {
+//         console.error("Network error:", error);
+//     }
+// }

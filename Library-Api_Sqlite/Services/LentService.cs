@@ -42,15 +42,16 @@ namespace Library_Api_Sqlite.Services
                 {
                     throw new Exception("Not enough copies available.");
                 }
-
+                var Date = DateTime.Now.AddDays(0);
                 var lentrec = new LentRecode
                 {
                     isbn = recode.isbn,
                     id = recode.id,
                     usernic = recode.usernic,
                     copies = recode.lentcopies,
-                    ReturnDate = DateTime.Now.AddDays(7), 
-                    lentDate = DateTime.Now
+                    lentDate = Date,
+                    ReturnDate = Date.AddDays(7)
+                  
                 };
 
                 await _bookRepo.updatecopies(book.AviCopies - recode.lentcopies, recode.isbn);
