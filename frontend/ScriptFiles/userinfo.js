@@ -31,7 +31,7 @@ async function displayuserinfo(nicnum) {
         let curentUser = await getUserByNIC(nicnum);
         uName.innerText= curentUser.fullName;
         profilepic.src = `https://localhost:7182/${curentUser.profileimg}`;
-        profilepic2.src =`https://localhost:7182/${curentUser.profileimg}`;
+        
 
     
     } catch (error) {
