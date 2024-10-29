@@ -8,6 +8,8 @@ document.getElementById('issue_bookid').addEventListener('input', () => {
 document.getElementById('issue_userid').addEventListener('input', () => {
     showUserDetails();
 })
+document.getElementById('issue_date').value = new Date().toISOString().split('T')[0];
+
 
 async function fetchSingleBook(isbn) {
     try {
@@ -60,8 +62,8 @@ async function showBookDetails() {
         if (true) {
             const bookData = await fetchSingleBook(isbn);
 
-            let date = new Date().toLocaleDateString()
-            console.log(date);
+            
+          
 
             
             let today = new Date();

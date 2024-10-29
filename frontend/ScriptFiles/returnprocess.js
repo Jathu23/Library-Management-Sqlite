@@ -1,5 +1,6 @@
 let rec_table = document.getElementById('return_rec_table');
 var custoninfodiv = document.getElementById('custominfo');
+document.getElementById('issue_date').value = new Date().toISOString().split('T')[0];
 async function fetchreturnrecods() {
     try {
         let response = await fetch('https://localhost:7182/api/Return/GetAllRecods');
@@ -35,7 +36,7 @@ async function showReturnrecods() {
             <td>${r.isbn}</td>
             <td>${r.lentcopies}</td>
             <td>${r.returncopies}</td>
-            <td>${r.returndate}</td>
+            <td>${new Date(r.returndate).toLocaleDateString()} - ${new Date(r.returndate).toLocaleTimeString()}</td>
         </tr>
     `;
         });
