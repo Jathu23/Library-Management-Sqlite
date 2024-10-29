@@ -176,6 +176,7 @@ namespace Library_Api_Sqlite.Services
             return await _bookRepo.Categorization(genre, author, publishYear);
         }
 
+
         public async Task<IEnumerable<Book_report_Dto>> BookReport()
         {
             var books = await _bookRepo.GetAllBooks();
@@ -187,6 +188,20 @@ namespace Library_Api_Sqlite.Services
             return repots;
         }
 
+
+        public async Task<List<Book>> GetPopularBooks(int limit)
+        {
+            if (limit > 0)
+            {
+                var books = await _bookRepo.GetPopularBooks(limit);
+                return books;
+            }
+            else
+            {
+                throw new Exception("limit is grater than 0");
+            }
+
+        }
 
 
 

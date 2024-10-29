@@ -537,6 +537,45 @@ namespace Library_Api_Sqlite.Repository
             return books;
         }
 
+        public async Task<List<Book>> GetPopularBooks(int limit)
+        {
+            var popularBooks = new List<Book>();
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT * FROM Books ORDER BY RentCount DESC LIMIT @limit";
+                command.Parameters.AddWithValue("@limit", limit);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var book = new Book
+                        {
+                            Id = reader.GetInt32(0),
+                            ISBN = reader.GetString(1),
+                            Title = reader.GetString(2),
+                            Author = reader.GetString(3),
+                            Genre = reader.IsDBNull(4) ? new List<string>() : reader.GetString(4).Split(',').ToList(),
+                            Copies = reader.GetInt32(5),
+                            AviCopies = reader.GetInt32(6),
+                            PublishYear = reader.GetInt32(7),
+                            AddDateTime = DateTime.Parse(reader.GetString(8)),
+                            Images = reader.IsDBNull(9) ? new List<string>() : reader.GetString(9).Split(',').ToList(),
+                            RentCount = reader.GetInt32(10)
+                        };
+
+                        popularBooks.Add(book);
+                    }
+                }
+            }
+
+            return popularBooks;
+        }
+
+
 
 
 

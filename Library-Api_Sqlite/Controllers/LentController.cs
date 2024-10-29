@@ -65,9 +65,9 @@ namespace Library_Api_Sqlite.Controllers
         }
 
         [HttpGet("R_getuserandlentbooks")]
-        public async Task<IActionResult> R_getuserandlentbooks()
+        public async Task<IActionResult> GetUserLentBooks_R()
         {
-            var data = await _lentService.R_getuserandlentbooks();
+            var data = await _lentService.GetUserLentBooks_R();
             return Ok(data);
         }
 

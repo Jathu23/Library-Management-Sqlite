@@ -12,12 +12,7 @@
 
   <div class="details" id="book-inventory-field" style="display: block;">
     <div class="recentorders">
-      <div class="cardHeader">
-        <button class="Addbutton" id="inventory-reports-btn">Inventory Reports</button>
-      </div>
-      <div class="cardHeader">
-        <button class="Addbutton" id="user-reports">User Reports</button>
-      </div>
+     
       <div class="mainbar">
         <button class="Addbutton" id="full-books-reports-btn">Full Books Reports</button>
         <button class="Addbutton" id="lend-reports-btn">Lend Reports</button>
@@ -43,15 +38,16 @@
       <!-- Table for Lend Reports -->
       <table id="lend-table" style="display: none;">
         <thead>
-          <tr>
-            <td>User NIC</td>
-            <td>Books Lent</td>
-          </tr>
+            <tr>
+                <td>User NIC</td>
+                <td>Full Name</td>
+                <td>Books Lent</td>
+            </tr>
         </thead>
         <tbody>
-          <!-- Rows will be dynamically populated here -->
+            <!-- Rows will be dynamically populated here -->
         </tbody>
-      </table>
+    </table>
 
       <!-- Table for Return Reports -->
       <table id="return-table" style="display: none;">
@@ -128,30 +124,36 @@
 
     // Function to fetch and display lend details for Lend Reports
     async function fetchLendDetails() {
-      try {
+    try {
         const response = await fetch('https://localhost:7182/api/Lent/R_getuserandlentbooks');
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
         const lendRecords = await response.json();
 
         const tableBody = document.querySelector('#lend-table tbody');
         tableBody.innerHTML = '';  // Clear existing rows
 
         lendRecords.forEach(record => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${record.nic}</td>
-            <td>${record.books.join(', ')}</td>
-          `;
-          tableBody.appendChild(row);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${record.nic}</td>
+                <td>${record.fullName}</td>
+                <td>${record.bookTitles.join(', ')}</td>
+            `;
+            tableBody.appendChild(row);
         });
 
         // Show lend table and hide others
         document.getElementById('lend-table').style.display = 'table';
         document.getElementById('books-table').style.display = 'none';
         document.getElementById('return-table').style.display = 'none';
-      } catch (error) {
+    } catch (error) {
         console.error('Error fetching lend records:', error);
-      }
     }
+}
 
     // Function to fetch and display return details for Return Reports
     async function fetchReturnDetails() {

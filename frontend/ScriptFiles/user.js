@@ -13,6 +13,7 @@ const sliderImage = document.getElementById('slider-image');
 const genreFilter = document.getElementById('genreFilter');
 const authorFilter = document.getElementById('authorFilter');
 const yearFilter = document.getElementById('yearFilter');
+const Popularsector = document.getElementById('PopularBooks');
 let inputbar = document.getElementById('booksearchinput');
 
 
@@ -131,6 +132,26 @@ async function fetchCategorizebooks(genre, author, publishYear) {
     console.error('Error fetching books:', error);
   }
 }
+async function getPopularBooks(limit) {
+  try {
+      const response = await fetch(`https://localhost:7182/api/Book/GetPopularBooks?limit=${limit}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const popularBooks = await response.json();
+     return popularBooks;
+  } catch (error) {
+      console.error('Error fetching popular books:', error);
+  }
+}
+
 async function Add_dropdown_options() {
   try {
     const genres = await fetchGenres();
@@ -236,6 +257,15 @@ authorFilter.addEventListener('change', () => {
 yearFilter.addEventListener('change', () => {
   filterbooks();
 });
+Popularsector.addEventListener('change', async () => {
+ if (Popularsector.value != "") {
+  let books = await getPopularBooks(Popularsector.value);
+  await displaybooks(books);
+ }else{
+  showAllbooks();
+ }
+
+});
 
 
 
@@ -261,6 +291,6 @@ window.onclick = function (event) {
 
 // showbooks_onUserpage();
 
-sliderImage.src = 'https://localhost:7182/${currentImages[currentIndex]}';
+// sliderImage.src = 'https://localhost:7182/${currentImages[currentIndex]}';
 
 

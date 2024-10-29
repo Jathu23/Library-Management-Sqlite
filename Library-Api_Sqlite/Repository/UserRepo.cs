@@ -242,6 +242,19 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
+        public async Task UpdateLentCount(int nic)
+        {
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"UPDATE Users SET rentCount = rentCount + 1 WHERE nic = @nic";
+                command.Parameters.AddWithValue("@nic", nic);
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
+
 
     }
 }

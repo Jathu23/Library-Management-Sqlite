@@ -118,6 +118,31 @@ async function fetchTotalLendTimes() {
     }
 }
 
+async function getPopularBooks(limit) {
+    try {
+        const response = await fetch(`https://localhost:7182/api/Book/GetPopularBooks?limit=${limit}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const popularBooks = await response.json();
+       return popularBooks;
+    } catch (error) {
+        console.error('Error fetching popular books:', error);
+    }
+}
+
+
+
+
+
+
 
 async function updateDashboard() {
     try {
@@ -132,6 +157,9 @@ async function updateDashboard() {
         const counts1 =  GatAuthor.length; 
         const lendtimes = await fetchTotalLendTimes();
         const lendtimes1 = lendtimes.length;
+        const pbook = await getPopularBooks(1);
+
+
         
         cads.children[1].children[0].children[0].innerHTML = count; 
         cads.children[0].children[0].children[0].innerHTML =usercount;
@@ -140,6 +168,12 @@ async function updateDashboard() {
         cads.children[4].children[0].children[0].innerHTML=counts;
         cads.children[5].children[0].children[0].innerHTML=counts1;
         cads.children[6].children[0].children[0].innerHTML=lendtimes1;
+
+        document.getElementById('popularbook').innerHTML =`  <p>${pbook[0].title}</P> <hr>
+              <p>Author : ${pbook[0].author}</p>
+              <p>Genre : ${pbook[0].genre}</p>
+              <p>${pbook[0].aviCopies} Copies Aviable </p>
+              <p>Rented: ${pbook[0].rentCount} Times </p>`;
       
     } catch (error) {
         console.error('Error updating dashboard:', error); 

@@ -4,6 +4,7 @@ using Library_Api_Sqlite.Dto_s.Reports_Dtos;
 using Library_Api_Sqlite.EntityModals;
 using Library_Api_Sqlite.Repository;
 using System.ComponentModel.DataAnnotations;
+using static Library_Api_Sqlite.Repository.LentRepo;
 
 namespace Library_Api_Sqlite.Services
 {
@@ -42,7 +43,7 @@ namespace Library_Api_Sqlite.Services
                 {
                     throw new Exception("Not enough copies available.");
                 }
-                var Date = DateTime.Now.AddDays(0);
+                var Date = DateTime.Now.AddDays(2);
                 var lentrec = new LentRecode
                 {
                     isbn = recode.isbn,
@@ -56,6 +57,7 @@ namespace Library_Api_Sqlite.Services
 
                 await _bookRepo.updatecopies(book.AviCopies - recode.lentcopies, recode.isbn);
                 await _bookRepo.updaterentcount( recode.isbn, book.RentCount + 1);
+                await _userRepo.UpdateLentCount(recode.usernic);
                 _lentRepo.AddlentHistory(lentrec);
               
 
@@ -158,34 +160,11 @@ namespace Library_Api_Sqlite.Services
         }
 
 
-        public async Task<List<Lent_user_books_Dtos>> R_getuserandlentbooks()
+        public async Task<List<UserLentBook>> GetUserLentBooks_R()
         {
-            var lentrecods = await _lentRepo.GetAllLendRecords();
-            var usersNic = new List<int>();
-            var Dec_usersNic = usersNic.Distinct();
+            var data = await _lentRepo.GetUserLentBooks_R();
 
-            var Repots = new List<Lent_user_books_Dtos>();
-
-            foreach (var rec in lentrecods)
-            {
-                usersNic.Add(rec.usernic);
-            }
-            foreach (var user in Dec_usersNic)
-            {
-                var lbooks = new List<string>();
-                foreach (var rec in lentrecods)
-                {
-
-                    if (rec.usernic == user)
-                    {
-                        lbooks.Add(rec.isbn);
-                    }
-                }
-
-                Repots.Add(new Lent_user_books_Dtos(user, lbooks));
-            }
-
-            return Repots;
+            return data;
         }
 
 

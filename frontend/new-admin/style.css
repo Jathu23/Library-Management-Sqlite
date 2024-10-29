@@ -239,7 +239,7 @@ iframe {
     display: grid;
     min-height: 500px;
     background: var(--white);
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
   }
@@ -284,20 +284,21 @@ iframe {
     color: var(--white);
   }
   .details .recentorders table tr td {
-    padding: 10px;
+    padding: 0px;
+    text-align: center;
     
   }
 
-  .details .recentorders table tr td:last-child{
+  /* .details .recentorders table tr td:last-child{
     text-align: end;
-  }
+  } */
   
-  .details .recentorders table tr td:last-child(2){
+  /* .details .recentorders table tr td:last-child(2){
     text-align: end;
-  }
-  .details .recentorders table tr td:last-child(3){
+  } */
+  /* .details .recentorders table tr td:last-child(3){
     text-align: center;
-  }
+  } */
 
   /* ================================ working available green color================================= */
 .status.available{

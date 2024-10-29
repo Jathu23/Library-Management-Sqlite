@@ -157,5 +157,11 @@ namespace Library_Api_Sqlite.Controllers
             var books = await _bookservics.BookReport();
             return Ok(books);
         }
+        [HttpGet("GetPopularBooks")]
+        public async Task<IActionResult> GetPopularBooks(int limit)
+        {
+            var books = await _bookservics.GetPopularBooks(limit);
+            return Ok(books);
+        }
     }
 }

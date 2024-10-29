@@ -97,7 +97,8 @@
                     const response = await fetch('https://localhost:7182/api/History/Lent');
                     if (response.ok) {
                         const data = await response.json();
-
+                      
+                        
                         // Clear the existing table body
                         const tableBody = document.getElementById('lendHistoryTableBody');
                         tableBody.innerHTML = '';
@@ -133,7 +134,7 @@
                     const response = await fetch('https://localhost:7182/api/History/Return');
                     if (response.ok) {
                         const data = await response.json();
-
+                        console.log(data);
                         // Clear the existing table body
                         const tableBody = document.getElementById('returnHistoryTableBody');
                         tableBody.innerHTML = '';
@@ -149,7 +150,7 @@
                                 <td>${record.isbn}</td>
                                 <td>${record.lentcopies}</td>
                                 <td>${record.returncopies}</td>
-                                <td>${new Date(record.returnDate).toLocaleDateString()}</td>
+                                <td>${new Date(record.returndate).toLocaleDateString()}</td>
                             `;
 
                             tableBody.appendChild(row);

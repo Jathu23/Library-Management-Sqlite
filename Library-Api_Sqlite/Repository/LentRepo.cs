@@ -196,6 +196,70 @@ namespace Library_Api_Sqlite.Repository
             }
         }
 
+        public async Task<List<UserLentBook>> GetUserLentBooks_R()
+        {
+            var userLentBooks = new List<UserLentBook>();
+
+            using (var connection = new SqliteConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT Users.NIC, Users.fullName, Books.Title 
+            FROM LentRecords 
+            JOIN Users ON LentRecords.UserNIC = Users.NIC 
+            JOIN Books ON LentRecords.ISBN = Books.ISBN";
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var userNIC = reader.GetInt32(reader.GetOrdinal("NIC"));
+                        var userFullName = reader.GetString(reader.GetOrdinal("fullName"));
+                        var bookTitle = reader.GetString(reader.GetOrdinal("Title"));
+
+                        // Check if the user already exists in the list
+                        var existingUser = userLentBooks.FirstOrDefault(ulb => ulb.NIC == userNIC);
+
+                        if (existingUser != null)
+                        {
+                            // Use HashSet to avoid duplicate titles
+                            if (!existingUser.BookTitles.Contains(bookTitle))
+                            {
+                                existingUser.BookTitles.Add(bookTitle);
+                            }
+                        }
+                        else
+                        {
+                            // If user doesn't exist, create a new UserLentBook object and add it to the list
+                            var userLentBook = new UserLentBook
+                            {
+                                NIC = userNIC,
+                                FullName = userFullName,
+                                BookTitles = new List<string> { bookTitle }
+                            };
+                            userLentBooks.Add(userLentBook);
+                        }
+                    }
+                }
+            }
+
+            return userLentBooks;
+        }
+
+
+        public class UserLentBook
+        {
+            public int NIC { get; set; }             
+            public string FullName { get; set; }      
+            public List<string> BookTitles { get; set; } 
+            public UserLentBook()
+            {
+                BookTitles = new List<string>();  
+            }
+        }
+
+
 
     }
 
