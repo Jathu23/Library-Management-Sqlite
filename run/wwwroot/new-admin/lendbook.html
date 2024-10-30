@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lend Requested Lists</title>
+    <link rel="stylesheet" href="../new-admin/style.css">
+    <style>
+        /* Basic styles for better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .details {
+            margin: 20px 0;
+        }
+
+        .cardHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search input {
+            padding: 5px;
+            width: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="details" id="book-inventory-field" style="display: block;">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Lend Book</h2>
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" oninput="filterTable()" />
+                    </label>
+                </div>
+            </div>
+            <div class="mainbar">
+                <div class="issue-book display-none" id="issue-book-div">
+                    <div class="issue-div">
+
+                        <div class="detaildiv">
+                            <div class="form">
+                                <form id="issue-bookform" onsubmit="return false;">
+                                    <div class="issue-book-inputs-div">
+                                        <h3>Issue Book</h3>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="Book-ISBN"
+                                                id="issue_bookid" oninput="fetchBookDetails()" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="User-NIC"
+                                                id="issue_userid" oninput="fetchUserDetails()" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="text" placeholder="Copies"
+                                                id="issue_bookcount" />
+                                        </div>
+                                        <div class="full-width">
+                                            <input class="form-input" type="date" id="issue_date" readonly />
+                                        </div>
+                                        <button class="form-btn" id="issue-book-btn">Issue</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="issue-info-div" id="issue-info">
+
+                                <div class="info">
+                                    <h4>Book Title</h4>
+                                    <p id="book-title">--------</p>
+                                </div>
+
+                                <div class="info">
+                                    <h4>Author</h4>
+                                    <p id="book-author">--------</p>
+                                </div>
+
+                                <div class="info">
+                                    <h4>BookID</h4>
+                                    <p id="bookid">-----------</p>
+                                </div>
+
+                                <div class="info">
+                                    <h4>Publish Year</h4>
+                                    <p id="book-publish-date">----------</p>
+                                </div>
+
+                                <div class="info">
+                                    <h4>Number of Availabe Copies</h4>
+                                    <p id="book-count">----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Return Date</h4>
+                                    <p id="book-return-date">-----------</p>
+                                </div>
+                            </div>
+
+
+                            <div class="issue-info-div" id="issue-user">
+                                <h3>Enter user Id</h3>
+                                <div class="info">
+                                    <h4>Full Name</h4>
+                                    <p id="full-name">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Phone Number</h4>
+                                    <p id="user-phone">--------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Email</h4>
+                                    <p id="user-email">-----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Join Date</h4>
+                                    <p id="user-join-date">----------</p>
+                                </div>
+                                <div class="info">
+                                    <h4>Pending Books</h4>
+                                    <ul id="user_pending_books" style="margin-left: 20px;"></ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <table id="return_rec_table">
+
+            </table>
+        </div>
+    </div>
+
+    <script src="../ScriptFiles/issue_book.js">
+
+    </script>
+</body>
+
+</html>

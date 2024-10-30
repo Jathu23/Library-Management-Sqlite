@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book History</title>
+    <link rel="stylesheet" href="../new-admin/style.css" />
+    <style>
+        /* Add custom styles as needed */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="details">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Book History</h2>
+                <div class="search">
+                    <label>
+                        <!-- Search input field -->
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" />
+                    </label>
+                </div>
+            </div>
+            <div>
+                <button class="Addbutton" id="lendHistoryButton">Lend History</button>
+                <button class="Addbutton" id="returnHistoryButton">Return History</button>
+            </div>
+                
+            <div class="mainbar">
+                <!-- Lend History Table (visible by default) -->
+                <table id="lendHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Lend Id</th>
+                            <th>Member Id</th>
+                            <th>Book ISBN</th>
+                            <th>Lend Date</th>
+                            <th>Return Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lendHistoryTableBody">
+                        <!-- Lend history rows will be added here -->
+                    </tbody>
+                </table>
+                
+                <!-- Return History Table (hidden by default) -->
+                <table id="returnHistoryTable" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Return Id</th>
+                            <th>Member NIC</th>
+                            <th>Lent Id</th>
+                            <th>Book ISBN</th>
+                            <th>Lent Copies</th>
+                            <th>Return Copies</th>
+                            <th>Return Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnHistoryTableBody">
+                        <!-- Return history rows will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            // Load the lend history by default when the page loads
+            window.addEventListener('load', loadLendHistory);
+
+            // Fetch and display lend history
+            document.getElementById('lendHistoryButton').addEventListener('click', loadLendHistory);
+
+            // Fetch and display return history
+            document.getElementById('returnHistoryButton').addEventListener('click', loadReturnHistory);
+
+            async function loadLendHistory() {
+                // Make sure the lend history table is visible and hide the return history table
+                document.getElementById('lendHistoryTable').classList.remove('hidden');
+                document.getElementById('returnHistoryTable').classList.add('hidden');
+
+                try {
+                    const response = await fetch('https://localhost:7182/api/History/Lent');
+                    if (response.ok) {
+                        const data = await response.json();
+                      
+                        
+                        // Clear the existing table body
+                        const tableBody = document.getElementById('lendHistoryTableBody');
+                        tableBody.innerHTML = '';
+
+                        // Loop through each record and create table rows
+                        data.forEach(record => {
+                            const row = document.createElement('tr');
+
+                            row.innerHTML = `
+                               <td>${record.id}</td>
+                                <td>${record.usernic}</td>
+                                <td>${record.isbn}</td>
+                                <td>${new Date(record.lentDate).toLocaleDateString()}</td>
+                                <td>${new Date(record.returnDate).toLocaleDateString()}</td>
+                            `;
+
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        console.error('Failed to fetch lend history:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching lend history:', error);
+                }
+            }
+
+            async function loadReturnHistory() {
+                // Make sure the return history table is visible and hide the lend history table
+                document.getElementById('returnHistoryTable').classList.remove('hidden');
+                document.getElementById('lendHistoryTable').classList.add('hidden');
+
+                try {
+                    const response = await fetch('https://localhost:7182/api/History/Return');
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(data);
+                        // Clear the existing table body
+                        const tableBody = document.getElementById('returnHistoryTableBody');
+                        tableBody.innerHTML = '';
+
+                        // Loop through each record and create table rows
+                        data.forEach(record => {
+                            const row = document.createElement('tr');
+
+                            row.innerHTML = `
+                               <td>${record.id}</td>
+                                <td>${record.usernic}</td>
+                                <td>${record.lentId}</td>
+                                <td>${record.isbn}</td>
+                                <td>${record.lentcopies}</td>
+                                <td>${record.returncopies}</td>
+                                <td>${new Date(record.returndate).toLocaleDateString()}</td>
+                            `;
+
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        console.error('Failed to fetch return history:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error fetching return history:', error);
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

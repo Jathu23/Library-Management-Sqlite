@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requested Lists</title>
+  <link rel="stylesheet" href="../new-admin/style.css">
+  <style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#book-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.book-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-card h3 {
+    font-size: 1.1em;
+    margin: 10px 0;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.image-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image-slider img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+#prev-btn, #next-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.modal-content{
+    width: 70%;
+    height: 70%;
+}
+.image-slider{
+    width: 70%;
+    height: 70%;
+    
+
+}
+.image-slider img{
+    height: 90%;
+    width: 90%;
+    margin-left: 30%;
+}
+
+#next-btn,#prev-btn{
+    color: red ;
+}
+
+.book-card img{
+    width: 90%;
+    height: 100%;
+}
+.book-card{
+    width: 200px;
+    height: 250px;
+}
+.image_div{
+    height: 60%;
+    width: 90%;
+}
+
+/* styles */
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between elements */
+    padding: 15px; /* Padding around the container */
+    background-color: #b0e0ee; /* Light background for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+label {
+    font-weight: bold; /* Make labels bold */
+    margin-right: 10px; /* Space between label and select */
+    color: #333; /* Darker text color */
+}
+
+select {
+    padding: 10px; /* Padding inside select boxes */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners for select boxes */
+    font-size: 14px; /* Font size for select options */
+    transition: border-color 0.2s; /* Smooth transition for border color on focus */
+}
+
+select:focus {
+    border-color: #007BFF; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+option {
+    padding: 10px; /* Padding inside options for better spacing */
+}
+
+.search {
+    position: relative; /* Allows positioning of the search icon */
+    max-width: 300px; /* Set a maximum width for the search box */
+}
+
+label {
+    display: block; /* Ensure the label takes the full width */
+}
+
+#booksearchinput {
+    width: 100%; /* Full width of the container */
+    padding: 10px 40px 10px 20px; /* Padding around the text */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Slightly larger font for better readability */
+    transition: border-color 0.2s; /* Smooth transition for border color on focus */
+}
+
+#booksearchinput:focus {
+    border-color: #007BFF; /* Change border color on focus */
+    outline: none; /* Remove outline */
+}
+
+#booksearchinput::placeholder {
+    color: #888; /* Placeholder color */
+    opacity: 1; /* Ensures full opacity for visibility */
+}
+
+/* Card_style */
+.book-card{
+    background-color: rgb(235, 242, 243);
+    border: 2px solid rgb(183, 185, 187) 
+}
+
+
+
+
+
+
+
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="details" id="book-inventory-field" style="display: block;">
+    <h2 id="heading_inventry">Books in inventry</h2>
+    <div id="detail-container">
+        <div class="filter-container">
+          <label for="genreFilter">Filter by Genre:</label>
+          <select id="genreFilter">
+            <option value="">All Genres</option>
+          </select>
+
+          <label for="authorFilter">Filter by Author:</label>
+          <select id="authorFilter">
+            <option value="">All Authors</option>
+          </select>
+
+          <label for="yearFilter">Filter by Year:</label>
+          <select id="yearFilter">
+            <option value="">All Years</option>
+          </select>
+          
+          <label for="PopularBooks">PopularBooks:</label>
+          <select id="PopularBooks">
+            <option value="">Select</option>
+            <option value="1">Top 1</option>
+            <option value="3">Top 3</option>
+            <option value="5">Top 5</option>
+            <option value="10">Top 10</option>
+          </select>
+         
+        </div>
+        
+        <div class="mainbar">
+          <div class="search">
+            <label>
+              <input id="booksearchinput" type="text" placeholder=" 🔍 Search" />
+            </label>
+          </div>
+
+        </div>
+     </div>
+    <div id="book-container">
+        
+    </div>
+
+    <!-- Modal -->
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-author"></p>
+            <p id="modal-genre"></p>
+            <p id="modal-publish-year"></p>
+            <p id="modal-copies"></p>
+            <p id="modal-rent-count"></p>
+            <div class="image-slider">
+                <button id="prev-btn">&#10094;</button>
+                <img id="slider-image" src="" alt="Book Image">
+                <button id="next-btn">&#10095;</button>
+            </div>
+        </div>
+    </div>
+
+
+<script src="../ScriptFiles/user.js"></script>
+
+
+
+
+</body>
+
+</html>

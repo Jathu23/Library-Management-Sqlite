@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="../new-admin/style.css">
+  <style>
+    .available {
+      display: inline-block;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .available.available {
+      background-color: green;
+      color: white;
+    }
+
+    .available.not-available {
+      background-color: red;
+      color: white;
+    }
+
+    .modal-content {
+      padding: 20px;
+    }
+
+    .lend-button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .lend-button.requested {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="details" id="book-inventory-field" style="display: block;">
+    <div class="recentorders">
+      <div class="cardHeader">
+        <h2>Library</h2>
+      </div>
+      <div class="mainbar">
+        <div class="search">
+          <label>
+            <input type="text" id="searchInput" placeholder=" 🔍 Search" onkeyup="searchBooks()" />
+          </label>
+        </div>
+      </div>
+      <div class="imageparent">
+        <div id="book-grid" class="book-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h1 id="modal-title"></h1>
+      <h3 id="modal-author"></h3>
+      <p>Published: <span id="modal-year"></span></p>
+      <p>BookID: <span id="modal-bookid"></span></p>
+      <p>ISBN: <span id="modal-isbn"></span></p>
+      <p>Available Copies: <span id="modal-available" class="available"></span></p>
+      <p>Rent Count: <span id="modal-rent"></span></p>
+      <div id="modal-gallery" class="image-gallery"></div>
+      <button id="lendButton" class="lend-button">Lend</button>
+    </div>
+  </div>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+    let loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    let modal = document.getElementById("myModal");
+    let span = document.getElementsByClassName("close")[0];
+    let lendButton;
+    let currentBook;
+    let NICNumber = loggedInUser.NICNumber; // Replace with the actual NIC number as needed
+
+    async function loadBooks() {
+      try {
+        const response = await fetch('http://localhost:3000/books');
+        const books = await response.json();
+
+        const imageResponse = await fetch('http://localhost:3000/add_images');
+        const images = await imageResponse.json();
+
+        const bookGrid = document.getElementById('book-grid');
+        bookGrid.innerHTML = '';
+
+        const imageMap = {};
+        images.forEach(image => {
+          imageMap[image.ImageID] = [image.Image1, image.Image2, image.Image3, image.Image4];
+        });
+
+        books.forEach(book => {
+          const bookElement = document.createElement('div');
+          bookElement.classList.add('book-item');
+          bookElement.innerHTML = `
+            <img src="${imageMap[book.ImageID]?.[0] || './OIP.jpg'}" alt="${book.Title}">
+            <h2>${book.Title}</h2>
+            <p>BookID: ${book.BookID}</p>
+            <h3>${book.AuthorName}</h3>
+            <p>${book.PublishYear}</p>
+            <span class="${book.AvailableCopies > 0 ? 'available' : 'not-available'}">
+              ${book.AvailableCopies > 0 ? 'Available' : 'Not Available'}
+            </span>
+            <p>Rent Count: ${book.RentCount}</p>
+            <p>ISBN: ${book.ISBN}</p>
+          `;
+
+          bookElement.onclick = () => {
+            showModal(book, imageMap[book.ImageID]);
+          };
+
+          bookGrid.appendChild(bookElement);
+        });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    function showModal(book, imageArray) {
+      document.getElementById('modal-title').innerText = book.Title;
+      document.getElementById('modal-author').innerText = book.AuthorName;
+      document.getElementById('modal-year').innerText = book.PublishYear;
+      document.getElementById('modal-bookid').innerText = book.BookID;
+      document.getElementById('modal-isbn').innerText = book.ISBN;
+      document.getElementById('modal-available').innerText = book.AvailableCopies;
+      document.getElementById('modal-rent').innerText = book.RentCount;
+
+      const modalGallery = document.getElementById('modal-gallery');
+      modalGallery.innerHTML = '';
+      imageArray.forEach(imageUrl => {
+        const imgElement = document.createElement('img');
+        imgElement.src = imageUrl || './OIP.jpg';
+        modalGallery.appendChild(imgElement);
+      });
+
+      lendButton = document.getElementById('lendButton');
+      lendButton.disabled = false; // Enable the button by default
+
+      currentBook = book;
+
+      // Check if the user has already requested this book
+      checkExistingRequest(currentBook.BookID).then(requestExists => {
+        if (requestExists) {
+          lendButton.innerText = 'Already Requested';
+          lendButton.classList.add('requested');
+          lendButton.disabled = true; // Disable the button if already requested
+        } else {
+          lendButton.innerText = 'Lend';
+          lendButton.onclick = () => lendBook();
+        }
+      });
+
+      modal.style.display = "block"; // Show the modal
+    }
+
+    async function checkExistingRequest(bookId) {
+      const response = await fetch('http://localhost:3000/requests');
+      const requests = await response.json();
+      return requests.some(request => request.BookID === bookId && request.NICNumber === NICNumber && request.status === 'pending');
+    }
+
+    async function lendBook() {
+      if (currentBook.AvailableCopies <= 0) return;
+
+      // Change button text and class
+      lendButton.innerText = 'Requested';
+      lendButton.classList.add('requested');
+      lendButton.disabled = true; // Disable the button after lending
+
+
+      let req = await fetch('http://localhost:3000/requests');
+let regjson = await req.json();
+
+// Generate requestId as a three-digit number
+const requestId = String(regjson.length + 1).padStart(3, '0'); // Adds 1 for the new request and formats it
+
+console.log(requestId);
+
+      const requestData = {
+        BookID: currentBook.BookID,
+        requestId: Number(requestId),
+        NICNumber: NICNumber,
+        requestedDate:new Date().toLocaleDateString(),
+        requestType: "lend",
+        status: "pending"
+      };
+
+      try {
+        await fetch('http://localhost:3000/requests', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestData)
+        });
+
+
+
+        alert('Request submitted successfully!');
+      } catch (error) {
+        console.error('Error submitting request:', error);
+      }
+    }
+
+    span.onclick = function () {
+      modal.style.display = "none"; // Close the modal when the <span> (x) is clicked
+    }
+
+    window.onclick = function (event) {
+      if (event.target === modal) {
+        modal.style.display = "none"; // Close the modal if the user clicks outside of it
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBooks);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Return Requested Lists</title>
+    <link rel="stylesheet" href="../new-admin/style.css" />
+    <style>
+        /* Basic styles for better presentation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .details {
+            margin: 20px 0;
+        }
+        .cardHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .search input {
+            padding: 5px;
+            width: 200px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="details" id="book-inventory-field" style="display: block">
+        <div class="recentorders">
+            <div class="cardHeader">
+                <h2>Lend Records</h2>
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder=" 🔍 Search" id="searchInput" oninput="filterTable()" />
+                    </label>
+                </div>
+            </div>
+            <div class="mainbar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ISBN</th>
+                            <th>User NIC</th>
+                            <th>ID</th>
+                            <th>Copies Lent</th>
+                            <th>Lent Date</th>
+                            <th>DueDate</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody">
+                        <!-- Rows will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchReturnRecords() {
+            try {
+                let response = await fetch('https://localhost:7182/api/Lent/GetAllLendRecods');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                let data = await response.json();
+                console.log(data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching return records:', error);
+                throw error;
+            }
+        }
+
+        async function showReturnRecords() {
+            try {
+                const records = await fetchReturnRecords();
+                let recordTable = document.getElementById('bookTableBody');
+                recordTable.innerHTML = '';
+
+                records.forEach(record => {
+                    recordTable.innerHTML += `
+                    <tr>
+                        <td>${record.isbn}</td>
+                        <td>${record.usernic}</td>
+                        <td>${record.id}</td>
+                        <td>${record.lentcopies}</td>
+                        <td>${new Date(record.lentDate).toLocaleDateString()}</td>
+                        <td>${new Date(record.returnDate).toLocaleDateString()}</td>
+                        <td>${record.status}
+                            <button onclick="handleAction(${record.id})">Action</button>
+                        </td>
+                    </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error showing return records:', error);
+            }
+        }
+
+        function handleAction(id) {
+            // Implement your action logic here, e.g., view details or delete
+            alert(`Action for record ID: ${id}`);
+        }
+
+        showReturnRecords();
+    </script>
+</body>
+</html>

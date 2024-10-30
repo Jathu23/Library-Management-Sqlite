@@ -1,0 +1,419 @@
+/* ======================google Fonts======================== */
+
+/* =======================Globals=================== */
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --blue: #2a2185;
+  --white: #fff;
+  --gray: #f5f5f5;
+  --black: #222;
+  --black1: #999;
+}
+/* ==============================navication styles=================== */
+.navication {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--blue);
+    border-left: 10px solid var(--blue);
+    transition: 0.5s;
+    overflow: hidden;
+  }
+
+  .navication.active {
+    width: 80px;
+  }
+  .navication.active {
+    width: 80px;
+  }
+  
+  .navication ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .navication ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+  .navication ul li:hover,
+  .navication ul li.hovered {
+    background-color: var(--white);
+  }
+  .navication ul li:nth-child(1) {
+    margin-bottom: 40px;
+    pointer-events: none;
+  }
+
+  .navication ul li a {
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: var(--white);
+    font-size: 16px;
+  }
+  .navication ul li:hover a,
+.navication ul li.hovered a {
+  color: var(--blue);
+}
+.navication ul li a .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 400px;
+  line-height: 75px;
+  text-align: center;
+}
+.navication ul li a .icon ion-icon {
+  font-size: 1.75rem;
+}
+.navication ul li a .title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+}
+
+.navication ul li a{
+  background: var(--blue);
+  border: none;
+border-radius: 30px;
+margin-top: 10px;
+}
+.navication ul li a:hover{
+  background-color: var(--white);
+}
+/* .navication ul li .navBtn{
+  margin-top: 15px;
+} */
+
+/* navication bar style ends  */
+.overlay{
+  width: 200vh;
+  height: 99vh;
+  background-color: #f0e3e310;
+  position: fixed;
+  z-index: 0;
+}
+
+
+.main {
+  position: absolute;
+
+  /* width: calc(100%-300px); */
+  left: 300px;
+  min-height: 100vh;
+  background: var(--white);
+  
+  transition: 0.5s;
+}
+.main.active {
+  width: calc(100%-80px);
+}
+
+.topbar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.search {
+  position: relative;
+  width: 400px;
+  margin: 0 10px;
+  margin-top: 10px;
+}
+.search label input {
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  padding: 5px 20px;
+  padding-left: 35px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid var(--black1);
+}
+
+/* ======================================Card======================= */
+.cardBox {
+  
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+}
+
+.cardBox .card {
+  position: relative;
+  width: 300px;
+  background: var(--white);
+  padding: 40px;
+  border-radius: 20px;
+  display:inline-block;
+  margin: 20px;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
+.cardBox .card .number {
+  position: relative;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: var(--blue);
+}
+
+.cardBox .card .cardName {
+  color: var(--black1);
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+.cardBox .card .iconBx {
+  font-size: 3.5rem;
+  color: black;
+}
+
+.cardBox .card:hover {
+  background: var(--blue);
+}
+
+.cardBox .card:hover .number,
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBx {
+  color: var(--white);
+}
+
+/* ========================book inventarory  styles=========================== */
+.details {
+  position: relative;
+  /* width: 100%; */
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 30px;
+  margin-top: 10px;
+}
+
+
+/* ========================book inventarory box styles=========================== */
+.details .recentorders {
+  /* width: 1100px; */
+  position: relative;
+  display: grid;
+  min-height: 500px;
+  background: var(--white);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+.details .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardHeader h2 {
+  font-weight: 600;
+  color: var(--blue);
+}
+
+
+.cardHeader .btn {
+  position: relative;
+  padding: 5px 10px;
+  background: var(--white);
+  text-decoration: none;
+  color: var(--blue);
+  border-radius: 6px;
+}
+/* table */
+.details table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.details table thead td {
+  font-weight: 600;
+}
+
+.details .recentorders table tr {
+  color: var(--black);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.details .recentorders table tr:last-child {
+  border-bottom: none;
+}
+
+.details .recentorders table tbody tr:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.details .recentorders table tr td {
+  padding: 10px;
+  
+}
+.details .recentorders table tr td:last-child{
+  text-align: end;
+}
+
+.details .recentorders table tr td:last-child(2){
+  text-align: end;
+}
+.details .recentorders table tr td:last-child(3){
+  text-align: center;
+}
+
+/* ================================ working available green color================================= */
+.status.available{
+  padding: 2px 4px;
+  background: #8de02c;
+  color: var(--white);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status.notavailable{
+  padding: 2px 4px;
+  background: #e10303;
+  color: var(--white);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* ============================book inventory =========== maindiv ===tomake dropdown to center================== */
+.mainbar{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/* ================button add===================================== */
+.Addbutton{
+  padding: 10px 40px 10px 40px;
+  font-weight: 200;
+  font-size: 22px;
+  border-radius: 20px;
+  border: navy;
+  margin-left: 30px;
+}
+
+.Addbutton:hover{
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+/* ======================================select options======================== */
+.typesSelection{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  /* book inventory table width change elements */
+  min-width: 200px;
+  height: 50px;
+
+}
+.select-box{
+  border-inline:#160505;
+  border-width: 2px;
+  /* appearance: none; */
+  padding: 0 30px 0 15px;
+  width: 96%;
+  height: 40px;
+  border-radius: 20px;
+}
+
+
+
+/* ================================Book add in book inventory============== */
+.addbook-cintainer{
+  width: 450px;
+  text-align: center;
+  justify-content: center;
+  background-color: var(--white);
+  padding: 70px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin: 40px;
+  margin-left: 520px;
+  margin-top: 60px;
+color: var(--blue);
+z-index: 2;
+}
+.addbook-cintainer:hover{
+  background-color: var(--blue);
+  color: var(--white);
+  
+}
+.addbook-cintainer p{
+  font-size: xx-large;
+  font-weight: bolder;
+}
+.addbook-cintainer label{
+  font-size: large;
+  font-weight: bold;
+}
+/* ================savebutton in book invebtory========= */
+.savebtn{
+  padding: 10px 15px 10px 15px;
+  border-radius: 20px;
+  margin-top: 10px;
+  background-color: var(--blue);
+  color: var(--white);
+border-color: var(--gray);
+  margin-left: 15px;
+  font-weight: bold;
+}
+.savebtn:hover{
+  background-color: var(--white);
+  color: var(--blue);
+  border-color: var(--white);
+}
+
+.addbook-details input{
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
+  margin-top: 10px;
+  
+}
+.addbook-details {
+
+  text-align: center;
+ 
+ 
+}
+.single-detail{
+  margin-top: 15px;
+}
+
+.single-detail input{
+font-size: 16px;
+text-align: center;
+font-weight: bold;
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- <link rel="stylesheet" href="../new-admin/style.css"> -->
+    <style>
+       /* General container styling */
+.details-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.details-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Grid styling for labels and inputs */
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-grid label {
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-grid input,
+.profile-grid p {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.profile-grid input[readonly] {
+    background-color: #e9ecef;
+    color: #555;
+}
+
+.profile-grid p {
+    margin: 0;
+    padding: 8px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Profile image styling */
+#profileImage2 {
+    grid-column: span 2;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border: 2px solid #ddd;
+    padding: 5px;
+     width: 150px;
+}
+
+/* Save button styling */
+#saveButton {
+    grid-column: span 2;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#saveButton:hover {
+    background-color: #0056b3;
+}
+
+        
+    </style>
+</head>
+<body>
+    <div class="details-container">
+        <h2>Member Profile</h2>
+        <div class="personal-details profile-grid">
+            <img  id="profileImage2" alt="img">
+
+            <label for="nicNumber">NIC Number</label>
+            <input type="text" id="nicNumber" readonly>
+            <!-- <p id="nicNumber">Loading...</p> -->
+
+            <label for="firstNameInput">First Name</label>
+            <input type="text" id="firstNameInput">
+
+            <label for="lastNameInput">Last Name</label>
+            <input type="text" id="lastNameInput">
+
+            <label for="phoneNumberInput">Phone Number</label>
+            <input type="text" id="phoneNumberInput" placeholder="Phone Number">
+
+            <label for="emailInput" >Email</label>
+            <input type="email" id="emailInput" placeholder="Email" readonly>
+
+            <label for="dateofjoin">Date of Join</label>
+            <input type="text" id="dateofjoin" placeholder="Date of Join" readonly>
+
+
+          
+            <label for="newPass">New Password</label>
+            <input type="text" id="newPass" placeholder="Leave blank to keep current password">
+            
+            <label for="conPass">Confirm Password</label>
+            <input type="text" id="conPass" placeholder="Leave blank to keep current password">
+            
+
+            <button id="saveButton">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- <script src="../ScriptFiles/userinfo.js"></script> -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+ 
+    <script>
+
+let UserNic = document.getElementById('nicNumber');
+let userFirstname = document.getElementById('firstNameInput');
+let userLastName = document.getElementById('lastNameInput');
+let useEmail = document.getElementById('emailInput');
+let userPhoneNumber = document.getElementById('phoneNumberInput');
+let dateOfjoin = document.getElementById('dateofjoin');
+let lastActiveDate = document.getElementById('lastlogin');
+let profileImage = document.getElementById('profileImage2');
+let newPass = document.getElementById('newPass');
+let conPass = document.getElementById('conPass');
+var oldpassword ='';
+// profileImage.src = '../member/defaultuserimg.png';
+let nic = JSON.parse(localStorage.getItem("LoginNic"));
+nic = Number(nic);
+let password; // Declare the password variable
+
+async function getUserByNIC(nic) {
+    try {
+        const url = `https://localhost:7182/api/User/GetByUser?nic=${nic}`;
+        
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error("Error fetching user details:", error.message);
+    }
+}
+
+async function fetchAndLogUser(nic) {
+    const userData = await getUserByNIC(nic);
+    if (userData) {
+        UserNic.value = userData.nic;
+        userFirstname.value = userData.firstName;
+        userLastName.value = userData.lastName;
+        useEmail.value = userData.email;
+        userPhoneNumber.value = userData.phoneNumber;
+        dateOfjoin.value = new Date(userData.joinDate).toLocaleDateString();
+       
+        oldpassword = userData.password; 
+  
+      
+        if (userData.profileimg) {
+            profileImage.src =`https://localhost:7182/${userData.profileimg}`;
+        } else {
+            profileImage.alt = "image";
+        }
+    }
+}
+
+document.getElementById('saveButton').addEventListener('click', async () => {
+let UserNic = document.getElementById('nicNumber').value;
+let userFirstname = document.getElementById('firstNameInput').value;
+let userLastName = document.getElementById('lastNameInput').value;
+let useEmail = document.getElementById('emailInput').value;
+let userPhoneNumber = document.getElementById('phoneNumberInput').value;
+let dateOfjoin = document.getElementById('dateofjoin').value;
+
+
+let newpassword = newPass.value;
+let conformnewpassword = conPass.value;
+
+if (newpassword == conformnewpassword) {
+
+
+    if (newpassword != "" && conformnewpassword != "") {
+        if (oldpassword != "") {
+            await updateUser(UserNic, userFirstname, userLastName, newpassword, userPhoneNumber);
+            alert("User updated successfully with new password");
+        }else{
+            alert("password can not be empty value");
+        }
+        
+    }else{
+         await updateUser(UserNic, userFirstname, userLastName, oldpassword, userPhoneNumber);
+         alert("User updated successfully with old password");
+    }
+    
+}
+//   
+
+});
+
+
+async function updateUser(nic, firstName, lastName, password, phoneNumber) {
+    const url = `https://localhost:7182/api/User/Updateuser?nic=${nic}&FirstName=${firstName}&LastName=${lastName}&Password=${password}&PhoneNumber=${phoneNumber}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT', // or 'POST' depending on your API design
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('User updated successfully:', data);
+    } catch (error) {
+        console.error('Failed to update user:', error);
+    }
+}
+
+fetchAndLogUser(nic);
+
+    </script>
+</body>
+</html>

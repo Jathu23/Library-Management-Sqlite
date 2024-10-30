@@ -43,7 +43,7 @@ namespace Library_Api_Sqlite.Services
                 {
                     throw new Exception("Not enough copies available.");
                 }
-                var Date = DateTime.Now.AddDays(2);
+                var Date = DateTime.Now.AddDays(0);
                 var lentrec = new LentRecode
                 {
                     isbn = recode.isbn,
